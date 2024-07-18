@@ -1,4 +1,6 @@
-import React,{Fragment} from 'react'
+import React,{Fragment,Component} from 'react'
+import './EstilosTradicionales.css'
+import './css/estiloDesdeCarpeta.css'
 
 class EstilosTradicionales extends Component {
     constructor(props) {
@@ -7,6 +9,11 @@ class EstilosTradicionales extends Component {
     state = {  }
     render() { 
         return ( <>
+        <header>
+            <h1 class="titulo">
+                Titulo de estilos Tradicionales
+            </h1>
+        </header>
         </> );
     }
 }
