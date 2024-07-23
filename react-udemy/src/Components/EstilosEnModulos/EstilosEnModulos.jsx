@@ -9,7 +9,7 @@ class EstilosEnModulos extends Component {
     render() { 
         return ( 
             <Fragment>
-                <h1 className={styles.piepag}>Ya por fin el ultimo estilo... ahh no falta otro</h1>
+                <h1 className={styles.pieimg}>Ya por fin el ultimo estilo... ahh no falta otro, bueno pie de Imagen</h1>
             </Fragment>
         );
     }

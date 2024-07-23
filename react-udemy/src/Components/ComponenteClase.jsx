@@ -23,7 +23,7 @@ class ComponenteClase extends Component {
                 src={logo}
                 width="40%"
                 alt="logo"
-                class="center"
+                class="imagen-grande-centrada"
                 style={borde}
                 />
                 </div>

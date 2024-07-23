@@ -13,6 +13,13 @@
   width: 50%;
 }
 
+.imagen-grande-centrada {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
