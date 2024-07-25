@@ -11,6 +11,29 @@ class State extends Component {
         }
     }
 
+    hibpCall(){
+        fetch('https://haveibeenpwned.com/api/v3/latestbreach')
+        .then(response => response.json())
+        .then(data => console.log(
+            `Nombre de la Brecha: ${data['Name']}
+Fecha: ${data['BreachDate']}
+Descripcion: ${data['Description']}
+Usuarios Afectados: ${data['PwnCount']}
+Datos Extraidos: ${data['DataClasses']}`
+        ))
+        .then(escribirRespuesta(data));
+        
+    }
+
+    escribirRespuesta(datos){
+        this.setState({
+            id: datos['Name'],
+            regla: datos['Description'],
+            descripcion: datos['PwnCount'],
+            comando: datos['DataClasses']
+        });
+    }
+
     CambiarDatos(){
         if(this.state.id === "1.2" 
             && this.state.comando === "ls -la"){
@@ -49,6 +72,7 @@ class State extends Component {
          </div>
          <div class="button">
             <button onClick={this.CambiarDatos.bind(this)}>Siguiente</button>
+            <button onClick={this.hibpCall}>Llamar a la API</button>
          </div>
         </> );
     }
