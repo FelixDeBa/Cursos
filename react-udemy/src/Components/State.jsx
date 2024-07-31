@@ -5,6 +5,7 @@ class State extends Component {
         super(props);
         this.state = {
             id:"1.2",
+            fecha: "",
             regla: "Regla def", 
             descripcion: "Sin descripcion",
             comando: "ls -la"
@@ -13,25 +14,18 @@ class State extends Component {
 
     hibpCall(){
         fetch('https://haveibeenpwned.com/api/v3/latestbreach')
-        .then(response => response.json())
-        .then(data => console.log(
-            `Nombre de la Brecha: ${data['Name']}
-Fecha: ${data['BreachDate']}
-Descripcion: ${data['Description']}
-Usuarios Afectados: ${data['PwnCount']}
-Datos Extraidos: ${data['DataClasses']}`
-        ))
-        .then(escribirRespuesta(data));
-        
-    }
-
-    escribirRespuesta(datos){
-        this.setState({
-            id: datos['Name'],
-            regla: datos['Description'],
-            descripcion: datos['PwnCount'],
-            comando: datos['DataClasses']
-        });
+        .then(data => {
+            return data.json()}
+        )
+        .then(data => {
+            this.setState({
+                id: data['Name'],
+                fecha: data['BreachDate'],
+                regla: data['Description'],
+                descripcion: data['PwnCount'],
+                comando: data['DataClasses']
+            });
+        });        
     }
 
     CambiarDatos(){
@@ -72,7 +66,7 @@ Datos Extraidos: ${data['DataClasses']}`
          </div>
          <div class="button">
             <button onClick={this.CambiarDatos.bind(this)}>Siguiente</button>
-            <button onClick={this.hibpCall}>Llamar a la API</button>
+            <button onClick={this.hibpCall.bind(this)}>Llamar a la API</button>
          </div>
         </> );
     }
