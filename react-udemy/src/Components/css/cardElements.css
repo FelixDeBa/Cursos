@@ -1,0 +1,6 @@
+.dashboard-card{
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 60%;
+    height: 800px;
+}

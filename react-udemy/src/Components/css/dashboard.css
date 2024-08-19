@@ -1,0 +1,17 @@
+.dashboard-title{
+    font-size: 50px;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left:2%;
+    color: #636263;
+}
+
+.title-container{
+    border-bottom: 2px solid #636263;
+    margin-bottom: 20px;
+}
+
+.main-screen{
+    width: 90%;
+    margin-left: 5%;
+}

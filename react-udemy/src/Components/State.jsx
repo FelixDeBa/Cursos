@@ -58,7 +58,7 @@ class State extends Component {
                 </p>
                 <p>
                 <li>{this.state.descripcion}</li>
-                </p>
+                </p>    
                 <p>
                 <li>{this.state.comando}</li>
                 </p>
