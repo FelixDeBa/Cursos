@@ -22,10 +22,13 @@ class Dashboard extends Component {
                 <div class="title-container">
                     <h1 class="dashboard-title">Dashboard</h1>
                 </div>
-            
-                <PwdFinder></PwdFinder>
-                <SecNews></SecNews>
-                <UserFinder></UserFinder>
+                <div class="card-row">
+                    <PwdFinder/>
+                    <SecNews/>
+                </div>
+                <div class="card-row">
+                    <UserFinder />
+                </div>
             </div>
         </Fragment> );
     }

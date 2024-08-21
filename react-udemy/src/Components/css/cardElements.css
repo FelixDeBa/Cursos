@@ -1,6 +1,138 @@
-.dashboard-card{
-    border: 2px solid black;
+/*Area para buscar brechas en contraseñas*/
+.pwdfinder-card{
+    /*border: 2px solid black;*/
     border-radius: 10px;
     width: 60%;
-    height: 800px;
+    height: 200px;
+    background-color: #ebf0fc;
+    margin: 5px;
+    height: auto;
+    padding: 2%;
+}
+
+hr{
+    width: 100%;
+    height: 3px;
+    color: gray;
+    background-color: #b1b4ba;
+}
+
+.find-button{
+    background-color: #e1ecf4;
+    border-radius: 3px;
+    border: 1px solid #7aa7c7;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #39739d;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    
+    margin-top: 10px;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+.find-button:hover,
+.find-button:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+.find-button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.find-button:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}
+
+/*Area para las noticias de seguridad*/
+
+.secnews-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width:40%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    position: sticky;
+    right:1%;
+    top:auto;
+    left: 99%;
+    /* padding: 5px */
+}
+
+.refresh-button{
+    border-radius: 0px 10px 0px 0px;
+    height: auto;
+    position: sticky;
+    padding: 10px 0 10px 10px;
+    width: 7%;
+    /* top: 0px; */
+    /* right: 0px; */
+    left: 100%;
+    /* padding: 5px; */
+    /* padding-bottom: 5px; */
+    /* text-align: center;
+    display:flex;
+    align-items: center;
+    align-content: center; */
+}
+.refresh-button:hover{
+    /* background-color: #cbced4; */
+    background-color: red;
+}
+.refresh-button:active{
+    background-color: #b1b4ba;
+}
+
+.btn-ref{
+    font-size: 15px;    
+}
+
+.news-text{
+    padding: 0% 5% 5%;
+    position: relative;
+    top: 0px;
+}
+
+/*Area para la busqueda de usuarios*/
+.userfinder-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+    background-color: #ebf0fc;
+    margin: 5px;
+}
+
+.inner-title{
+    /* text-align: center;
+    position: sticky; */
+    padding: 10px 5%;
+    background-color: #cbced4;
+    border-radius: 10px 0px 0px 0px;
+    width: 93%;
+    
+    
+}
+
+.card-title{
+    display : flex;
+    flex-direction : row;
+    border-radius: 10px 10px 0px 0px;
 }
