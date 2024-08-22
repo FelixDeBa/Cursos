@@ -1,4 +1,5 @@
 import { Fragment, Component } from "react";
+import parse from 'html-react-parser'
 // import arrowclockwise from './icons/arrow-clockwise.svg'
 
 class SecNews extends Component {
@@ -11,21 +12,31 @@ class SecNews extends Component {
             pwnCount:"1",
             dataClasses:["Correo Electronico", "Nombre de usuario", "contraseña", "test-item1"]
         };
-        
+        this.hibpCall()        
     }
-    state = {
-        name:"",
-        breachDate:"",
-        description:"",
-        pwnCount:"",
-        dataClasses:""
+
+    hibpCall(){
+        fetch('https://haveibeenpwned.com/api/v3/latestbreach')
+        .then(data => {
+            return data.json()}
+        )
+        .then(data => {
+            this.setState({
+                name: data['Name'],
+                breachDate: data['BreachDate'],
+                description: data['Description'],
+                pwnCount: data['PwnCount'],
+                dataClasses: data['DataClasses']
+            });
+        });        
     }
+
     render() { 
         return ( <Fragment>
         <div class="secnews-card">
             <div class="card-title">
                 <div class="inner-title">Latest Breach</div>
-                <div class="refresh-button">
+                <div class="refresh-button" onClick={this.hibpCall.bind(this)}>
                     <i class="bi bi-arrow-clockwise btn-ref"></i>
                 </div>
                 
@@ -34,12 +45,16 @@ class SecNews extends Component {
                 <p class="breach-title">{this.state.name}</p>
                 <p class="breach-date">{this.state.breachDate}</p>
                 <hr/>
-                <p>{this.state.description}</p>
-                <p>{this.state.pwnCount}</p>
+                {/* <p id="pwn_desc">{document.getElementById('pwn_desc').innerHTML(this.state.description)}</p> */}
+                <p>{parse(this.state.description)}</p>
+                <p>Cuentas Afectadas: {this.state.pwnCount}</p>
+                <p>Datos exfiltrados:</p>
+                <ul>
                 {
                     (this.state.dataClasses).map((x) => (
                     <li class="breached-data">{x}</li>))
                 }
+                </ul>
             </div>
         </div>
         </Fragment> );

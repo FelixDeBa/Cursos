@@ -31,7 +31,7 @@ hr{
     font-weight: 400;
     line-height: 1.15385;
     
-    margin-top: 10px;
+    margin-top: 0px;
     outline: none;
     padding: 8px .8em;
     position: relative;
@@ -60,6 +60,20 @@ hr{
   color: #2c5777;
 }
 
+.alternate-big-title{
+    font-size: 1.5em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    margin-bottom: 0px;
+}
+
+.password_box{
+    margin-right: 10px;
+}
+
+.password-result-area{
+    display: none;
+}
+
 /*Area para las noticias de seguridad*/
 
 .secnews-card{
@@ -73,7 +87,6 @@ hr{
     right:1%;
     top:auto;
     left: 99%;
-    /* padding: 5px */
 }
 
 .refresh-button{
@@ -82,22 +95,14 @@ hr{
     position: sticky;
     padding: 10px 0 10px 10px;
     width: 7%;
-    /* top: 0px; */
-    /* right: 0px; */
     left: 100%;
-    /* padding: 5px; */
-    /* padding-bottom: 5px; */
-    /* text-align: center;
-    display:flex;
-    align-items: center;
-    align-content: center; */
+    background-color: #cbced4;
 }
 .refresh-button:hover{
-    /* background-color: #cbced4; */
-    background-color: red;
+    background-color: #b1b4ba;
 }
 .refresh-button:active{
-    background-color: #b1b4ba;
+    background-color: #cbced4;
 }
 
 .btn-ref{
@@ -108,6 +113,17 @@ hr{
     padding: 0% 5% 5%;
     position: relative;
     top: 0px;
+}
+
+.breach-title{
+    font-size: 1.5em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    margin-bottom: 0px;
+}
+
+.breach-date{
+    margin-top: 0px;
+    font-size: .9em;
 }
 
 /*Area para la busqueda de usuarios*/
@@ -121,14 +137,10 @@ hr{
 }
 
 .inner-title{
-    /* text-align: center;
-    position: sticky; */
     padding: 10px 5%;
     background-color: #cbced4;
     border-radius: 10px 0px 0px 0px;
-    width: 93%;
-    
-    
+    width: 93%; 
 }
 
 .card-title{
@@ -136,3 +148,4 @@ hr{
     flex-direction : row;
     border-radius: 10px 10px 0px 0px;
 }
+
