@@ -2,12 +2,12 @@
 .pwdfinder-card{
     /*border: 2px solid black;*/
     border-radius: 10px;
-    width: 60%;
+    width: auto;
     height: 200px;
     background-color: #ebf0fc;
     margin: 5px;
     height: auto;
-    padding: 2%;
+    padding: 0% 5%;
 }
 
 hr{
@@ -61,12 +61,14 @@ hr{
 }
 
 .alternate-big-title{
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
     margin-bottom: 0px;
+    padding: 3% 0 0 0;
 }
 
-.password_box{
+
+.password-box, .apikey-box, .usr-box{
     margin-right: 10px;
 }
 
@@ -79,7 +81,8 @@ hr{
 .secnews-card{
     /*border: 2px solid black;*/
     border-radius: 10px;
-    width:40%;
+    width:auto;
+    
     height: auto;
     background-color: #ebf0fc;
     margin: 5px;
@@ -93,8 +96,8 @@ hr{
     border-radius: 0px 10px 0px 0px;
     height: auto;
     position: sticky;
-    padding: 10px 0 10px 10px;
-    width: 7%;
+    padding: 10px 10px 10px 10px;
+    width: auto;
     left: 100%;
     background-color: #cbced4;
 }
@@ -127,25 +130,45 @@ hr{
 }
 
 /*Area para la busqueda de usuarios*/
-.userfinder-card{
+/* .userfinder-card */
+.filehasher-card{
     /*border: 2px solid black;*/
     border-radius: 10px;
-    width: 100%;
+    width: auto;
+    padding: 0% 5%;
     height: 200px;
     background-color: #ebf0fc;
     margin: 5px;
 }
 
 .inner-title{
-    padding: 10px 5%;
-    background-color: #cbced4;
+    /* padding: 3% 0 3% 0; */
+    /* background-color: #cbced4; */
+    display: flex;
     border-radius: 10px 0px 0px 0px;
-    width: 93%; 
+    width: auto;
 }
 
 .card-title{
     display : flex;
     flex-direction : row;
     border-radius: 10px 10px 0px 0px;
+    background-color:#cbced4;
+    padding-left: 5%;
+    align-items: center;
 }
 
+.userfinder-card{
+    border-radius: 10px;
+    width:100%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    position: sticky;
+    top:auto;
+    padding: 2%;
+}
+
+.descriptive-label{
+    margin-right: 10px;
+}

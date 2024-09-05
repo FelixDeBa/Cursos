@@ -90,7 +90,7 @@ class PwdFinder extends Component {
         <div class="pwdfinder-card">
             <p><label class="alternate-big-title" htmlFor="pwdCheck">Revisa la seguridad de tu contraseña</label></p>
             <p>
-                <input class="password_box" id="password_to_check" type="password"/>
+                <input class="password-box" id="password_to_check" type="password"/>
                 <input type="checkbox" onClick={this.showPassword}/>Show Password
             </p>
             <p><button class="find-button" onClick={this.passwordFind.bind(this)}>Find</button></p>

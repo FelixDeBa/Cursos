@@ -1,8 +1,9 @@
 import { Fragment, Component } from "react";
 import PwdFinder from "./PwdFinder";
 import SecNews from "./SecNews";
-import UserFinder from "./UserFinder";
+// import FileHasher from "./FileHasher";
 import './css/dashboard.css'
+import FileHash from "./FileHash";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class Dashboard extends Component {
                     <SecNews/>
                 </div>
                 <div class="card-row">
-                    <UserFinder />
+                    {/* <FileHasher /> */}
+                    <FileHash />
                 </div>
             </div>
         </Fragment> );
