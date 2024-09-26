@@ -135,8 +135,8 @@ hr{
     /*border: 2px solid black;*/
     border-radius: 10px;
     width: auto;
-    padding: 0% 5%;
-    height: 200px;
+    padding: 3% 5%;
+    height: auto;
     background-color: #ebf0fc;
     margin: 5px;
 }
@@ -171,4 +171,33 @@ hr{
 
 .descriptive-label{
     margin-right: 10px;
+}
+
+.default-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    padding: 3% 5%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+}
+
+.centered-div{
+    /* align-items: center; */
+    text-align: center;
+}
+
+.error-text-mini{
+    font-size: .7em;
+    color: red;
+    margin: 0px 0px 15px 0px;
+}
+
+.input-with-message{
+    margin: auto auto 0px auto
+}
+
+.spacer-15{
+    height: 15px;
 }

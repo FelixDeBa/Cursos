@@ -87,7 +87,7 @@ class PwdFinder extends Component {
 
     render() { 
         return ( <Fragment>
-        <div class="pwdfinder-card">
+        <div class="default-card">
             <p><label class="alternate-big-title" htmlFor="pwdCheck">Revisa la seguridad de tu contraseña</label></p>
             <p>
                 <input class="password-box" id="password_to_check" type="password"/>

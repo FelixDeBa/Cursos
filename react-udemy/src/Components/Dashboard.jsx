@@ -4,18 +4,19 @@ import SecNews from "./SecNews";
 // import FileHasher from "./FileHasher";
 import './css/dashboard.css'
 import FileHash from "./FileHash";
+import Hooks from "./Hooks";
+import Formularios from "./Formularios";
+import Eventos from "./Eventos";
+import RenderizadoCondicional from "./RenderizadoCondicional";
+import SpreadOperator from "./SpreadOperator";
 
 class Dashboard extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            id:"1.2",
-            fecha: "",
-            regla: "Regla def", 
-            descripcion: "Sin descripcion",
-            comando: "ls -la"
-        }
+        this.state = {}
     }
+
+    cards=['Operacions con Arreglos']
 
     render() { 
         return ( <Fragment>
@@ -30,6 +31,15 @@ class Dashboard extends Component {
                 <div class="card-row">
                     {/* <FileHasher /> */}
                     <FileHash />
+                    <Hooks />
+                    <Formularios />
+                </div>
+                <div class="card-row">
+                    <Eventos />
+                    <RenderizadoCondicional />
+                    {this.cards.map(card=>(
+                        <SpreadOperator cardName={card}/>
+                    ))}
                 </div>
             </div>
         </Fragment> );
