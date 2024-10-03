@@ -201,3 +201,13 @@ hr{
 .spacer-15{
     height: 15px;
 }
+
+.big-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    padding: 3% 5%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;    
+}

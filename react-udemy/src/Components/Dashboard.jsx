@@ -9,6 +9,7 @@ import Formularios from "./Formularios";
 import Eventos from "./Eventos";
 import RenderizadoCondicional from "./RenderizadoCondicional";
 import SpreadOperator from "./SpreadOperator";
+import Graficos from "./Graficos";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -19,6 +20,10 @@ class Dashboard extends Component {
     cards=['Operacions con Arreglos']
 
     render() { 
+        if(this.props.nuevoEstado === true){
+            console.log("Se cambio el estado a verdadero desde las notificaciones");
+        }
+
         return ( <Fragment>
             <div class="main-screen">
                 <div class="title-container">
@@ -40,6 +45,9 @@ class Dashboard extends Component {
                     {this.cards.map(card=>(
                         <SpreadOperator cardName={card}/>
                     ))}
+                </div>
+                <div class="card-row">
+                    <Graficos/>
                 </div>
             </div>
         </Fragment> );
