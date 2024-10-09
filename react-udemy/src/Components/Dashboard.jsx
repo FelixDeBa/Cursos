@@ -1,7 +1,6 @@
 import { Fragment, Component } from "react";
 import PwdFinder from "./PwdFinder";
 import SecNews from "./SecNews";
-// import FileHasher from "./FileHasher";
 import './css/dashboard.css'
 import FileHash from "./FileHash";
 import Hooks from "./Hooks";
@@ -10,6 +9,7 @@ import Eventos from "./Eventos";
 import RenderizadoCondicional from "./RenderizadoCondicional";
 import SpreadOperator from "./SpreadOperator";
 import Graficos from "./Graficos";
+import Fetch from "./Fetch";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -48,6 +48,7 @@ class Dashboard extends Component {
                 </div>
                 <div class="card-row">
                     <Graficos/>
+                    <Fetch />
                 </div>
             </div>
         </Fragment> );

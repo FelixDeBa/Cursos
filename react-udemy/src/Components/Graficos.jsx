@@ -1,15 +1,7 @@
 import React from 'react'
-import Plot from 'react-plotly.js'
-
-
-
-const Graficos = () => {
-  return (
-    <>
-        <div id="cartaGrafico" className="big-card">
-            <p className='alternate-big-title'>Grafica con React Plotly</p>
-            <hr />
-                <Plot
+// import Plot from 'react-plotly.js'
+// es-lint-ignore no-lone-blocks
+/* <Plot
                     data={[
                         {
                             x: [1, 2, 3],
@@ -22,7 +14,19 @@ const Graficos = () => {
                     ]}
                     layout={ {width:400, title: 'Grafico por Defecto', autosize: true} }
                     config = { { responsive: true } }
-                />
+                /> */
+
+
+const Graficos = () => {
+  return (
+    <>
+        <div id="cartaGrafico" className="big-card">
+            <p className='alternate-big-title'>Grafica con React Plotly</p>
+            <hr />
+            <p className="news-text">
+            Se deshabilito temporalmente debido a un error con la libreria
+            </p>
+            
         </div>
     </>
   )
