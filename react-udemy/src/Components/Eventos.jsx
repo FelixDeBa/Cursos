@@ -12,7 +12,7 @@ const mouseDown=()=>alert('Vas a disparar un evento eh')
 const Eventos = () => {
   return (
     <>
-        <div class="default-card" onMouseDown={mouseDown}>
+        <div className="default-card" onMouseDown={mouseDown}>
           <div className="centered-div">
               <p className='alternate-big-title'>Eventos en React</p>
               <hr />

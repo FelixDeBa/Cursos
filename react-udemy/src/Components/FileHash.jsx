@@ -55,10 +55,10 @@ const FileHash = () => {
 
     return (
         <Fragment>
-        <div class="filehasher-card">
+        <div className="filehasher-card">
             <p>
-                <label class="descriptive-label" htmlFor="hash.box">Selecciona el archivo: </label>
-                {/* <input id="hash-box" class="hash-box" type="text"/> */}
+                <label className="descriptive-label" htmlFor="hash.box">Selecciona el archivo: </label>
+                {/* <input id="hash-box" className="hash-box" type="text"/> */}
             </p>
             <p>
                 <input type="file" id="file-selector" onChange={getFileHash}/>

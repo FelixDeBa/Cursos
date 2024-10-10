@@ -53,7 +53,7 @@ const Formularios = () => {
 
     return (
     <>
-        <div class="default-card">
+        <div className="default-card">
             <form onSubmit={e=>enviar(e)}>
                 <p><label>Nombre</label></p>
                 <p><input id="txtNombre" onChange={e=>valorNombre(e.target.value)} type="text"/></p>

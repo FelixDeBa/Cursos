@@ -9,7 +9,7 @@ class SecNews extends Component {
             breachDate:"20/08/2024",
             description:"Si estas viendo esta brecha generica significa que algo no cargo bien en el sitio, presiona f5, si los problemas persisten, consulta con un administrador",
             pwnCount:"1",
-            dataClasses:["Correo Electronico", "Nombre de usuario", "contraseña", "test-item1"],
+            dataclasses:["Correo Electronico", "Nombre de usuario", "contraseña", "test-item1"],
             evento: null
         };
         // this.hibpCall()        
@@ -29,7 +29,7 @@ class SecNews extends Component {
                 breachDate: data['BreachDate'],
                 description: data['Description'],
                 pwnCount: data['PwnCount'],
-                dataClasses: data['DataClasses'],
+                dataclasses: data['DataClasses'],
                 evento:null
             });
         });        
@@ -40,13 +40,13 @@ class SecNews extends Component {
     }
 
 
-    componentDidUpdate(prevProps,prevState){
-        if(prevState.name===this.state.name){
-            console.log('No hay actualizaciones, la brecha sigue siendo ' + prevState.name)
-        }else{
-            console.log('Hay una nueva brecha')
-        }
-    }
+    // componentDidUpdate(prevProps,prevState){
+    //     if(prevState.name===this.state.name){
+    //         console.log('No hay actualizaciones, la brecha sigue siendo ' + prevState.name)
+    //     }else{
+    //         console.log('Hay una nueva brecha')
+    //     }
+    // }
 
     // componentWillUnmount(){
     //     window.removeEventListener('resize',this.state.evento)
@@ -54,25 +54,25 @@ class SecNews extends Component {
 
     render() { 
         return ( <Fragment>
-        <div class="secnews-card">
-            <div class="card-title">
-                <div class="inner-title">Latest Breach</div>
-                <div class="refresh-button" onClick={this.hibpCall.bind(this)}>
-                    <i class="bi bi-arrow-clockwise btn-ref"></i>
+        <div className="secnews-card">
+            <div className="card-title">
+                <div className="inner-title">Latest Breach</div>
+                <div className="refresh-button" onClick={this.hibpCall.bind(this)}>
+                    <i className="bi bi-arrow-clockwise btn-ref"></i>
                 </div>
                 
             </div>
-            <div class="news-text">
-                <p class="breach-title">{this.state.name}</p>
-                <p class="breach-date">{this.state.breachDate}</p>
+            <div className="news-text">
+                <p className="breach-title">{this.state.name}</p>
+                <p className="breach-date">{this.state.breachDate}</p>
                 <hr/>
                 <p>{parse(this.state.description)}</p>
                 <p>Cuentas Afectadas: {this.state.pwnCount}</p>
                 <p>Datos exfiltrados:</p>
                 <ul>
                 {
-                    (this.state.dataClasses).map((x) => (
-                    <li class="breached-data">{x}</li>))
+                    (this.state.dataclasses).map((x) => (
+                    <li key={x} className="breached-data">{x}</li>))
                 }
                 </ul>
             </div>

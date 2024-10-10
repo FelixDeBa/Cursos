@@ -25,28 +25,28 @@ class Dashboard extends Component {
         }
 
         return ( <Fragment>
-            <div class="main-screen">
-                <div class="title-container">
-                    <h1 class="dashboard-title">Dashboard</h1>
+            <div className="main-screen">
+                <div className="title-container">
+                    <h1 className="dashboard-title">Dashboard</h1>
                 </div>
-                <div class="card-row">
+                <div className="card-row">
                     <PwdFinder/>
                     <SecNews/>
                 </div>
-                <div class="card-row">
-                    {/* <FileHasher /> */}
+                <div className="card-row">
                     <FileHash />
                     <Hooks />
                     <Formularios />
                 </div>
-                <div class="card-row">
+                <div className="card-row">
                     <Eventos />
                     <RenderizadoCondicional />
-                    {this.cards.map(card=>(
-                        <SpreadOperator cardName={card}/>
-                    ))}
+                    {/* {this.cards.map(card=>( */}
+                        {/* <SpreadOperator cardName={card}/> */}
+                    {/* ))} */}
+                    <SpreadOperator/>
                 </div>
-                <div class="card-row">
+                <div className="card-row">
                     <Graficos/>
                     <Fetch />
                 </div>

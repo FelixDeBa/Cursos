@@ -211,3 +211,129 @@ hr{
     background-color: #ebf0fc;
     margin: 5px;
 }
+
+.pokedex-card{
+    background-color: #e2072f;
+    width: 20%;
+    height: auto;
+    padding: 10px 10px 40px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.circulo-azul-pokedex{
+    background-color: #408bad;
+    border: solid white;
+    border-radius: 50%;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    text-align: end;
+}
+.reflejo-circular {
+    height: 20px;
+    width: 20px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 4px;
+    margin-right: 4px;
+  }
+
+.luces-pokedex{
+    display:flex;
+    align-items: center;
+    
+}
+.luz1{
+    background-color: #f0853b;
+    border: solid black 0.1px;
+    border-radius: 30%;
+    height: 5px;
+    width: 15px;
+    margin-left:40%;
+    animation: iluminar-amarillo 1s infinite;
+}
+
+@keyframes iluminar-amarillo{
+    from{background-color: #d2f03b;}
+    to{background-color: #c8c208;}
+}
+
+.luz2{
+    background-color: #2e321d;
+    border: solid black 0.1px;
+    border-radius: 30%;
+    height: 5px;
+    width: 15px;
+    margin-left: 3%;
+    animation: iluminar-verde 1s infinite;
+}
+
+@keyframes iluminar-verde{
+    from{background-color: #2e321d;}
+    to{background-color: #636a40;}
+}
+
+.separador-pokedex{
+    position:relative;
+    /* border-bottom: 5px solid black;
+    border-top: 3px solid orangered; */
+    margin-top: 3%;
+    width: 100%;
+}
+
+.separador-pokedex:after {
+    position: absolute;
+    left: -10px;
+    top: 120%;
+    height: 1.5px;
+    background: black;
+    content: "";
+    width: 60%;
+    display: block;
+}
+
+.separador-pokedex:before {
+    position: absolute;
+    left: calc(65%);
+    top: 50%;
+    height: 1.5px;
+    background: black;
+    content: "";
+    width: calc(35% + 10px);
+    display: block;
+}
+.linea{
+    width: 25%;
+    left: 60%;
+    height: 50%;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid black;
+    -webkit-transform: translateY(-40%) translateX(-2.8px) rotate(120deg);
+    position: absolute;
+}
+
+.pokemon-image-frame{
+    border: 10px solid #dad9d0;
+    width:calc(80%);
+    position: relative;
+    left: calc(5%);
+    margin-top:10%;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.pokemon-image{
+    width: calc(80% - 10px);
+    position:relative;
+    max-height: 400px;
+
+}
+
+.pokemon-name-title{
+    margin: 20px 10px;
+    border-bottom: 4px black solid;
+    font-size: 150%;
+}

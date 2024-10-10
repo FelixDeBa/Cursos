@@ -58,7 +58,7 @@ const RenderizadoCondicional = () => {
     }
   return (
     <>
-        <div class="default-card">
+        <div className="default-card">
             <p className='alternate-big-title'>Renderizado Condicional</p>
             <hr />
             <form onSubmit={e=>enviar(e)}>

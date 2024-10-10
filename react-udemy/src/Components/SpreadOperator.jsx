@@ -45,35 +45,37 @@ const SpreadOperator = (props) => {
     //console.log(paises)
     return (
     <>
-        <div class="default-card">
+        <div className="default-card">
         <p className='alternate-big-title'>{props.cardName}</p>
         <hr />
         <table>
-            <td>
-                <ul>
-                    {objetos.map(objeto =>(
-                    <li>{objeto}</li>
+            <tbody>
+                <td>
+                    <ul>
+                        {objetos.map(objeto =>(
+                        <li key={objeto}>{objeto}</li>
+                        ))}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {paises.map(pais =>(
+                        <li key={pais.id}>
+                            {pais.id}: {pais.nombre}
+                        </li>
                     ))}
-                </ul>
-            </td>
-            <td>
-                <ul>
-                {paises.map(pais =>(
-                    <li key={pais.id}>
-                        {pais.id}: {pais.nombre}
-                    </li>
-                ))}
-                </ul>
-            </td>
-            <td>
-                <ul>
-                {key.map(k =>(
-                    <li key={k}>
-                        {k}: {animal[k]}
-                    </li>
-                ))}
-                </ul>
-            </td>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {key.map(k =>(
+                        <li key={k}>
+                            {k}: {animal[k]}
+                        </li>
+                    ))}
+                    </ul>
+                </td>
+            </tbody>
         </table>
         </div>
     </>

@@ -87,24 +87,26 @@ class PwdFinder extends Component {
 
     render() { 
         return ( <Fragment>
-        <div class="default-card">
-            <p><label class="alternate-big-title" htmlFor="pwdCheck">Revisa la seguridad de tu contraseña</label></p>
+        <div className="default-card">
             <p>
-                <input class="password-box" id="password_to_check" type="password"/>
+                <label className="alternate-big-title" htmlFor="pwdCheck">Revisa la seguridad de tu contraseña</label>
+            </p>
+            <p>
+                <input className="password-box" id="password_to_check" type="password"/>
                 <input type="checkbox" onClick={this.showPassword}/>Show Password
             </p>
-            <p><button class="find-button" onClick={this.passwordFind.bind(this)}>Find</button></p>
+            <p><button className="find-button" onClick={this.passwordFind.bind(this)}>Find</button></p>
             <div id="progress-bar">
 
             </div>
-            <p id="password-result-area" class="password-result-area">
-                <p class="results-title">Your password has been cracked {this.state.hackedTimes} times</p>
+            <div id="password-result-area" className="password-result-area">
+                <p className="results-title">Your password has been cracked {this.state.hackedTimes} times</p>
                 <hr />
-                <p id="passwordAdvice" class="passwordAdvice">
+                <p id="passwordAdvice" className="passwordAdvice">
                     More info..
                     Check at hibp.com
                 </p>
-            </p>
+            </div>
 
         </div>
         </Fragment> );
