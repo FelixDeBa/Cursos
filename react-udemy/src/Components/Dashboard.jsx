@@ -10,6 +10,7 @@ import RenderizadoCondicional from "./RenderizadoCondicional";
 import SpreadOperator from "./SpreadOperator";
 import Graficos from "./Graficos";
 import Fetch from "./Fetch";
+import Axios from "./Axios";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ class Dashboard extends Component {
                 <div className="card-row">
                     <Graficos/>
                     <Fetch />
+                    <Axios/>
                 </div>
             </div>
         </Fragment> );

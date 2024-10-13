@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
+    "axios": "^1.7.7",
     "bootstrap-icons": "^1.11.3",
     "buffer": "^6.0.3",
     "d3": "^7.9.0",
