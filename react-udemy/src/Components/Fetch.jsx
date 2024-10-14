@@ -15,6 +15,11 @@ const Fetch = () => {
     const [primType, setPrimType]=useState('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/legends-arceus/1.png')
     const [secType, setSecType]=useState('')
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
     const handleSearchChange=(e)=>{
         setSearch(e.target.value)
     }
@@ -33,17 +38,19 @@ const Fetch = () => {
     // }
 
     const handlePokemonChange=async()=>{
-        var url=urlBase+search+"/";
+        var url=urlBase+search.toLowerCase()+"/";
         const res=await fetch(url)
         if(res.status === 404){
             alert('Error en el nombre del pokemon')
-        }else{
-            if(res.status === 200){
+        }else if(res.status === 200){
                 const data=await res.json()
                 console.log(data.types[0])
+                await sleep(500)
                 const tipo1= await fetch(data.types[0].type.url);
+                
                 if(tipo1.status === 200){
                         const dataTipo1 = await tipo1.json()
+                        console.log(dataTipo1)
                         setPrimType(dataTipo1.sprites['generation-viii']['legends-arceus'].name_icon)
                 }
                 if(data.types.length === 2){
@@ -57,16 +64,28 @@ const Fetch = () => {
                 }
 
                 
+                var nombre=data.name
                 
-                setPokemon(data.name)
+                nombre = nombre[0].toUpperCase()+nombre.substring(1)
+                console.log(nombre)
+                setPokemon(nombre)
+                
+                // console.log(data.name)
+                // console.log(data.name[0])
                 setPokedexNo(data.order)
                 setImage(data.sprites.other['official-artwork'].front_default)
                 
             }
-        }
+        
         
     }
 
+    const handleSearch=(e)=>{
+        var key=e.keyCode || e.which;
+        if (key===13){
+           console.log("buscando");
+        }
+    }
 
     
     return (
@@ -92,21 +111,19 @@ const Fetch = () => {
             <div className="pokemon-name-title">
                 #{pokedexNo}. {pokemon}
             </div>
-            Tipos:
             <div className="pokemon-types">
                 <span> 
                 {/* eslint-disable-next-line*/}
-                  <img src={primType}/>
+                  <img src={primType} className="pokemon-type-icon"/>
                   {/* eslint-disable-next-line*/}
-                  <img src={secType}/>
-                </span>
-            </div>
-            <div className="search-pokemon-bar">
-                <span>
-                    <input type="text" onChange={handleSearchChange} id="pokemon-txt" placeholder="Buscar por Nombre"/>
-                    <button type="search" onClick={handlePokemonChange}><i className="bi bi-search btn-search-pokemon"></i></button>
+                  {!(secType === '')?<img src={secType} className="pokemon-type-icon"/>:false}
+                    
                 </span>    
-            </div>        
+            </div>  
+            <div className="search-pokemon">
+                <input type="text" onChange={handleSearchChange} id="pokemon-txt" className="search-pokemon-txt" onKeyDown={handleSearch} placeholder="Buscar por Nombre"/>
+                <button type="submit" onClick={handlePokemonChange}><i className="bi bi-search btn-search-pokemon"></i></button>    
+            </div>      
         </div>
         </>
   )
