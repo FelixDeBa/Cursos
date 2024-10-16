@@ -50,6 +50,7 @@ const SpreadOperator = (props) => {
         <hr />
         <table>
             <tbody>
+                <tr>
                 <td>
                     <ul>
                         {objetos.map(objeto =>(
@@ -75,6 +76,7 @@ const SpreadOperator = (props) => {
                     ))}
                     </ul>
                 </td>
+                </tr>
             </tbody>
         </table>
         </div>

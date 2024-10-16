@@ -379,3 +379,34 @@ hr{
 .search-pokemon-txt:focus{
     outline:none;
 }
+
+.users-Data-Axios{
+    border: none;
+}
+
+.users-data-header{
+    background-color: #2e321d;
+    color: white;
+}
+
+tbody.users-data tr{
+    background-color: gray;
+    color: whitesmoke;
+}
+
+tbody.users-data tr:hover{
+    background-color: #2e321d;
+}
+
+.users-name-row{
+    border-right: 1px solid black;
+}
+
+.users-email-row{
+    border-left: 1px solid black;
+    
+}
+
+/* .users-name-row:hover, .users-email-row:hover{
+    background-color: transparent;
+} */

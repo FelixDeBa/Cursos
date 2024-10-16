@@ -26,17 +26,23 @@ const Axios = () => {
       <div id="" className="default-card">
           <p className="alternate-big-title">Llamada a API por Axios</p>
           <hr />
-          <div className='users-Data-Axios'> 
-            <ul>
+          <table className='users-Data-Axios'>
+            <thead>
+              <tr className="users-data-header">
+                <th>Nombre</th>
+                <th>Correo</th>
+              </tr>
+            </thead>
+            <tbody className='users-data'>
               {users.map(user=>(
-                <li key={user.id}>
-                  <p>Nombre: {user.name}</p>
-                  <p>Correo: {user.email}</p>
-                </li>
+                <tr key={user.id}>
+                  <td className='users-name-row'>{user.name}</td>
+                  <td className='users-email-row'>{user.email}</td>
+                </tr>
 
               ))}
-            </ul>
-          </div>
+            </tbody>
+          </table>
       </div>
       </>
   )
