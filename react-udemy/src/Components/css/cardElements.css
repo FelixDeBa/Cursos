@@ -214,7 +214,7 @@ hr{
 
 .pokedex-card{
     background-color: #e2072f;
-    width: 20%;
+    width: 25%;
     height: auto;
     padding: 10px 10px 40px 10px;
     margin: 5px;
@@ -296,21 +296,21 @@ hr{
 
 .separador-pokedex:before {
     position: absolute;
-    left: calc(65%);
-    top: 50%;
-    height: 1.5px;
+    left: calc(67%);
+    top: 46%;
+    height: 1px;
     background: black;
     content: "";
-    width: calc(35% + 10px);
+    width: calc(33% + 10px);
     display: block;
 }
 .linea{
-    width: 25%;
-    left: 60%;
-    height: 50%;
-    padding-bottom: 18px;
+    width: 16%;
+    left: 62%;
+    height: 10%;
+    padding-bottom: 19%;
     border-bottom: 1.5px solid black;
-    -webkit-transform: translateY(-40%) translateX(-2.8px) rotate(120deg);
+    -webkit-transform: translateY(-30%) translateX(0px) rotate(130deg);
     position: absolute;
 }
 
@@ -333,7 +333,80 @@ hr{
 }
 
 .pokemon-name-title{
-    margin: 20px 10px;
-    border-bottom: 4px black solid;
+    margin: 20px 10px 0px 20px;
+    /* border-bottom: 4px black solid; */
     font-size: 150%;
+    text-align: center;
 }
+
+.pokemon-type-icon{
+    width: 40%;
+}
+
+.pokemon-types{
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+@font-face {
+    font-family: calculator;
+    src: url(Calculator.ttf);
+}
+
+.search-pokemon{
+    /* text-align: center; */
+    background-color: #113119;
+    height: 10%;
+    width: auto;
+    margin: auto;
+    padding:5%;
+    /* align-items: center; */
+    
+}
+
+.search-pokemon-txt{
+    background-color: #255c32;
+    text-align: center;
+    height: 95%;
+    width:95%;
+    font-size: 20px;
+    text-wrap-mode:wrap;
+    font-family: calculator;
+    border: 0px;
+    margin:auto;
+    left:auto;
+}
+.search-pokemon-txt:focus{
+    outline:none;
+}
+
+.users-Data-Axios{
+    border: none;
+}
+
+.users-data-header{
+    background-color: #2e321d;
+    color: white;
+}
+
+tbody.users-data tr{
+    background-color: gray;
+    color: whitesmoke;
+}
+
+tbody.users-data tr:hover{
+    background-color: #2e321d;
+}
+
+.users-name-row{
+    border-right: 1px solid black;
+}
+
+.users-email-row{
+    border-left: 1px solid black;
+    
+}
+
+/* .users-name-row:hover, .users-email-row:hover{
+    background-color: transparent;
+} */

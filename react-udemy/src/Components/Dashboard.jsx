@@ -50,7 +50,9 @@ class Dashboard extends Component {
                 <div className="card-row">
                     <Graficos/>
                     <Fetch />
-                    <Axios/>
+                </div>
+                <div className="card-row">
+                    <Axios />
                 </div>
             </div>
         </Fragment> );
