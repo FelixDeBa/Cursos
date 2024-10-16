@@ -296,21 +296,21 @@ hr{
 
 .separador-pokedex:before {
     position: absolute;
-    left: calc(65%);
-    top: 50%;
-    height: 1.5px;
+    left: calc(67%);
+    top: 46%;
+    height: 1px;
     background: black;
     content: "";
-    width: calc(35% + 10px);
+    width: calc(33% + 10px);
     display: block;
 }
 .linea{
-    width: 25%;
-    left: 60%;
-    height: 50%;
-    padding-bottom: 18px;
+    width: 16%;
+    left: 62%;
+    height: 10%;
+    padding-bottom: 19%;
     border-bottom: 1.5px solid black;
-    -webkit-transform: translateY(-40%) translateX(-2.8px) rotate(120deg);
+    -webkit-transform: translateY(-30%) translateX(0px) rotate(130deg);
     position: absolute;
 }
 
@@ -354,22 +354,28 @@ hr{
 }
 
 .search-pokemon{
-    text-align: center;
-    background-color: #255c32;
+    /* text-align: center; */
+    background-color: #113119;
     height: 10%;
-    padding: 10px;
-    width: fit-content;
+    width: auto;
+    margin: auto;
+    padding:5%;
+    /* align-items: center; */
+    
 }
-.search-pokemon-txt, .search-pokemon-txt:hover{
+
+.search-pokemon-txt{
     background-color: #255c32;
     text-align: center;
-    height: 90%;
-    width:auto;
+    height: 95%;
+    width:95%;
     font-size: 20px;
+    text-wrap-mode:wrap;
     font-family: calculator;
     border: 0px;
+    margin:auto;
+    left:auto;
 }
 .search-pokemon-txt:focus{
-    border: 0px;
     outline:none;
 }

@@ -15,6 +15,7 @@ const Fetch = () => {
     const [primType, setPrimType]=useState('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/legends-arceus/1.png')
     const [secType, setSecType]=useState('')
 
+    // eslint-disable-next-line
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -44,20 +45,27 @@ const Fetch = () => {
             alert('Error en el nombre del pokemon')
         }else if(res.status === 200){
                 const data=await res.json()
-                console.log(data.types[0])
-                await sleep(500)
+                                
                 const tipo1= await fetch(data.types[0].type.url);
                 
                 if(tipo1.status === 200){
                         const dataTipo1 = await tipo1.json()
                         console.log(dataTipo1)
-                        setPrimType(dataTipo1.sprites['generation-viii']['legends-arceus'].name_icon)
+                        if(dataTipo1.sprites){
+                            setPrimType(dataTipo1.sprites['generation-viii']['legends-arceus'].name_icon)
+                        }else{
+                            setPrimType('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/legends-arceus/'+dataTipo1.id+'.png')
+                        }
                 }
                 if(data.types.length === 2){
                     const tipo2= await fetch(data.types[1].type.url);
                     if(tipo2.status === 200){
                         const dataTipo2 = await tipo2.json()
-                        setSecType(dataTipo2.sprites['generation-viii']['legends-arceus'].name_icon)
+                        if(dataTipo2.sprites){
+                            setSecType(dataTipo2.sprites['generation-viii']['legends-arceus'].name_icon)
+                        }else{
+                            setSecType('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/legends-arceus/'+dataTipo2.id+'.png')
+                        }
                     }
                 }else{
                     setSecType('')
@@ -84,6 +92,7 @@ const Fetch = () => {
         var key=e.keyCode || e.which;
         if (key===13){
            console.log("buscando");
+           handlePokemonChange()
         }
     }
 
@@ -114,15 +123,15 @@ const Fetch = () => {
             <div className="pokemon-types">
                 <span> 
                 {/* eslint-disable-next-line*/}
-                  <img src={primType} className="pokemon-type-icon"/>
+                  <img className="pokemon-type-icon" src={primType}/>
                   {/* eslint-disable-next-line*/}
                   {!(secType === '')?<img src={secType} className="pokemon-type-icon"/>:false}
                     
                 </span>    
             </div>  
             <div className="search-pokemon">
-                <input type="text" onChange={handleSearchChange} id="pokemon-txt" className="search-pokemon-txt" onKeyDown={handleSearch} placeholder="Buscar por Nombre"/>
-                <button type="submit" onClick={handlePokemonChange}><i className="bi bi-search btn-search-pokemon"></i></button>    
+                <textarea onChange={handleSearchChange} id="pokemon-txt" className="search-pokemon-txt" onKeyDown={handleSearch} placeholder="Buscar por Nombre"></textarea>
+                {/* <button type="search" onClick={}><i className="bi bi-search btn-search-pokemon"></i></button>     */}
             </div>      
         </div>
         </>
