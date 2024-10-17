@@ -410,3 +410,19 @@ tbody.users-data tr:hover{
 /* .users-name-row:hover, .users-email-row:hover{
     background-color: transparent;
 } */
+
+.estiloLink{
+    background-color: green;
+}
+
+.navbar-table{
+    width: 180%;
+    background-color: #39739d;
+    margin-left: -40%;
+    align-content: start;
+}
+
+.navbar-table tbody tr td{
+    width: 0.1px;
+    text-align: left;
+}
