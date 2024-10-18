@@ -415,14 +415,26 @@ tbody.users-data tr:hover{
     background-color: green;
 }
 
-.navbar-table{
-    width: 180%;
+.navbar-list{
+    width: calc(150% + 3px);
     background-color: #39739d;
     margin-left: -40%;
-    align-content: start;
+    display: inline-block;
+    list-style: none;
+    text-align: center;
+    height: 10%;
 }
 
-.navbar-table tbody tr td{
-    width: 0.1px;
-    text-align: left;
+.navbar-list li{
+    /* display: inline-block; */
+    float: left;
+    margin: 0;
+    text-align: center;
+    padding: 5% 5% 0px 10%;
+    position: relative;
+    /* width: 0.1px; */
+}
+
+.navbar-list li:hover{
+    background-color: cadetblue;
 }
