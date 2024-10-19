@@ -11,6 +11,7 @@ import SpreadOperator from "./SpreadOperator";
 import Graficos from "./Graficos";
 import Fetch from "./Fetch";
 import Axios from "./Axios";
+import PadreRutas from "./PadreRutas";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -53,6 +54,7 @@ class Dashboard extends Component {
                 </div>
                 <div className="card-row">
                     <Axios />
+                    <PadreRutas />
                 </div>
             </div>
         </Fragment> );
