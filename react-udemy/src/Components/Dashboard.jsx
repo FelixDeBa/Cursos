@@ -56,6 +56,9 @@ class Dashboard extends Component {
                     <Axios />
                     <PadreRutas />
                 </div>
+                <div className="card-row">
+                    Hello World
+                </div>
             </div>
         </Fragment> );
     }
