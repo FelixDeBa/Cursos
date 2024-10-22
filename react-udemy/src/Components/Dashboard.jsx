@@ -12,6 +12,7 @@ import Graficos from "./Graficos";
 import Fetch from "./Fetch";
 import Axios from "./Axios";
 import PadreRutas from "./PadreRutas";
+import CustomHooks from "./CustomHooks";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class Dashboard extends Component {
                     <PadreRutas />
                 </div>
                 <div className="card-row">
-                    Hello World
+                    <CustomHooks />
                 </div>
             </div>
         </Fragment> );
