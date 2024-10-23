@@ -14,7 +14,7 @@ const Notificaciones = (props) => {
 
     return (
         <>
-        Ultima brecha
+        
         <button onClick={llamaApp}>Llamar App</button>
         <button onClick={llamaDashboard}>Llamar Dashboard</button>
         </>

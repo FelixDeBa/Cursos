@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 const urlBase='https://jsonplaceholder.typicode.com/users'
+
 
 
 const Axios = () => {
@@ -8,10 +10,10 @@ const Axios = () => {
 
   useEffect(()=>{
     const cargarUsuarios=async()=>{
-      const res = await fetch(urlBase);
+      const res = await axios.get(urlBase);
       if(res.status === 200){
-        const data= await res.json();
-        setUsers(data);
+        setUsers(res.data);
+        // console.log(res.data)
       }else{
         console.error("ERROR")
         console.log(res.status)

@@ -13,6 +13,9 @@ import Fetch from "./Fetch";
 import Axios from "./Axios";
 import PadreRutas from "./PadreRutas";
 import CustomHooks from "./CustomHooks";
+import ApodProvider from "./context/ApodContext.jsx";
+import Apod from "./Apod.jsx";
+
 
 class Dashboard extends Component {
     constructor(props) {
@@ -21,7 +24,7 @@ class Dashboard extends Component {
     }
 
     cards=['Operacions con Arreglos']
-
+    
     render() { 
         if(this.props.nuevoEstado === true){
             console.log("Se cambio el estado a verdadero desde las notificaciones");
@@ -59,6 +62,9 @@ class Dashboard extends Component {
                 </div>
                 <div className="card-row">
                     <CustomHooks />
+                    <ApodProvider>
+                        <Apod />
+                    </ApodProvider>
                 </div>
             </div>
         </Fragment> );
