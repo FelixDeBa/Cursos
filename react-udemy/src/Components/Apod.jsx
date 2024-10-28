@@ -32,6 +32,7 @@ const Apod = (props) => {
                         <img 
                           alt="Imagen del dia"
                           src={apod.data}
+                          className='apod-img'
                         />
                     </div>:
                     <h3>Error al obtener la imagen</h3>

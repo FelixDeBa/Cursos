@@ -530,3 +530,7 @@ body {
 .card-component-title{
     font-family: "Press Start 2P", system-ui;
 }
+
+.apod-img{
+    max-width: 600px;
+}

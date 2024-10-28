@@ -15,6 +15,9 @@ import PadreRutas from "./PadreRutas";
 import CustomHooks from "./CustomHooks";
 import ApodProvider from "./context/ApodContext.jsx";
 import Apod from "./Apod.jsx";
+import { Provider } from 'react-redux'
+import store from '../Redux/store.js'
+import Contador from "./Contador.jsx";
 
 
 class Dashboard extends Component {
@@ -65,6 +68,11 @@ class Dashboard extends Component {
                     <ApodProvider>
                         <Apod />
                     </ApodProvider>
+                </div>
+                <div className="card-row">
+                    <Provider store={store}>
+                        <Contador />
+                    </Provider>
                 </div>
             </div>
         </Fragment> );
