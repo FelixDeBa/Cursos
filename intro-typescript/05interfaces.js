@@ -28,3 +28,8 @@ var Adulto = /** @class */ (function () {
     };
     return Adulto;
 }());
+var salto;
+salto = function (valor) {
+    return valor ? "Se movio" : "No se movio";
+};
+console.log(salto(true));

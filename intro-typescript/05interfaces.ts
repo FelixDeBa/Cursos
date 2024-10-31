@@ -44,3 +44,15 @@ class Adulto implements Persona{
     }
 
 }
+
+interface Movimiento{
+    (valor:boolean):boolean
+
+}
+
+let salto:Movimiento;
+salto=function(valor:boolean):any{
+    return valor ? "Se movio" : "No se movio"
+}
+
+console.log(salto(true))
