@@ -348,10 +348,12 @@ hr{
     margin-bottom: 10%;
 }
 
-@font-face {
+/* @font-face {
     font-family: calculator;
     src: url(Calculator.ttf);
-}
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 .search-pokemon{
     /* text-align: center; */
@@ -369,12 +371,15 @@ hr{
     text-align: center;
     height: 95%;
     width:95%;
-    font-size: 20px;
+    font-size: 15px;
     text-wrap-mode:wrap;
-    font-family: calculator;
+    /* font-family: calculator; */
     border: 0px;
     margin:auto;
     left:auto;
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }
 .search-pokemon-txt:focus{
     outline:none;
@@ -437,4 +442,95 @@ tbody.users-data tr:hover{
 
 .navbar-list li:hover{
     background-color: cadetblue;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans&family=Montserrat&family=Sacramento&display=swap");
+
+:root {
+    --nav-color: #675d50;
+    --nav-text: #fff;
+    --primary-color: #f3deba;
+    --secondary-color: #abc4aa;
+    --hover-color: #a9907e;
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+.navbar-container {
+    background-color: var(--nav-color);
+    font-size: 1.2rem;
+    font-family: "Merriweather Sans", sans-serif;
+    height: 70px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+    margin: auto;
+}
+
+.navbar ul {
+    display: flex;
+
+}
+
+.navbar-container .navbar {
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style-type: none;
+}
+  
+.navbar-container .navbar ul li {
+    padding: 10px;
+    margin: 0 10px;
+}
+  
+.navbar a {
+    color: var(--nav-text);
+    font-weight: bold;
+}
+  
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+@media screen and (min-width: 390px) and (max-width: 767px) {
+    .container {
+      height: 100%;
+    }
+  
+    .navbar-container .navbar {
+      flex-direction: column;
+    }
+  }
+
+.card-with-navbar{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    /* padding: 3% 5%; */
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    max-width: 60%;
+    min-width: 40%;
+}
+
+.card-component{
+    margin: 5%;
+}
+
+.card-component-title{
+    font-family: "Press Start 2P", system-ui;
+}
+
+.apod-img{
+    max-width: 600px;
 }

@@ -3,7 +3,10 @@ import React from 'react'
 const Componente3 = () => {
   return (
     <>
-        <p className="alternate-big-title">Componente 3</p>
+      <div className='card-component'>
+        <p className="card-component-title">Componente 3</p>
+        <hr/>
+      </div>
     </>
   )
 }

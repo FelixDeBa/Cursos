@@ -12,6 +12,12 @@ import Graficos from "./Graficos";
 import Fetch from "./Fetch";
 import Axios from "./Axios";
 import PadreRutas from "./PadreRutas";
+import CustomHooks from "./CustomHooks";
+import ApodProvider from "./context/ApodContext.jsx";
+import Apod from "./Apod.jsx";
+import { Provider } from 'react-redux'
+import store from '../Redux/store.js'
+import Contador from "./Contador.jsx";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -20,7 +26,7 @@ class Dashboard extends Component {
     }
 
     cards=['Operacions con Arreglos']
-
+    
     render() { 
         if(this.props.nuevoEstado === true){
             console.log("Se cambio el estado a verdadero desde las notificaciones");
@@ -55,6 +61,17 @@ class Dashboard extends Component {
                 <div className="card-row">
                     <Axios />
                     <PadreRutas />
+                </div>
+                <div className="card-row">
+                    <CustomHooks />
+                    <ApodProvider>
+                        <Apod />
+                    </ApodProvider>
+                </div>
+                <div className="card-row">
+                    <Provider store={store}>
+                        <Contador />
+                    </Provider>
                 </div>
             </div>
         </Fragment> );
