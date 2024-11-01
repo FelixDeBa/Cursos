@@ -19,7 +19,6 @@ import { Provider } from 'react-redux'
 import store from '../Redux/store.js'
 import Contador from "./Contador.jsx";
 
-
 class Dashboard extends Component {
     constructor(props) {
         super(props);

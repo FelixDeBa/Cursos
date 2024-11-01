@@ -23,7 +23,6 @@ Nulla risus massa, volutpat in lorem ut, fermentum consectetur lacus. Vivamus al
           </p>
           </div>
           </>
-  
   )
 }
 
