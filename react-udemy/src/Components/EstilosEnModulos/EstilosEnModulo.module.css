@@ -1,0 +1,11 @@
+.pieimg{
+    color: gray;
+    font-style: italic;
+    background-color: #ededeb;
+    font-size: 11px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;    
+}
+

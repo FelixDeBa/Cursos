@@ -1,0 +1,536 @@
+/*Area para buscar brechas en contraseñas*/
+.pwdfinder-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    height: 200px;
+    background-color: #ebf0fc;
+    margin: 5px;
+    height: auto;
+    padding: 0% 5%;
+}
+
+hr{
+    width: 100%;
+    height: 3px;
+    color: gray;
+    background-color: #b1b4ba;
+}
+
+.find-button{
+    background-color: #e1ecf4;
+    border-radius: 3px;
+    border: 1px solid #7aa7c7;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #39739d;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    
+    margin-top: 0px;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+.find-button:hover,
+.find-button:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+.find-button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.find-button:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}
+
+.alternate-big-title{
+    font-size: 1.3em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    margin-bottom: 0px;
+    padding: 3% 0 0 0;
+}
+
+
+.password-box, .apikey-box, .usr-box{
+    margin-right: 10px;
+}
+
+.password-result-area{
+    display: none;
+}
+
+/*Area para las noticias de seguridad*/
+
+.secnews-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width:auto;
+    
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    position: sticky;
+    right:1%;
+    top:auto;
+    left: 99%;
+}
+
+.refresh-button{
+    border-radius: 0px 10px 0px 0px;
+    height: auto;
+    position: sticky;
+    padding: 10px 10px 10px 10px;
+    width: auto;
+    left: 100%;
+    background-color: #cbced4;
+}
+.refresh-button:hover{
+    background-color: #b1b4ba;
+}
+.refresh-button:active{
+    background-color: #cbced4;
+}
+
+.btn-ref{
+    font-size: 15px;    
+}
+
+.news-text{
+    padding: 0% 5% 5%;
+    position: relative;
+    top: 0px;
+}
+
+.breach-title{
+    font-size: 1.5em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    margin-bottom: 0px;
+}
+
+.breach-date{
+    margin-top: 0px;
+    font-size: .9em;
+}
+
+/*Area para la busqueda de usuarios*/
+/* .userfinder-card */
+.filehasher-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    padding: 3% 5%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+}
+
+.inner-title{
+    /* padding: 3% 0 3% 0; */
+    /* background-color: #cbced4; */
+    display: flex;
+    border-radius: 10px 0px 0px 0px;
+    width: auto;
+}
+
+.card-title{
+    display : flex;
+    flex-direction : row;
+    border-radius: 10px 10px 0px 0px;
+    background-color:#cbced4;
+    padding-left: 5%;
+    align-items: center;
+}
+
+.userfinder-card{
+    border-radius: 10px;
+    width:100%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    position: sticky;
+    top:auto;
+    padding: 2%;
+}
+
+.descriptive-label{
+    margin-right: 10px;
+}
+
+.default-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    padding: 3% 5%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+}
+
+.centered-div{
+    /* align-items: center; */
+    text-align: center;
+}
+
+.error-text-mini{
+    font-size: .7em;
+    color: red;
+    margin: 0px 0px 15px 0px;
+}
+
+.input-with-message{
+    margin: auto auto 0px auto
+}
+
+.spacer-15{
+    height: 15px;
+}
+
+.big-card{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    padding: 3% 5%;
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+}
+
+.pokedex-card{
+    background-color: #e2072f;
+    width: 25%;
+    height: auto;
+    padding: 10px 10px 40px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.circulo-azul-pokedex{
+    background-color: #408bad;
+    border: solid white;
+    border-radius: 50%;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    text-align: end;
+}
+.reflejo-circular {
+    height: 20px;
+    width: 20px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 4px;
+    margin-right: 4px;
+  }
+
+.luces-pokedex{
+    display:flex;
+    align-items: center;
+    
+}
+.luz1{
+    background-color: #f0853b;
+    border: solid black 0.1px;
+    border-radius: 30%;
+    height: 5px;
+    width: 15px;
+    margin-left:40%;
+    animation: iluminar-amarillo 1s infinite;
+}
+
+@keyframes iluminar-amarillo{
+    from{background-color: #d2f03b;}
+    to{background-color: #c8c208;}
+}
+
+.luz2{
+    background-color: #2e321d;
+    border: solid black 0.1px;
+    border-radius: 30%;
+    height: 5px;
+    width: 15px;
+    margin-left: 3%;
+    animation: iluminar-verde 1s infinite;
+}
+
+@keyframes iluminar-verde{
+    from{background-color: #2e321d;}
+    to{background-color: #636a40;}
+}
+
+.separador-pokedex{
+    position:relative;
+    /* border-bottom: 5px solid black;
+    border-top: 3px solid orangered; */
+    margin-top: 3%;
+    width: 100%;
+}
+
+.separador-pokedex:after {
+    position: absolute;
+    left: -10px;
+    top: 120%;
+    height: 1.5px;
+    background: black;
+    content: "";
+    width: 60%;
+    display: block;
+}
+
+.separador-pokedex:before {
+    position: absolute;
+    left: calc(67%);
+    top: 46%;
+    height: 1px;
+    background: black;
+    content: "";
+    width: calc(33% + 10px);
+    display: block;
+}
+.linea{
+    width: 16%;
+    left: 62%;
+    height: 10%;
+    padding-bottom: 19%;
+    border-bottom: 1.5px solid black;
+    -webkit-transform: translateY(-30%) translateX(0px) rotate(130deg);
+    position: absolute;
+}
+
+.pokemon-image-frame{
+    border: 10px solid #dad9d0;
+    width:calc(80%);
+    position: relative;
+    left: calc(5%);
+    margin-top:10%;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.pokemon-image{
+    width: calc(80% - 10px);
+    position:relative;
+    max-height: 400px;
+
+}
+
+.pokemon-name-title{
+    margin: 20px 10px 0px 20px;
+    /* border-bottom: 4px black solid; */
+    font-size: 150%;
+    text-align: center;
+}
+
+.pokemon-type-icon{
+    width: 40%;
+}
+
+.pokemon-types{
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+/* @font-face {
+    font-family: calculator;
+    src: url(Calculator.ttf);
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.search-pokemon{
+    /* text-align: center; */
+    background-color: #113119;
+    height: 10%;
+    width: auto;
+    margin: auto;
+    padding:5%;
+    /* align-items: center; */
+    
+}
+
+.search-pokemon-txt{
+    background-color: #255c32;
+    text-align: center;
+    height: 95%;
+    width:95%;
+    font-size: 15px;
+    text-wrap-mode:wrap;
+    /* font-family: calculator; */
+    border: 0px;
+    margin:auto;
+    left:auto;
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+.search-pokemon-txt:focus{
+    outline:none;
+}
+
+.users-Data-Axios{
+    border: none;
+}
+
+.users-data-header{
+    background-color: #2e321d;
+    color: white;
+}
+
+tbody.users-data tr{
+    background-color: gray;
+    color: whitesmoke;
+}
+
+tbody.users-data tr:hover{
+    background-color: #2e321d;
+}
+
+.users-name-row{
+    border-right: 1px solid black;
+}
+
+.users-email-row{
+    border-left: 1px solid black;
+    
+}
+
+/* .users-name-row:hover, .users-email-row:hover{
+    background-color: transparent;
+} */
+
+.estiloLink{
+    background-color: green;
+}
+
+.navbar-list{
+    width: calc(150% + 3px);
+    background-color: #39739d;
+    margin-left: -40%;
+    display: inline-block;
+    list-style: none;
+    text-align: center;
+    height: 10%;
+}
+
+.navbar-list li{
+    /* display: inline-block; */
+    float: left;
+    margin: 0;
+    text-align: center;
+    padding: 5% 5% 0px 10%;
+    position: relative;
+    /* width: 0.1px; */
+}
+
+.navbar-list li:hover{
+    background-color: cadetblue;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans&family=Montserrat&family=Sacramento&display=swap");
+
+:root {
+    --nav-color: #675d50;
+    --nav-text: #fff;
+    --primary-color: #f3deba;
+    --secondary-color: #abc4aa;
+    --hover-color: #a9907e;
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+.navbar-container {
+    background-color: var(--nav-color);
+    font-size: 1.2rem;
+    font-family: "Merriweather Sans", sans-serif;
+    height: 70px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+    margin: auto;
+}
+
+.navbar ul {
+    display: flex;
+
+}
+
+.navbar-container .navbar {
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style-type: none;
+}
+  
+.navbar-container .navbar ul li {
+    padding: 10px;
+    margin: 0 10px;
+}
+  
+.navbar a {
+    color: var(--nav-text);
+    font-weight: bold;
+}
+  
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+@media screen and (min-width: 390px) and (max-width: 767px) {
+    .container {
+      height: 100%;
+    }
+  
+    .navbar-container .navbar {
+      flex-direction: column;
+    }
+  }
+
+.card-with-navbar{
+    /*border: 2px solid black;*/
+    border-radius: 10px;
+    width: auto;
+    /* padding: 3% 5%; */
+    height: auto;
+    background-color: #ebf0fc;
+    margin: 5px;
+    max-width: 60%;
+    min-width: 40%;
+}
+
+.card-component{
+    margin: 5%;
+}
+
+.card-component-title{
+    font-family: "Press Start 2P", system-ui;
+}
+
+.apod-img{
+    max-width: 600px;
+}

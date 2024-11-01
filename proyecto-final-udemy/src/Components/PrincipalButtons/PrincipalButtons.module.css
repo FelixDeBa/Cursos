@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+    height: 180px;
+    margin-top: 200px;
+    display: block;
+    text-align: center;
+}
+
+.a{
+    text-decoration: none;
+    font-size: 40px;
+    background-color: rgb(177,65,24);
+    color: white;
+    box-shadow: 9px 9px 9px black;
+}
+
+.a:hover{
+    padding: 4px;
+    background-color: rgb(9,99,28);
+}
+
+.a:active{
+    background-color: greenyellow;
+    color: black;
+}
+
+.containerEnlace{
+    background-color: rgb(139,69,43);
+    margin-top: 9px;
+}
