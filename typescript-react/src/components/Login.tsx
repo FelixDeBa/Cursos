@@ -44,6 +44,7 @@ export class Login extends React.Component<LoginProps, LoginState>{
             console.log(result)
             this.setState({loginSuccess: true})
             this.props.setUser(result)
+            // window.location.href='/profile'
         }else{
             console.error("Wrong Login")
             this.setState({loginSuccess: false})
