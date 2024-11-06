@@ -1,5 +1,5 @@
 import { Component } from "react";
-import style from './ConfirmModelComponent.module.css'
+import './ConfirmModelComponent.module.css'
 
 interface ConfirmModelComponentProps{
     show: boolean,
@@ -13,11 +13,11 @@ export class ConfirmModelComponent extends Component<ConfirmModelComponentProps>
             return null
         }else{
             return(
-                <div className={style.modal}>
-                    <div className={style.modalContent}>
+                <div className='modal'>
+                    <div className='modalContent'>
                         <h2>Intentaste Reservar..</h2>
                         <h3 className="modelText">{this.props.content}</h3>
-                        <button onClick={()=>this.props.close()}>Cerrar</button>
+                        <button className='modalButton' onClick={()=>this.props.close()}>Cerrar</button>
                     </div>
                 </div>
         )}

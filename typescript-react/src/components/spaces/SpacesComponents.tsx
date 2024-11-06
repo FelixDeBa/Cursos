@@ -1,6 +1,6 @@
 import { Component } from "react";
 import genericImage from '../../assets/image-not-found.png'
-import style from './SpaceComponent.module.css';
+import './SpaceComponent.module.css';
 
 interface SpaceComponentProps{
     spaceId:string,
@@ -13,19 +13,19 @@ interface SpaceComponentProps{
 export class SpaceComponent extends Component<SpaceComponentProps>{
     private renderImage(){
         if(this.props.photoUrl){
-            return <img className={style.spaceImage} src={this.props.photoUrl} alt={this.props.name}/>
+            return <img className='spaceImage' src={this.props.photoUrl} alt={this.props.name}/>
         }else{
-            return <img className={style.spaceImage} src={genericImage} alt={this.props.name}/>
+            return <img className='spaceImage' src={genericImage} alt={this.props.name}/>
         }
     }
 
     render(){
         return(
-            <div className={style.spaceComponent}>
+            <div className='spaceComponent'>
                 {this.renderImage()}<br />
-                <label className={style.name}>{this.props.name}</label><br/>
-                <label className={style.spaceId}>{this.props.spaceId}</label><br/>
-                <label className={style.location}>{this.props.location}</label><br/>
+                <label className='name'>{this.props.name}</label><br/>
+                <label className='spaceId'>{this.props.spaceId}</label><br/>
+                <label className='location'>{this.props.location}</label><br/>
                 <button onClick={()=>this.props.reserveSpace(this.props.spaceId)}>Reservar</button>
             </div>
         )

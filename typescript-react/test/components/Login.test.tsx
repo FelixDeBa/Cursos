@@ -1,7 +1,15 @@
-import ReactDOM  from 'react'
+import * as ReactDOM from 'react-dom'
+import {act}  from 'react'
 import { Login } from '../../src/components/Login'
-import { render } from 'react-dom'
+import { fireEvent, waitFor } from '@testing-library/react';
+import { User } from '../../src/model/Model';
+import history from '../../src/utils/history';
 
+
+const someUser:User={
+    userName: 'someUser',
+    email: 'someemail@example.com'
+}
 describe('Login Component Test Suite', ()=>{
 
     let container: HTMLDivElement
@@ -10,26 +18,18 @@ describe('Login Component Test Suite', ()=>{
     }
 
     const setUserMock = jest.fn()
+    const historyMock = history;
+    history.push = jest.fn();
 
     beforeEach(()=>{
         container = document.createElement('div');
         document.body.appendChild(container);
-        render
-        (
-            <Login authService={authServiceMock as any} setUser={setUserMock}/>,
+        // render(<Login authService={authServiceMock as any} setUser={setUserMock}/>)
+        ReactDOM.render(<Login authService={authServiceMock as any} setUser={setUserMock}/>,
             container
         )
-    })
 
-    // beforeAll(()=>{
-    //     console.log('before all')
-    // })
-
-    // afterAll(()=>{
-    //     console.log('after all')
-    // })
-
-    
+    })   
 
     afterEach(()=>{
         document.body.removeChild(container);
@@ -49,5 +49,55 @@ describe('Login Component Test Suite', ()=>{
 
         const label = document.querySelector('label');
         expect(label).not.toBeInTheDocument();
+    })
+
+    test('Las credenciales se pasan correctamente', ()=>{
+        const inputs = document.querySelectorAll('input');
+        const loginInput=inputs[0];
+        const passwordInput = inputs[1];
+        const loginButton = inputs[2];
+
+        fireEvent.change(loginInput, {target:{value: 'someUser'}});
+        fireEvent.change(passwordInput, {target:{value: 'somePass'}});
+        fireEvent.click(loginButton);
+        
+        expect(authServiceMock.login).toBeCalledWith(
+            'someUser',
+            'somePass'
+        )
+    })
+
+    test('Se gestiona el login success de manera correcta', async()=>{
+        authServiceMock.login.mockResolvedValueOnce(someUser);
+        const inputs = document.querySelectorAll('input');
+        const loginInput=inputs[0];
+        const passwordInput = inputs[1];
+        const loginButton = inputs[2];
+
+        fireEvent.change(loginInput, {target:{value: 'someUser'}});
+        fireEvent.change(passwordInput, {target:{value: 'somePass'}});
+        fireEvent.click(loginButton);
+
+        const statusLabel = await waitFor(()=> container.querySelector('label'))
+        expect(statusLabel).toBeInTheDocument();
+        expect(statusLabel).toHaveTextContent('Login successful');
+        expect(setUserMock).toBeCalledWith(someUser)
+        expect(historyMock.push).toBeCalledWith('/profile')
+    })
+
+    test('Se gestiona el login fallido de manera correcta', async()=>{
+        authServiceMock.login.mockResolvedValueOnce(undefined);
+        const inputs = document.querySelectorAll('input');
+        const loginInput=inputs[0];
+        const passwordInput = inputs[1];
+        const loginButton = inputs[2];
+
+        fireEvent.change(loginInput, {target:{value: 'someUser'}});
+        fireEvent.change(passwordInput, {target:{value: 'somePass'}});
+        fireEvent.click(loginButton);
+
+        const statusLabel = await waitFor(()=> container.querySelector('label'))
+        expect(statusLabel).toBeInTheDocument();
+        expect(statusLabel).toHaveTextContent('Login failed!!!');
     })
 })

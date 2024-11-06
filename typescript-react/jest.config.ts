@@ -14,6 +14,11 @@ const config: Config.InitialOptions = {
     testRegex:"(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     moduleFileExtensions: ['ts', 'tsx','js','jsx','json','node'],
     testEnvironment: 'jsdom',
+    moduleNameMapper: {
+        "\\.(jpg)$":"<rootDir>/test/mockFile.ts",
+        "\\.(css)$":"<rootDir>/test/mockFile.ts",
+        "\\.(png)$":"<rootDir>/test/mockFile.ts",
+    },
     collectCoverage: true,
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',

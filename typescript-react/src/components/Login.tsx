@@ -1,6 +1,7 @@
-import React, { SyntheticEvent } from "react";
+import React, { act, SyntheticEvent } from "react";
 import { AuthService } from "../services/AuthService";
 import { User } from "../model/Model";
+import history from "../utils/history";
 
 interface LoginProps{
     authService:AuthService;
@@ -41,13 +42,18 @@ export class Login extends React.Component<LoginProps, LoginState>{
             this.state.password
         )
         if(result){
-            console.log(result)
+            
             this.setState({loginSuccess: true})
             this.props.setUser(result)
+            history.push('/profile')
             // window.location.href='/profile'
         }else{
-            console.error("Wrong Login")
-            this.setState({loginSuccess: false})
+            
+            //Este Act se agrego literal nada mas porque los tests piden que se agregue de otra anera quitarlo
+            act(()=>{
+                this.setState({loginSuccess: false})
+            })
+            // this.setState({loginSuccess: false})
         }
     }
 

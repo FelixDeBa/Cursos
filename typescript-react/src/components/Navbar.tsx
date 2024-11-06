@@ -1,7 +1,6 @@
 import React from 'react'
 import { User } from '../model/Model'
 import { Link } from 'react-router-dom'
-// import style from './css/Navbar.module.css'
 import { driver } from 'driver.js'
 import 'driver.js/dist/driver.css'
 
@@ -23,16 +22,16 @@ export class Navbar extends React.Component<{user:User | undefined}>{
         })
         let loginLogout:any
         if(this.props.user){
-            loginLogout =<Link id='userName' to='/logout' style={{float:'right'}}>{this.props.user.userName}</Link>
+            loginLogout =<Link data-testid='logout-link' id='userName' to='/logout' style={{float:'right'}}>{this.props.user.userName}</Link>
         }else{
-            loginLogout =<Link id='login' to='/login' style={{float:'right'}}>Login</Link>
+            loginLogout =<Link data-testid='login-link' id='login' to='/login' style={{float:'right'}}>Login</Link>
         }
 
         return(
             <div className="navbar">
-                <Link id="home" to="/">Inicio</Link>
-                <Link id="profile" to="/profile">Perfil</Link>
-                <Link id="spaces" to="/spaces">Hoteles</Link>
+                <Link data-testid='home-link' id="home" to="/">Inicio</Link>
+                <Link data-testid='profile-link' id="profile" to="/profile">Perfil</Link>
+                <Link data-testid='spaces-link' id="spaces" to="/spaces">Hoteles</Link>
                 {loginLogout}
                 <button style={{float:'right'}} onClick={e=> driverObj.drive()}>Tour</button>
             </div>
