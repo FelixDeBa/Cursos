@@ -62,15 +62,15 @@ describe("Spaces component test suite", () => {
     const buttons = document.querySelectorAll('button');
     fireEvent.click(buttons[0]);
     expect(dataServiceMock.reserveSpace).toHaveBeenCalledWith('1234');
-    const modalValue = await waitFor(() => document.getElementsByClassName('modalText'));
-    expect(modalValue[0]).toHaveTextContent('You reserved the space with id 1234 and got the reservation number 555');
+    const modalValue = await waitFor(() => document.getElementsByClassName('modelText'));
+    expect(modalValue[0]).toHaveTextContent('Tu numero de reservacion para el hotel 1234 es 555');
   });
   test("Correctly displays modal without reservation", async () => {
     dataServiceMock.reserveSpace.mockResolvedValueOnce(undefined);
     const buttons = document.querySelectorAll('button');
     fireEvent.click(buttons[0]);
-    const modalValue = await waitFor(() => document.getElementsByClassName('modalText'));
-    expect(modalValue[0]).toHaveTextContent(`You can't reserve the space with id 1234`);
+    const modalValue = await waitFor(() => document.getElementsByClassName('modelText'));
+    expect(modalValue[0]).toHaveTextContent(`No puedes reservar el espacio con id 1234`);
   });
   test("Correctly closes modal", async () => {
     dataServiceMock.reserveSpace.mockResolvedValueOnce('555');
