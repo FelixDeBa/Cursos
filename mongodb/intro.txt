@@ -4,6 +4,15 @@ Se est utilizando la versin 4.4.0 ya que es la version que fue compatible con la
 //use nueva_db
 
 # PAra ver los stats de la base de datos
-db.stats()
+//db.stats()
 
 ### LA base de datos se crea pero realmente no se crea porque no contiene objetos/colecciones
+
+#Para create una coleccion
+//db.createCollection("mi coleccion")
+
+#Para listas las bases de datos existentes
+LAs bases de datos nuevas no aparecen hasta que tengan una coleccion creada
+//show dbs
+
+#CRUD
