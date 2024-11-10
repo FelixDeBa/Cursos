@@ -1,23 +1,24 @@
-# Getting Started with Create React App
+# Proyecto curso de TypeScript Udemy
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Scripts Disponibles:
 
-## Available Scripts
-
-In the project directory, you can run:
+### `npm install`
+Esto instalara todas las liberias pendientes en caso de que no sea la primera vez que se descarga el archivo
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Para ejecutar la app en modo de developer
+Para ver la aplicacion hay que ir a la ruta [http://localhost:3000](http://localhost:3000) en un navegador.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+El sitio volver a cargar cada que se guarde un cambio en un archivo en ejecucion
 
 ### `npm test`
+Para ejecutar los tests de manera comoda (Sin que muestre errores en el codigo)
+Es necesario que se abra directamente la carpeta "TypeScript-React" en Visual Studio Code,
+Si se intenta correr un test desde la carpeta cursos podria fallar y/o dar errores visuales.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Ejecuta los rests
+Revisar [running tests](https://facebook.github.io/create-react-app/docs/running-tests) para mas informacion.
 
 ### `npm run build`
 

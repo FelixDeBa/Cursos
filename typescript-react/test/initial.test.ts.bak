@@ -1,0 +1,7 @@
+describe('Revisando si el test funciona', ()=>{
+    test('funciona', ()=>{
+        console.log('Si funciona')
+    })
+})
+
+export {}

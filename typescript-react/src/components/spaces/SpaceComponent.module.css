@@ -1,0 +1,17 @@
+.spaceComponent{
+    display:inline-block;
+    width: 400px;
+    margin: 5px;
+    overflow: auto;
+}
+
+.spaceImage{
+    max-width: 400px;
+    height: 250px;
+}
+
+.name{
+    text-align: center;
+    text-transform: uppercase;
+    color: blueviolet;
+}

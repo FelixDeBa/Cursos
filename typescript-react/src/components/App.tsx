@@ -8,13 +8,17 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import { Navbar } from './Navbar';
 import Home from './Home';
 import { Profile } from './Profile';
+import { Spaces } from './spaces/Spaces';
+import { DataService } from '../services/DataService';
+
 
 interface AppState{
   user:User | undefined
 }
-
+/* istanbul ignore file */
 export class App extends React.Component<{},AppState>{
   private authService:AuthService = new AuthService();
+  private dataService:DataService = new DataService();
 
   constructor(props: any){
     super(props)
@@ -42,7 +46,12 @@ export class App extends React.Component<{},AppState>{
           <Route path="/login" element={
             <Login authService={this.authService} setUser={this.setUser}/>
           }/>
-          <Route path="/profile" element={<Profile />}/>
+          <Route path="/profile" element={
+            <Profile authService={this.authService} user={this.state.user} />
+          }/>
+          <Route path="/spaces" element={
+            <Spaces dataService={this.dataService}/>
+          }/>
         </Routes>
       </BrowserRouter>
             
