@@ -128,7 +128,7 @@ db.usuarios.insertMany([
 ])
 
 
-//Uso avanzado de find
+//Uso de find
 //primero creamos datos dummy
 db.usuarios.insertMany([ 
     { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
@@ -184,6 +184,163 @@ db.usuarios.replaceOne(
     {nombre: 'Juan Gomez', edad:28, correo:'juan@indeciso.com'}
 )
 //Este reemplaza todo el documento/registro, si no pones todos los datos, borra los que no pusiste
+
+// Objeto cursor
+// Aplica una funcion de javascript a un resultado
+db.usuarios.find({edad:25}).forEach(function(usuario){
+    print(usuario.nombre)
+})
+
+//Aplicar el cursor sin filtro en el find
+db.usuarios.find({}).limit(2).forEach(function(usuario){
+    print(usuario.nombre)
+})
+
+// Aplicar paginacion para brincarnos X resultados
+db.usuarios.find({}).skip(1).limit(2).forEach(function(usuario){
+    print(usuario.nombre)
+})
+
+//Aplicar ordeniamiento a los resultados de la busqueda
+db.usuarios.find({}).skip(1).limit(2).sort({edad:-1}).forEach(function(usuario){
+    print(usuario.nombre)
+})
+
+// Proyeecciones
+// Se usan para no traer todos los datos, sino solo los seleccionados, en este ejemplo no trae la ID
+db.usuarios.find({}, {_id:0, nombre:1, correo:1})
+
+// Para hacer otro ejemplo creamos la coleccion biblioteca
+db.createCollection('biblioteca')
+// Insertamos dummy data
+db.biblioteca.insertMany([     
+    {         
+        libro: { titulo: "El Gran Gatsby", 
+            autor: "F. Scott Fitzgerald" },         
+        year: 1925,         
+        type: "Ficcion"     
+    },
+    {         
+        libro: { titulo: "Los Pilares de la Tierra", 
+            autor: "Ken Follett" },         
+        year: 1989,         
+        type: "Historica"     
+    },     
+    {         
+        libro: { titulo: "La Sombra del Viento", 
+            autor: "Carlos Ruiz Zafan" },         
+        year: 2001,         
+        type: "Misterio"     
+    },     
+    {         
+        libro: { titulo: "Cien años de soledad", 
+            autor: "Gabriel Garcia Marquez" },         
+        year: 1967,         
+        type: "Realismo magico"     
+    },     
+    {         
+        libro: { titulo: "1984", 
+            autor: "George Orwell" },         
+        year: 1949,         
+        type: "Ciencia ficcion"    
+    },     
+    {         
+        libro: { titulo: "Matar a un ruiseñor", 
+            autor: "Harper Lee" },         
+        year: 1960,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "El Hobbit", 
+            autor: "J.R.R. Tolkien" },         
+        year: 1937,         
+        type: "Fantasia"     
+    },     
+    {         
+        libro: { titulo: "Crimen y castigo", 
+            autor: "Fyodor Dostoevsky" },         
+        year: 1866,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Don Quijote de la Mancha", 
+            autor: "Miguel de Cervantes" },         
+        year: 1605,         
+        type: "Novela"    
+    },     
+    {         
+        libro: { titulo: "Ulises", 
+            autor: "James Joyce" },         
+        year: 1922,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Orgullo y prejuicio", 
+            autor: "Jane Austen" },         
+        year: 1813,        
+        type: "Novela"    
+    },     
+    {         
+        libro: { titulo: "En busca del tiempo perdido", 
+            autor: "Marcel Proust" },         
+        year: 1913,         
+        type: "Novela"     
+    },     
+    {        
+        libro: { titulo: "Cumbres Borrascosas", 
+            autor: "Emily Bront" },         
+        year: 1847,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Moby-Dick", 
+            autor: "Herman Melville" },         
+        year: 1851,         
+        type: "Aventura"     
+    },     
+    {         
+        libro: { titulo: "El Conde de Montecristo", 
+            autor: "Alexandre Dumas" },         
+        year: 1844,         
+        type: "Aventura"    
+    },     
+    { 
+        libro: { titulo: "Rayuela", 
+            autor: "Julio Cortazar" }, 
+        year: 1963, 
+        type: "Experimental" 
+    }, 
+    {
+        libro: { titulo: "Cronica de una muerte anunciada", 
+            autor: "Gabriel Garcia Marquez" }, 
+        year: 1981, 
+        type: "Novela" 
+    },
+    {
+        libro: { titulo: "El retrato de Dorian Gray", 
+            autor: "Oscar Wilde" }, 
+        year: 1890, 
+        type: "Novela"
+    },
+    {
+        libro: { titulo: "El Señor de los Anillos", 
+            autor: "J.R.R. Tolkien" }, 
+        year: 1954, 
+        type: "Fantasia"
+    },
+    {
+        libro: { titulo: "Cien años de soledad", 
+            autor: "Gabriel Garcia Marquez" }, 
+        year: 1967, 
+        type: "Realismo magico"
+    }
+]);
+
+// podemos consultar un objeto anidado de una proyeccion
+db.biblioteca.find({},{_id:0,"libro.titulo":1,"libro.autor":1})
+
+// Podemos omitir varios atributos usando solo 0's en la proyeccion
+db.biblioteca.find({},{_id:0,"libro.titulo":0})
 
 
 //Para limpiar la pantalla se usa cls

@@ -244,6 +244,180 @@ db.usuarios.replaceOne(
     {nombre: 'Juan Gomez', edad:28, correo:'juan@indeciso.com'}
 )
 ```
+## Cursores (Aplicar funciones de javascript)
+Practicamente es mezclar javascript con mongodb, se hace una consulta o find y sobre este se crea una funcion
+En el ejemplo se aplica un filtro a find, pero pueder un find sin parametros, aunque no es recomendable
+```
+db.usuarios.find({edad:25}).forEach(function(usuario){
+    print(usuario.nombre)
+})
+```
+
+se puede aplicar un limite a la consulta
+```
+db.usuarios.find({}).limit(2).forEach(function(usuario){
+    print(usuario.nombre)
+})
+```
+
+Se puede aplicar paginacion tambien a la consulta indicando con skip cuantos registros se va a saltar
+```
+db.usuarios.find({}).skip(1).limit(2).forEach(function(usuario){
+    print(usuario.nombre)
+})
+```
+
+Se pueden ordenar los datos con sort, en este caso el -1 indica que es de mayor a menor (descendente)
+En este caso, el skip lo aplica obviamente despues del sort, por lo que en el ejemplo se brincara el registro con la edad mayor
+```
+db.usuarios.find({}).skip(1).limit(2).sort({edad:-1}).forEach(function(usuario){
+    print(usuario.nombre)
+})
+```
+
+## Proyecciones
+Nos sirve para indicar que elementos o atributos queremos obtener, es como el SELECT
+Para esto indicamos con un 0 los campos que no nos interesa consultar
+Si no encuentra el campo que indicamos con un 1 de todos modos trae los datos
+```
+db.usuarios.find({}, {_id:0, nombre:1, correo:1})
+```
+
+### Ejemplo de colecciones
+Para este crearmemos una coleccion de biblioteca y le insertamos 20 registros
+```
+db.createCollection('biblioteca')
+```
+```
+db.biblioteca.insertMany([     
+    {         
+        libro: { titulo: "El Gran Gatsby", 
+            autor: "F. Scott Fitzgerald" },         
+        year: 1925,         
+        type: "Ficcion"     
+    },
+    {         
+        libro: { titulo: "Los Pilares de la Tierra", 
+            autor: "Ken Follett" },         
+        year: 1989,         
+        type: "Historica"     
+    },     
+    {         
+        libro: { titulo: "La Sombra del Viento", 
+            autor: "Carlos Ruiz Zafan" },         
+        year: 2001,         
+        type: "Misterio"     
+    },     
+    {         
+        libro: { titulo: "Cien años de soledad", 
+            autor: "Gabriel Garcia Marquez" },         
+        year: 1967,         
+        type: "Realismo magico"     
+    },     
+    {         
+        libro: { titulo: "1984", 
+            autor: "George Orwell" },         
+        year: 1949,         
+        type: "Ciencia ficcion"    
+    },     
+    {         
+        libro: { titulo: "Matar a un ruiseñor", 
+            autor: "Harper Lee" },         
+        year: 1960,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "El Hobbit", 
+            autor: "J.R.R. Tolkien" },         
+        year: 1937,         
+        type: "Fantasia"     
+    },     
+    {         
+        libro: { titulo: "Crimen y castigo", 
+            autor: "Fyodor Dostoevsky" },         
+        year: 1866,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Don Quijote de la Mancha", 
+            autor: "Miguel de Cervantes" },         
+        year: 1605,         
+        type: "Novela"    
+    },     
+    {         
+        libro: { titulo: "Ulises", 
+            autor: "James Joyce" },         
+        year: 1922,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Orgullo y prejuicio", 
+            autor: "Jane Austen" },         
+        year: 1813,        
+        type: "Novela"    
+    },     
+    {         
+        libro: { titulo: "En busca del tiempo perdido", 
+            autor: "Marcel Proust" },         
+        year: 1913,         
+        type: "Novela"     
+    },     
+    {        
+        libro: { titulo: "Cumbres Borrascosas", 
+            autor: "Emily Bront" },         
+        year: 1847,         
+        type: "Novela"     
+    },     
+    {         
+        libro: { titulo: "Moby-Dick", 
+            autor: "Herman Melville" },         
+        year: 1851,         
+        type: "Aventura"     
+    },     
+    {         
+        libro: { titulo: "El Conde de Montecristo", 
+            autor: "Alexandre Dumas" },         
+        year: 1844,         
+        type: "Aventura"    
+    },     
+    { 
+        libro: { titulo: "Rayuela", 
+            autor: "Julio Cortazar" }, 
+        year: 1963, 
+        type: "Experimental" 
+    }, 
+    {
+        libro: { titulo: "Cronica de una muerte anunciada", 
+            autor: "Gabriel Garcia Marquez" }, 
+        year: 1981, 
+        type: "Novela" 
+    },
+    {
+        libro: { titulo: "El retrato de Dorian Gray", 
+            autor: "Oscar Wilde" }, 
+        year: 1890, 
+        type: "Novela"
+    },
+    {
+        libro: { titulo: "El Señor de los Anillos", 
+            autor: "J.R.R. Tolkien" }, 
+        year: 1954, 
+        type: "Fantasia"
+    },
+    {
+        libro: { titulo: "Cien años de soledad", 
+            autor: "Gabriel Garcia Marquez" }, 
+        year: 1967, 
+        type: "Realismo magico"
+    }
+]);
+```
+Puedes acceder a un objeto anidado al usar una proyeccion
+```
+db.biblioteca.find({},{_id:0,"libro.titulo":1,"libro.autor":1})
+```
+Si utilizamos solo 0's en la proyeccion entonces trae todo menos los 0
+db.biblioteca.find({},{_id:0,"libro.titulo":0})
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls
