@@ -175,20 +175,20 @@ db.usuarios.insertMany([
 Primero creamos datos dummy
 <details>
     <summary>Ver insert</summary>
-```
-db.usuarios.insertMany([ 
-    { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
-    { nombre: "Maria Gonzalez", edad: 28, correo: "maria@example.com" },
-    { nombre: "Pedro Ramirez", edad: 42, correo: "pedro@example.com" }, 
-    { nombre: "Ana Rodriguez", edad: 31, correo: "ana@example.com" }, 
-    { nombre: "Luisa Martinez", edad: 25, correo: "luisa@example.com" }, 
-    { nombre: "Carlos Sanchez", edad: 40, correo: "carlos@example.com" }, 
-    { nombre: "Sofia Lopez", edad: 22, correo: "sofia@example.com" }, 
-    { nombre: "Andres Torres", edad: 33, correo: "andres@example.com" }, 
-    { nombre: "Elena Garcia", edad: 29, correo: "elena@example.com" }, 
-    { nombre: "Diego Jimenez", edad: 38, correo: "diego@example.com" }
-])
-```
+    ```
+    db.usuarios.insertMany([ 
+        { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
+        { nombre: "Maria Gonzalez", edad: 28, correo: "maria@example.com" },
+        { nombre: "Pedro Ramirez", edad: 42, correo: "pedro@example.com" }, 
+        { nombre: "Ana Rodriguez", edad: 31, correo: "ana@example.com" }, 
+        { nombre: "Luisa Martinez", edad: 25, correo: "luisa@example.com" }, 
+        { nombre: "Carlos Sanchez", edad: 40, correo: "carlos@example.com" }, 
+        { nombre: "Sofia Lopez", edad: 22, correo: "sofia@example.com" }, 
+        { nombre: "Andres Torres", edad: 33, correo: "andres@example.com" }, 
+        { nombre: "Elena Garcia", edad: 29, correo: "elena@example.com" }, 
+        { nombre: "Diego Jimenez", edad: 38, correo: "diego@example.com" }
+    ])
+    ```
 </details>
 
 ## find
@@ -293,130 +293,130 @@ db.createCollection('biblioteca')
 ```
 <details>
     <summary>Ver inserts</summary>
-```
-db.biblioteca.insertMany([     
-    {         
-        libro: { titulo: "El Gran Gatsby", 
-            autor: "F. Scott Fitzgerald" },         
-        year: 1925,         
-        type: "Ficcion"     
-    },
-    {         
-        libro: { titulo: "Los Pilares de la Tierra", 
-            autor: "Ken Follett" },         
-        year: 1989,         
-        type: "Historica"     
-    },     
-    {         
-        libro: { titulo: "La Sombra del Viento", 
-            autor: "Carlos Ruiz Zafan" },         
-        year: 2001,         
-        type: "Misterio"     
-    },     
-    {         
-        libro: { titulo: "Cien años de soledad", 
-            autor: "Gabriel Garcia Marquez" },         
-        year: 1967,         
-        type: "Realismo magico"     
-    },     
-    {         
-        libro: { titulo: "1984", 
-            autor: "George Orwell" },         
-        year: 1949,         
-        type: "Ciencia ficcion"    
-    },     
-    {         
-        libro: { titulo: "Matar a un ruiseñor", 
-            autor: "Harper Lee" },         
-        year: 1960,         
-        type: "Novela"     
-    },     
-    {         
-        libro: { titulo: "El Hobbit", 
-            autor: "J.R.R. Tolkien" },         
-        year: 1937,         
-        type: "Fantasia"     
-    },     
-    {         
-        libro: { titulo: "Crimen y castigo", 
-            autor: "Fyodor Dostoevsky" },         
-        year: 1866,         
-        type: "Novela"     
-    },     
-    {         
-        libro: { titulo: "Don Quijote de la Mancha", 
-            autor: "Miguel de Cervantes" },         
-        year: 1605,         
-        type: "Novela"    
-    },     
-    {         
-        libro: { titulo: "Ulises", 
-            autor: "James Joyce" },         
-        year: 1922,         
-        type: "Novela"     
-    },     
-    {         
-        libro: { titulo: "Orgullo y prejuicio", 
-            autor: "Jane Austen" },         
-        year: 1813,        
-        type: "Novela"    
-    },     
-    {         
-        libro: { titulo: "En busca del tiempo perdido", 
-            autor: "Marcel Proust" },         
-        year: 1913,         
-        type: "Novela"     
-    },     
-    {        
-        libro: { titulo: "Cumbres Borrascosas", 
-            autor: "Emily Bront" },         
-        year: 1847,         
-        type: "Novela"     
-    },     
-    {         
-        libro: { titulo: "Moby-Dick", 
-            autor: "Herman Melville" },         
-        year: 1851,         
-        type: "Aventura"     
-    },     
-    {         
-        libro: { titulo: "El Conde de Montecristo", 
-            autor: "Alexandre Dumas" },         
-        year: 1844,         
-        type: "Aventura"    
-    },     
-    { 
-        libro: { titulo: "Rayuela", 
-            autor: "Julio Cortazar" }, 
-        year: 1963, 
-        type: "Experimental" 
-    }, 
-    {
-        libro: { titulo: "Cronica de una muerte anunciada", 
-            autor: "Gabriel Garcia Marquez" }, 
-        year: 1981, 
-        type: "Novela" 
-    },
-    {
-        libro: { titulo: "El retrato de Dorian Gray", 
-            autor: "Oscar Wilde" }, 
-        year: 1890, 
-        type: "Novela"
-    },
-    {
-        libro: { titulo: "El Señor de los Anillos", 
-            autor: "J.R.R. Tolkien" }, 
-        year: 1954, 
-        type: "Fantasia"
-    },
-    {
-        libro: { titulo: "Cien años de soledad", 
-            autor: "Gabriel Garcia Marquez" }, 
-        year: 1967, 
-        type: "Realismo magico"
-    }
-]);
-```
+    ```
+    db.biblioteca.insertMany([     
+        {         
+            libro: { titulo: "El Gran Gatsby", 
+                autor: "F. Scott Fitzgerald" },         
+            year: 1925,         
+            type: "Ficcion"     
+        },
+        {         
+            libro: { titulo: "Los Pilares de la Tierra", 
+                autor: "Ken Follett" },         
+            year: 1989,         
+            type: "Historica"     
+        },     
+        {         
+            libro: { titulo: "La Sombra del Viento", 
+                autor: "Carlos Ruiz Zafan" },         
+            year: 2001,         
+            type: "Misterio"     
+        },     
+        {         
+            libro: { titulo: "Cien años de soledad", 
+                autor: "Gabriel Garcia Marquez" },         
+            year: 1967,         
+            type: "Realismo magico"     
+        },     
+        {         
+            libro: { titulo: "1984", 
+                autor: "George Orwell" },         
+            year: 1949,         
+            type: "Ciencia ficcion"    
+        },     
+        {         
+            libro: { titulo: "Matar a un ruiseñor", 
+                autor: "Harper Lee" },         
+            year: 1960,         
+            type: "Novela"     
+        },     
+        {         
+            libro: { titulo: "El Hobbit", 
+                autor: "J.R.R. Tolkien" },         
+            year: 1937,         
+            type: "Fantasia"     
+        },     
+        {         
+            libro: { titulo: "Crimen y castigo", 
+                autor: "Fyodor Dostoevsky" },         
+            year: 1866,         
+            type: "Novela"     
+        },     
+        {         
+            libro: { titulo: "Don Quijote de la Mancha", 
+                autor: "Miguel de Cervantes" },         
+            year: 1605,         
+            type: "Novela"    
+        },     
+        {         
+            libro: { titulo: "Ulises", 
+                autor: "James Joyce" },         
+            year: 1922,         
+            type: "Novela"     
+        },     
+        {         
+            libro: { titulo: "Orgullo y prejuicio", 
+                autor: "Jane Austen" },         
+            year: 1813,        
+            type: "Novela"    
+        },     
+        {         
+            libro: { titulo: "En busca del tiempo perdido", 
+                autor: "Marcel Proust" },         
+            year: 1913,         
+            type: "Novela"     
+        },     
+        {        
+            libro: { titulo: "Cumbres Borrascosas", 
+                autor: "Emily Bront" },         
+            year: 1847,         
+            type: "Novela"     
+        },     
+        {         
+            libro: { titulo: "Moby-Dick", 
+                autor: "Herman Melville" },         
+            year: 1851,         
+            type: "Aventura"     
+        },     
+        {         
+            libro: { titulo: "El Conde de Montecristo", 
+                autor: "Alexandre Dumas" },         
+            year: 1844,         
+            type: "Aventura"    
+        },     
+        { 
+            libro: { titulo: "Rayuela", 
+                autor: "Julio Cortazar" }, 
+            year: 1963, 
+            type: "Experimental" 
+        }, 
+        {
+            libro: { titulo: "Cronica de una muerte anunciada", 
+                autor: "Gabriel Garcia Marquez" }, 
+            year: 1981, 
+            type: "Novela" 
+        },
+        {
+            libro: { titulo: "El retrato de Dorian Gray", 
+                autor: "Oscar Wilde" }, 
+            year: 1890, 
+            type: "Novela"
+        },
+        {
+            libro: { titulo: "El Señor de los Anillos", 
+                autor: "J.R.R. Tolkien" }, 
+            year: 1954, 
+            type: "Fantasia"
+        },
+        {
+            libro: { titulo: "Cien años de soledad", 
+                autor: "Gabriel Garcia Marquez" }, 
+            year: 1967, 
+            type: "Realismo magico"
+        }
+    ]);
+    ```
 </details>
 
 Puedes acceder a un objeto anidado al usar una proyeccion
