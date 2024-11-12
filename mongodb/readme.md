@@ -54,6 +54,10 @@
 
 - [Como limpiar terminal MongoDB](#note.cls)
 </details>
+<details>
+<summary><b>II. Relaciones en MongoDB</b></summary>
+
+</details>
 
 # Para crear una base de datos <a name='titulo.create-bd'></a>
 ```
