@@ -585,6 +585,7 @@ lenguajes = ['Python', 'Javascript','C++', C#']
 #### Objetos anidados
 <details>
     <summary>Ver inserts</summary>
+    ```
     wp = {
         nombre:"Wordpress",
         version:"6.6.1",
@@ -612,6 +613,7 @@ lenguajes = ['Python', 'Javascript','C++', C#']
             }
         ]
     }
+    ```
 </details>
 
 #### Datos Binarios
