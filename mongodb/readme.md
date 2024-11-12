@@ -1,8 +1,55 @@
 > [!CAUTION]
 > Se esta utilizando la version 4.4.0 ya que es la version que fue compatible con la raspberry
 
-#Tabla de Contenidos
-1. [Crear base de datos](#titulo.create-bd)
+# Tabla de Contenidos
+1. [Crear Base de Datos](#titulo.create-bd)
+   1.1. [Listar Bases de Datos](#sub.list-bd)
+2. [Crear coleccion](#titulo.create-collection)
+   2.1. [Listas Colecciones](#sub.list-collection)
+3. [Operaciones CRUD](#titulo.CRUD)
+   3.1. [Create](#sub.create)
+   3.2. [Read](#sub.read)
+      3.2.1. [Filtros basicos](#third.filtros1)
+   3.3. [Update](#sub.update)
+   3.4. [Delete](#sub.delete)
+4. [Uniones (Joins)](#titulo.joins)
+   4.1. [Conectar dos Colecciones/Tablas](#sub.connectJoin)
+   4.2. [Buscar en Colecciones Unidas (HARDCODED)](#sub.findJoin)
+   4.3. [Buscar en Colecciones Unidas (Mas dinamico)](#sub.findJoin2)
+   4.4. [Actualizar Colecciones Unidas](#sub.updateJoin)
+   4.5. [Agregar registros en colecciones Unidas](#sub.createJoin)
+   4.6. [Eliminar registros en coleccions unidas](#sub.deleteJoin)
+5. [InsertMany](#titulo.insertMany)
+6. [Agregar una ID Personalizada](#titulo.customId)
+7. [Find](#titulo.findExteded)
+   7.1. [Filtros Basicos](#sub.findExtended)
+8. [Tipos de Updates](#titulo.updateExtended)
+   8.1. [updateOne](#sub.updateOne)
+   8.2. [update (multi: true)](#sub.updateExtended)
+   8.3. [updateMany](#sub.updateMany)
+   8.4. [replaceOne](#sub.replaceOne)
+9. [Cursores](#titulo.cursores)
+10. [Proyecciones](#titulo.proyecciones)
+    10.1. [Ejemplos Proyecciones](#sub.exampleProy)
+11. [Crear Respaldos](#titulo.backupCreate)
+12. [Restaurar Respaldos](#titulo.backupRestore)
+13. [Eliminar colecciones](#titulo.deleteCollection)
+14. [Eliminar Base de Datos](#titulo.deleteBD)
+15. [Esquemas](#titulo.schemas)
+    15.1. [Esquema Fijo](#sub.fixedSchema)
+16. [Tipos de Datos](#titulo.dataTypes)
+    16.1. [Cadenas/String](#sub.string)
+    16.2. [Entero/int](#sub.int)
+    16.3. [Entero/NumberInt()](#sub.numberInt)
+    16.4. [Flotante/float](#sub.float)
+    16.5. [Boleano/bool](#sub.bool)
+    16.6. [Fecha/ISODate()](#sub.date)
+    16.7. [Lista/Arreglo/array](#sub.array)
+    16.8. [Objetos anidados/Json](#sub.json)
+    16.9. [Datos Binarios/BinData()](#sub.binaryData)
+17. [Ejemplo Coleccion con Esquema Fijo](#sub.fixedSchemaExample)
+
+- [Como limpiar terminal MongoDB](#note.cls)
 
 # Para crear una base de datos <a name='titulo.create-bd'></a>
 ```
@@ -17,20 +64,25 @@ db.stats()
 > [!IMPORTANT]
 > La base de datos se crea pero realmente no se crea porque no contiene objetos/colecciones :shipit:
 
-# Para create una coleccion
-```
-db.createCollection("mi coleccion")
-```
-
-## Para listar las bases de datos existentes
+## Para listar las bases de datos existentes <a name='sub.list-bd'></a>
 > [!NOTE]
 > Las bases de datos nuevas no aparecen hasta que tengan una coleccion creada
 ```
 show dbs
 ```
 
-# CRUD
-## Agregar usuario (CREATE)
+# Para create una coleccion <a name='titulo.create-collection'></a>
+```
+db.createCollection("mi coleccion")
+```
+
+## Para listar las colecciones/tablas existentes <a name='sub.list-collection'></a>
+```
+show collections
+```
+
+# CRUD <a name='titulo.CRUD'></a>
+## Agregar usuario (CREATE) <a name='sub.create'></a>
 Esto agrega en automtico un ObjectID como clave primaria del objeto
 ```
 db.usuarios.insertOne({
@@ -52,17 +104,17 @@ db.usuarios.insertOne({
 })
 ```
 
-## Buscar usuarios (READ)
+## Buscar usuarios (READ) <a name='sub.read'></a>
 ```
 db.usuarios.find()
 ```
 
-### Aplicando filtros:
+### Aplicando filtros: <a name='third.filtros1'></a>
 ```
 db.usuarios.find({edad:{$gt:20}})
 ```
 
-## Actualizar un usuario (UPDATE)
+## Actualizar un usuario (UPDATE) <a name='sub.update'></a>
 En este caso se actualiza solmente el primer registro que encuentre
 ```
 db.usuarios.updateOne(
@@ -71,7 +123,7 @@ db.usuarios.updateOne(
 )
 ```
 
-## Eliminar Un registro (DELETE)
+## Eliminar Un registro (DELETE) <a name='sub.delete'></a>
 En este caso borra la primera coincidencia que encuentre por el "ONE"
 ```
 db.usuarios.deleteOne({
@@ -79,13 +131,13 @@ db.usuarios.deleteOne({
 })
 ```
 
-# Operaciones entre dos Tablas/Colecciones
+# Operaciones entre dos Tablas/Colecciones <a name='titulo.joins'></a>
 Aqui se utilizara un ejemplo con la coleccion de usuarios que ya se creo y una coleccion Tareas
 ```
 db.createCollection('tareas')
 ```
 
-### Conectar una clave principal y una clave foranea
+## Conectar una clave principal y una clave foranea <a name='sub.connectJoin'></a>
 Sacamos el ID del usuario para usarlo como la clave foranea en la coleccion de tareas
 ```
 db.usuarios.findOne({nombre:'Felix'})
@@ -111,17 +163,17 @@ db.tareas.insertOne({
 })
 ```
 
-### Para buscar en una tabla enlazada con otra
+## Para buscar en una tabla enlazada con otra <a name='sub.findJoin'></a>
 ```
 db.tareas.find({usuarioID:ObjectId("67328f7bc3db063357b20494")})
 ```
 
-### Una manera que encontre un poco mas elegante de buscar
+## Una manera que encontre un poco mas elegante de buscar <a name='sub.findJoin2'></a>
 ```
 db.tareas.find({usuarioID:db.usuarios.findOne({nombre:"Mauro"})._id})
 ```
 
-### Para actualizar una tarea de un usuario
+## Para actualizar una tarea de un usuario <a name='sub.updateJoin'></a>
 > [!TIP]
 > El ID de mongoDB para un registro siempre va a ser _id, aunque nosotros lo asignemos tiene que tener ese nombre
 ```
@@ -131,7 +183,7 @@ db.tareas.updateOne(
 )
 ```
 
-### Agregar un nuevo campo a la tabla
+## Agregar un nuevo campo a la tabla <a name='sub.createJoin'></a>
 ```
 db.tareas.updateOne(
     {_id:ObjectId("6732930dd236bf8937730020")},
@@ -139,14 +191,14 @@ db.tareas.updateOne(
 )
 ```
 
-## Si quisiera eliminar una tarea que corresponde a un usuario:
+## Si quisiera eliminar una tarea que corresponde a un usuario: <a name='sub.deleteJoin'></a>
 ```
 db.tareas.deleteOne(
     {_id:ObjectId("6732930dd236bf8937730020")}
 )
 ```
 
-# Comando insertMany()
+# Comando insertMany() <a name='titulo.insertMany'></a>
 En este caso crearemos una coleccion de productos y le agregamos un arreglo de Objetos bson/json
 ```
 db.createCollection("productos")
@@ -165,7 +217,7 @@ db.productos.insertMany([
 Para ver lo que agregamos utilizamos db.productos.find()
 
 
-# Agregar un registro con ID Personalizado
+# Agregar un registro con ID Personalizado <a name='titulo.customId'></a>
 ```
 db.usuarios.insertMany([
     {_id:1,nombre:"Hector"},
@@ -174,7 +226,7 @@ db.usuarios.insertMany([
 ])
 ```
 
-# Uso de find
+# Uso de find <a name='titulo.findExtended'></a>
 Primero creamos datos dummy
 <details>
     <summary>Ver insert</summary>
@@ -195,7 +247,7 @@ Primero creamos datos dummy
     
 </details>
 
-## find
+## find <a name='sub.findExtended'></a>
 Filtra por edades mayor a 30 años
 ```
 db.usuarios.find({edad:{$gt:30}})
@@ -211,9 +263,9 @@ Busqueda en un rango
 db.usuarios.find({edad:{$gte:25,$lte:30}})
 ```
 
-# Actualizaciones/Cambios en los datos
+# Actualizaciones/Cambios en los datos <a name='titulo.updateExtended'></a>
 Este actualizara solamente el primer registro que encuentre
-## updateOne
+## updateOne <a name='sub.updateOne'></a>
 ```
 db.usuarios.updateOne(
     {nombre:'Juan Perez'},
@@ -221,7 +273,7 @@ db.usuarios.updateOne(
 )
 ```
 
-## update
+## update <a name='sub.updateExtended'></a>
 > [!CAUTION]
 > ESTA FUNCION ESTA DEPRECIDA, HAY QUEUSAR UPDATE MANY
 El modo de uso es "db.usuarios.update({filtro, actualizacion, opciones})"
@@ -234,7 +286,7 @@ db.usuarios.update(
 )
 ```
 
-## updateMany
+## updateMany <a name='sub.updateMany'></a>
 Es lo mismo que el anterior con multi:true pero es la version mas reciente y la correcta a usar
 ```
 db.usuarios.updateMany(
@@ -243,7 +295,7 @@ db.usuarios.updateMany(
 )
 ```
 
-## replaceOne
+## replaceOne <a name='sub.replaceOne'></a>
 Este reemplaza todo el documento/registro, si no pones todos los datos, borra los que no pusiste
 ```
 db.usuarios.replaceOne(
@@ -251,7 +303,7 @@ db.usuarios.replaceOne(
     {nombre: 'Juan Gomez', edad:28, correo:'juan@indeciso.com'}
 )
 ```
-## Cursores (Aplicar funciones de javascript)
+# Cursores (Aplicar funciones de javascript) <a name='titulo.cursores'></a>
 Practicamente es mezclar javascript con mongodb, se hace una consulta o find y sobre este se crea una funcion
 En el ejemplo se aplica un filtro a find, pero pueder un find sin parametros, aunque no es recomendable
 ```
@@ -282,7 +334,7 @@ db.usuarios.find({}).skip(1).limit(2).sort({edad:-1}).forEach(function(usuario){
 })
 ```
 
-## Proyecciones
+# Proyecciones <a name='titulo.proyecciones'></a>
 Nos sirve para indicar que elementos o atributos queremos obtener, es como el SELECT
 Para esto indicamos con un 0 los campos que no nos interesa consultar
 Si no encuentra el campo que indicamos con un 1 de todos modos trae los datos
@@ -290,7 +342,7 @@ Si no encuentra el campo que indicamos con un 1 de todos modos trae los datos
 db.usuarios.find({}, {_id:0, nombre:1, correo:1})
 ```
 
-### Ejemplo de colecciones
+### Ejemplo de Proyecciones <a name='sub.exampleProy'></a>
 Para este crearmemos una coleccion de biblioteca y le insertamos 20 registros
 ```
 db.createCollection('biblioteca')
@@ -433,14 +485,14 @@ Si utilizamos solo 0's en la proyeccion entonces trae todo menos los 0
 db.biblioteca.find({},{_id:0,"libro.titulo":0})
 ```
 
-# Crear backups de bases de datos
+# Crear backups de bases de datos <a name='titulo.backupCreate'></a>
 mongodump --db <base_de_datos> --out <ruta_archivo>
 En este ejemplo te crea la carpeta backups
 ```
 Ejemplo: mongodump --db nueva_db --out ./backups/
 ```
 
-# Restaurar una base de datos
+# Restaurar una base de datos <a name='titulo.backupRestore'></a>
 mongorestore --db <base_de_datos> <ruta_archivo>
 En este caso especificamos un nuevo nombre para la base de datos, ya que si lo dejamos con el nombre de una BD existente, da error de duplicados. En versions mas recientes crea automaticamente la copia de la BD. Aun asi es importante saber de esta copia
 ```
@@ -450,7 +502,7 @@ mongorestore --db nueva_db_bak ./backups/nueva_db
 > [!NOTE]
 > Los archivos generados son de tipo bson, que vienen a ser archivos json pero en formato binario, Tambien genera un archivo .metadata.json para cada coleccion
 
-# Eliminar una coleccion
+# Eliminar una coleccion <a name='titulo.deleteCollection'></a>
 Para eliminar una coleccion hay dos maneras, la primera y mas simple es usando drop
 Para esto crearemos una coleccion de pruebas
 ```
@@ -465,7 +517,7 @@ show collections
 db.getCollection('mi coleccion').drop()
 show collections
 ```
-# Eliminar una base de datos
+# Eliminar una base de datos <a name='titulo.delteBD'></a>
 En este caso usaremos la base de datos que se restauro
 ```
 use nueva_db_bak
@@ -474,7 +526,7 @@ db.dropDatabase()
 show dbs
 ```
 
-# Esquemas (Schema)
+# Esquemas (Schema) <a name='titulo.schemas'></a>
 Un esquema es el conjunto de reglas que define la estructura de documentos en la base de datos, puede ser fijo pero tambien puede ser dinamico
 MongoDB no tiene un esquema fijo, es flexible.
 Eso quiere decir que no todos van a tener los mismos campos/columnas/atributos, lo cual muy util cuando la estructura de datos va a variar con el tiempo, pero no mucho cuando necesitamos datos fijos
@@ -494,7 +546,7 @@ db.pruebas.insertOne({
 })
 ```
 
-# Crear documentos/tablas con esquema fijo
+## Crear documentos/tablas con esquema fijo <a name='sub.fixedSchema'></a>
 Para especificar un esquema, al momento de crear la coleccion le pasamos un jsonSchema
 ```
 db.createCollection("empleados",{
@@ -556,36 +608,36 @@ db.empleados.insertOne({
 > [!NOTE]
 > Los errores al insertar datos en nuevas versiones han mejorado, en la version que se esta trabajando en la raspberry (4.4.1) siempre da un error 121
 
-# Tipos de Datos
-#### Cadenas
+# Tipos de Datos <a name='titulo.dataTypes'></a>
+#### Cadenas <a name='sub.string'></a>
 ```
 nombre = "Edson"
 ```
-#### Entero
+#### Entero <a name='sub.int'></a>
 ```
 edad = 30
 ```
-#### Objeto int de mongoDB
+#### Objeto int de mongoDB <a name='sub.numberInt'></a>
 ```
 matricula = NumberInt(1746025)
 ```
-#### Float
+#### Float <a name='sub.float'></a>
 ```
 precio = 19.99
 ```
-#### Booleano
+#### Booleano <a name='sub.bool'></a>
 ```
 datos_ok=true
 ```
-#### Fecha
+#### Fecha <a name='sub.date'></a>
 ```
 fecha = ISODate('2024-11-12T00:00:00Z')
 ```
-#### Listas
+#### Listas <a name='sub.array'></a>
 ```
 lenguajes = ['Python', 'Javascript','C++', C#']
 ```
-#### Objetos anidados
+#### Objetos anidados <a name='sub.json'></a>
 ```
 wp = {
     nombre:"Wordpress",
@@ -615,14 +667,14 @@ wp = {
     ]
 }
 ```
-#### Datos Binarios
+#### Datos Binarios <a name='sub.binaryData'></a>
 ```
 LogoApp = BinData(0,"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAP/xAAUAQEAAAAAAAAAAAAAAAAAAAAH/9oADAMBAAIQAxAAAAGIIUj/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/AX//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/AX//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAY/An//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/IX//2gAMAwEAAgADAAAAEPv/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/EH//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/EH//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/EH//2Q==")
 ```
 
-## Ejemplo de Coleccion con esquema fijo (Fixed schema)
+## Ejemplo de Coleccion con esquema fijo (Fixed schema) <a name='sub.fixedSchemaExample'></a>
 
 
 
 > [!TIP]
-> Para limpiar la pantalla se usa cls
+> Para limpiar la pantalla se usa cls <a name='note.cls'></a>
