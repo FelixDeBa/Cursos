@@ -348,5 +348,86 @@ mongodump --db nueva_db --out ./backups/
 //Para restaurar el respaldo que acabamos de crear en una nueva base de datos
 mongorestore --db nueva_db_bak ./backups/nueva_db
 
+//Para eliminar una coleccion de una forma primero creamos la coleccion pruebas
+db.createCollection('pruebas')
+//podemos ver que existe
+show collections
+// despues podemos eliminarla usando drop
+db.pruebas.drop()
+//podemos ver que se elimino
+show collections
+
+// otra forma de eliminar que sirve para colecciones con espacios como el "mi coleccion" del inicio
+db.getCollection('mi coleccion').drop( )
+show collections
+
+// para eliminar una BD completa, en este caso eliminando la prueba
+use nueva_db_bak
+db.stats()
+db.dropDatabase()
+show dbs
+
+//crear coleccion para pruebas y demostracion del esquema flexible
+db.createCollection('pruebas')
+db.pruebas.insertOne({
+    nombre:"Felix",
+    edad:25,
+    lenguajes:["Python", "Javascript"]
+})
+
+db.pruebas.insertOne({
+    nombre:"Mauro",
+    edad:25,
+    especializacion:"ServiceNow"
+})
+
+// Para crear una coleccion con esquema fijo:
+db.createCollection('empleados',{
+    validator:{
+        $jsonSchema:{
+            bsonType:'object',
+            required: ['nombre','correo','edad'],
+            properties:{
+                nombre:{
+                    bsonType: 'string'
+                },
+                correo:{
+                    bsonType: 'string',
+                    pattern: '^[^@]+@[^@]+\.[^@]+$'
+                },
+                edad:{
+                    bsonType: 'int',
+                    minimum: 16
+                }
+            }
+        }
+    }
+})
+
+//Error por el minimo de edad
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad: NumberInt(15),
+    correo: "alexis@nvr.com"
+})
+//Error por el correo que no cumple la regex
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad: NumberInt(20),
+    correo: "alexis"
+})
+//error por no contar con todos los campos
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad:NumberInt(20)
+})
+
+//Hay que cumplir con todos los requisitos que establecimos para poder insertar un registro
+db.empleados.insertOne({
+    nombre:"Alexis",
+    correo:"alexis@nvm.com",
+    edad:NumberInt(20)
+})
+
 
 //Para limpiar la pantalla se usa cls

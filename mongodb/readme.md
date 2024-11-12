@@ -173,6 +173,8 @@ db.usuarios.insertMany([
 
 # Uso de find
 Primero creamos datos dummy
+<details>
+    <summary>Ver insert</summary>
 ```
 db.usuarios.insertMany([ 
     { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
@@ -187,6 +189,7 @@ db.usuarios.insertMany([
     { nombre: "Diego Jimenez", edad: 38, correo: "diego@example.com" }
 ])
 ```
+</details>
 
 ## find
 Filtra por edades mayor a 30 años
@@ -288,6 +291,8 @@ Para este crearmemos una coleccion de biblioteca y le insertamos 20 registros
 ```
 db.createCollection('biblioteca')
 ```
+<details>
+    <summary>Ver inserts</summary>
 ```
 db.biblioteca.insertMany([     
     {         
@@ -412,6 +417,8 @@ db.biblioteca.insertMany([
     }
 ]);
 ```
+</details>
+
 Puedes acceder a un objeto anidado al usar una proyeccion
 ```
 db.biblioteca.find({},{_id:0,"libro.titulo":1,"libro.autor":1})
@@ -438,7 +445,109 @@ mongorestore --db nueva_db_bak ./backups/nueva_db
 > [!NOTE]
 > Los archivos generados son de tipo bson, que vienen a ser archivos json pero en formato binario, Tambien genera un archivo .metadata.json para cada coleccion
 
+# Eliminar una coleccion
+Para eliminar una coleccion hay dos maneras, la primera y mas simple es usando drop
+Para esto crearemos una coleccion de pruebas
+```
+db.createCollection('pruebas')
+show collections
+db.pruebas.drop()
+show collections
+```
+Hay otra manera de eliminar una coleccion que es particularmente util cuando esta tiene caracteres no permitidos en el nombre como un espacio, usaremos de ejemplo la coleccion "mi coleccion"
+```
+show collections
+db.getCollection('mi coleccion').drop()
+show collections
+```
+# Eliminar una base de datos
+En este caso usaremos la base de datos que se restauro
+```
+use nueva_db_bak
+db.stats()
+db.dropDatabase()
+show dbs
+```
 
+# Esquemas (Schema)
+Un esquema es el conjunto de reglas que define la estructura de documentos en la base de datos, puede ser fijo pero tambien puede ser dinamico
+MongoDB no tiene un esquema fijo, es flexible.
+Eso quiere decir que no todos van a tener los mismos campos/columnas/atributos, lo cual muy util cuando la estructura de datos va a variar con el tiempo, pero no mucho cuando necesitamos datos fijos
+```
+use nueva_db
+db.createCollection('pruebas')
+db.pruebas.insertOne({
+    nombre:"Felix",
+    edad:25,
+    lenguajes:["Python", "Javascript"]
+})
+
+db.pruebas.insertOne({
+    nombre:"Mauro",
+    edad:25,
+    especializacion:"ServiceNow"
+})
+```
+
+# Crear documentos/tablas con esquema fijo
+Para especificar un esquema, al momento de crear la coleccion le pasamos un jsonSchema
+```
+db.createCollection("empleados",{
+    validator:{
+        $jsonSchema:{
+            bsonType:'object',
+            required: ['nombre','correo','edad'],
+            properties:{
+                nombre:{
+                    bsonType: 'string',
+                    description: 'Debe ser un nombre valido'
+                },
+                correo:{
+                    bsonType: 'string',
+                    pattern: "^[^@]+@[^@]+\.[^@]+$",
+                    description: 'Debe ser un correo electronico valido'
+                },
+                edad:{
+                    bsonType: 'int',
+                    minimum: 16,
+                    description: 'Debe ser mayor a 16'
+                }
+            }
+        }
+    }
+})
+```
+
+Para insertar datos en esta coleccion con esquema fijo tenemos restricciones, por ejemplo, el nombre debe ser un string, el correo tiene un patron expresado a traves de una regex, el minimo de edad debe ser 16 y los 3 campos son obligatorios
+por ejemplo, los siguiente regsitros generar errores de tipo Write Error:
+```
+//Error por el minimo de edad
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad: NumberInt(15),
+    correo: "alexis@nvr.com"
+})
+//Error por el correo que no cumple la regex
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad: NumberInt(20),
+    correo: "alexis"
+})
+//error por no contar con todos los campos
+db.empleados.insertOne({
+    nombre:"Alexis Nicolas",
+    edad:NumberInt(20)
+})
+```
+
+Hay que cumplir con todos los requisitos que establecimos para poder insertar un registro
+```
+db.empleados.insertOne({
+    nombre:"Alexis",
+    correo:"alexis@nvm.com",
+    edad:NumberInt(20)
+})
+```
 
 
 
