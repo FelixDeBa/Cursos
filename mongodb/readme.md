@@ -175,6 +175,7 @@ db.usuarios.insertMany([
 Primero creamos datos dummy
 <details>
     <summary>Ver insert</summary>
+    
     ```
     db.usuarios.insertMany([ 
         { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
@@ -293,7 +294,8 @@ db.createCollection('biblioteca')
 ```
 <details>
     <summary>Ver inserts</summary>
-    ```
+
+    ```js
     db.biblioteca.insertMany([     
         {         
             libro: { titulo: "El Gran Gatsby", 
