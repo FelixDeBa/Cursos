@@ -175,8 +175,8 @@ db.usuarios.insertMany([
 Primero creamos datos dummy
 <details>
     <summary>Ver insert</summary>
+
     
-    ```
     db.usuarios.insertMany([ 
         { nombre: "Juan Perez", edad: 35, correo: "juan@example.com" }, 
         { nombre: "Maria Gonzalez", edad: 28, correo: "maria@example.com" },
@@ -189,7 +189,7 @@ Primero creamos datos dummy
         { nombre: "Elena Garcia", edad: 29, correo: "elena@example.com" }, 
         { nombre: "Diego Jimenez", edad: 38, correo: "diego@example.com" }
     ])
-    ```
+    
 </details>
 
 ## find
@@ -295,7 +295,7 @@ db.createCollection('biblioteca')
 <details>
     <summary>Ver inserts</summary>
 
-    ```js
+    
     db.biblioteca.insertMany([     
         {         
             libro: { titulo: "El Gran Gatsby", 
@@ -418,7 +418,7 @@ db.createCollection('biblioteca')
             type: "Realismo magico"
         }
     ]);
-    ```
+    
 </details>
 
 Puedes acceder a un objeto anidado al usar una proyeccion
