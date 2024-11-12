@@ -2,6 +2,9 @@
 > Se esta utilizando la version 4.4.0 ya que es la version que fue compatible con la raspberry
 
 # Tabla de Contenidos
+<details>
+<summary><b>I. Introduccion</b></summary>
+
 1. [Crear Base de Datos](#titulo.create-bd)
    - [Listar Bases de Datos](#sub.list-bd)
 2. [Crear coleccion](#titulo.create-collection)
@@ -50,8 +53,7 @@
 17. [Ejemplo Coleccion con Esquema Fijo](#sub.fixedSchemaExample)
 
 - [Como limpiar terminal MongoDB](#note.cls)
-
-- [Como limpiar terminal MongoDB](#note.cls)
+</details>
 
 # Para crear una base de datos <a name='titulo.create-bd'></a>
 ```
@@ -675,8 +677,39 @@ LogoApp = BinData(0,"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQ
 ```
 
 ## Ejemplo de Coleccion con esquema fijo (Fixed schema) <a name='sub.fixedSchemaExample'></a>
-
-
+db.productos.drop()
+db.createCollection("productos",{
+    validator:{
+        $jsonSchema: {
+            bsonType: 'object',
+            required: ['nombre','cantidad','precio','perecedero'],
+            properties:{
+                nombre:{
+                    bsonType:'string',
+                    description:'Es el nombre del producto'
+                },
+                cantidad:{
+                    bsonType:'int',
+                    minimum:0,
+                    description: 'Debe ser un entero positivo'
+                },
+                precio:{
+                    bsonType:'double',
+                    minimum:0,
+                    description:'Precio del producto, admite decimales no menores a 0'
+                },
+                perecedero:{
+                    bsonType: 'bool',
+                    description:'Puede ser verdadero o falso'
+                },
+                fechaCaducidad:{
+                    bsonType:'date',
+                    description:'Fecha en formato ISO de la fecha maxima de consumo preferente'
+                }
+            }
+        }
+    }
+})
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls <a name='note.cls'></a>
