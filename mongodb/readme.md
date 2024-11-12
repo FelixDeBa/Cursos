@@ -550,8 +550,72 @@ db.empleados.insertOne({
     edad:NumberInt(20)
 })
 ```
+> [!NOTE]
+> Los errores al insertar datos en nuevas versiones han mejorado, en la version que se esta trabajando en la raspberry (4.4.1) siempre da un error 121
 
+# Tipos de Datos
+#### Cadenas
+```
+nombre = "Edson"
+```
+#### Entero
+```
+edad = 30
+```
+#### Objeto int de mongoDB
+```
+matricula = NumberInt(1746025)
+```
+#### Float
+```
+precio = 19.99
+```
+#### Booleano
+```
+datos_ok=true
+```
+#### Fecha
+```
+fecha = ISODate('2024-11-12T00:00:00Z')
+```
+#### Listas
+```
+lenguajes = ['Python', 'Javascript','C++', C#']
+```
+#### Objetos anidados
+<details>
+    <summary>Ver inserts</summary>
+    wp = {
+        nombre:"Wordpress",
+        version:"6.6.1",
+        plugins: ["Elementor", "WP-Statistics", "Robo Gallery"],
+        vulnerabilidades: [
+            {
+                cve: "CVE-2024-31928",
+                descripcion: "XSS en la implementacion de objetos de tipo text area",
+                url: ["www.wordpress.com/security/news/vulneravility/?id=34582"],
+                tipoSolucion:"Actualizacion",
+                solucion:{
+                    descripcion: "Actualizacion a la version 6.6.2",
+                    instrucciones: ["Descarga la version mas reciente del sitio oficial de wordpress o usa la funcion de actualizar desde el dashboard", "Valida que te encuentres en la version 6.6.2 desde el Dashboard en HOME>Actualizaciones"],
+                    url: "www.wordpress.com/downloads/release6.6.2.zip"
+                }
+            },
+            {
+                cve: "CVE-2024-11224",
+                descripcion: "DDoS en el componente de conexion a la base de datos en bases de datos MYSQL",
+                url: ["www.wordpress.com/security/news/vulneravility/?id=34620","www.mysql.com/news/cve-2024-11224"],
+                tipoSolucion:"No Disponible",
+                solucion:{
+                    descripcion: "Sin solucion al momento"
+                }
+            }
+        ]
+    }
+</details>
 
+#### Datos Binarios
+LogoApp = BinData(0,"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAP/xAAUAQEAAAAAAAAAAAAAAAAAAAAH/9oADAMBAAIQAxAAAAGIIUj/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/AX//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/AX//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAY/An//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/IX//2gAMAwEAAgADAAAAEPv/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/EH//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/EH//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/EH//2Q==")
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls
