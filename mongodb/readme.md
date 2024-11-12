@@ -417,7 +417,30 @@ Puedes acceder a un objeto anidado al usar una proyeccion
 db.biblioteca.find({},{_id:0,"libro.titulo":1,"libro.autor":1})
 ```
 Si utilizamos solo 0's en la proyeccion entonces trae todo menos los 0
+```
 db.biblioteca.find({},{_id:0,"libro.titulo":0})
+```
+
+# Crear backups de bases de datos
+mongodump --db <base_de_datos> --out <ruta_archivo>
+En este ejemplo te crea la carpeta backups
+```
+Ejemplo: mongodump --db nueva_db --out ./backups/
+```
+
+# Restaurar una base de datos
+mongorestore --db <base_de_datos> <ruta_archivo>
+En este caso especificamos un nuevo nombre para la base de datos, ya que si lo dejamos con el nombre de una BD existente, da error de duplicados. En versions mas recientes crea automaticamente la copia de la BD. Aun asi es importante saber de esta copia
+```
+mongorestore --db nueva_db_bak ./backups/nueva_db
+```
+
+> [!NOTE]
+> Los archivos generados son de tipo bson, que vienen a ser archivos json pero en formato binario, Tambien genera un archivo .metadata.json para cada coleccion
+
+
+
+
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls
