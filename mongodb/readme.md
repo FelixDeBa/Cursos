@@ -584,7 +584,8 @@ lenguajes = ['Python', 'Javascript','C++', C#']
 ```
 #### Objetos anidados
 <details>
-    <summary>Ver inserts</summary>
+    <summary>Ver JSON</summary>
+    Objeto JSON Anidado
     ```
     wp = {
         nombre:"Wordpress",
