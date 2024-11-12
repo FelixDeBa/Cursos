@@ -240,5 +240,5 @@ db.usuarios.replaceOne(
 
 ####Este reemplaza todo el documento/registro, si no pones todos los datos, borra los que no pusiste
 
-
-####Para limpiar la pantalla se usa cls
+> [!Info]
+> Para limpiar la pantalla se usa cls
