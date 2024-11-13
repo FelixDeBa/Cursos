@@ -54,8 +54,17 @@
 
 - [Como limpiar terminal MongoDB](#note.cls)
 </details>
+
 <details>
 <summary><b>II. Relaciones en MongoDB</b></summary>
+1. [Introduccion](#titulo.introRelaciones)
+2. [Relaciones](#titulo.introRelaciones)
+   - [1 a 1 con Objetos Incurstados](#sub.1a1incrustado)
+   - [1 a 1 con Objetos Referencias](#sub.1a1referencia)
+   - [1 a Muchos con Referencias](#sub.1aMincrustado)
+   - [1 a Muchos con Referencias](#sub.1aMreferencia)
+   - [Muchos a Muchos con Referencias](#sub.MaMincrustado)
+   - [Muchos a Muchos con Referencias](#sub.MaMreferencia)
     Pendiente, aqui me quede en el curso
 </details>
 
@@ -714,6 +723,144 @@ db.createCollection("productos",{
         }
     }
 })
+
+# Relaciones <a name="titulo.introRelaciones"></a>
+LAs relaciones pueden ser de una a una, una a muchas y muchas a una como cualquier otro motor de base de datos
+
+## 1 a 1 (Con ojetos incrustados) <a name='sub.1a1incrustado'></a>
+Se puede simplemente incrustar un objeto bson dentro de otro y tener la relacion de 1 a 1
+```
+db.usuarios.insertOne({
+    "nombre": 'usr2',
+    'email':'usr2@ejemplo.com',
+    'perfil':{
+        'nombre_perfil':'Administrador solo Lectura',
+        'permisos':'read_all',
+        'expiracion':'31-12-2024'
+    }
+})
+
+db.usuarios.find({"perfil.permisos":'read_all'})
+```
+## 1 a 1 (Con referencias) <a name='sub.1a1referencia'></a>
+ESte tipo de relaciones tienen el problema de que pueden generar consultas mas complejas
+primero creamos una coleccion para hacer la referencia en este caso una coleccion de departamentos y le asignamos el departamento a ciertos grupos de usuario, aqui se asigna de manera arbitraria basandose en edad por facilidad
+```
+db.departamentos.insertMany([
+    {
+        _id:50,
+        nombre:'RH'
+    },
+    {
+        _id:51,
+        nombre:'TI'
+    }
+])
+
+db.empleados.insertMany([
+    { nombre:'Felix', correo: 'felix.d@datadoor.com', edad:NumberInt(25) },
+    { nombre:'Samuel', correo: 'samuel.l@datadoor.com', edad:NumberInt(19) },
+    { nombre:'Mauro', correo: 'mauro.d@datadoor.com', edad:NumberInt(25) },
+    { nombre:'Pablo', correo: 'pablo.r@datadoor.com', edad:NumberInt(24) }
+])
+
+db.empleados.updateMany({edad:{$gt:20}}, {$set:{id_dpto:51}})
+db.empleados.updateMany({edad:{$lte:20}}, {$set:{id_dpto:50}})
+```
+Una vez hecho esto podemos buscar usuarios basandonos en el departamento y asignarlos en variables
+```
+const usuarioRH = db.empleados.findOne({'nombre':'Samuel'})
+const rh = db.departamentos.findOne({'_id': primerUsuarioTI.id_dpto})
+```
+
+## 1 a Muchos (Con ojetos incrustados) <a name='sub.1aMincrustado'></a>
+Estas relaciones tienen el problema de que pueden generar objetos demasiado grandes que pueden incluso superar el limite del tamaño del objeto
+```
+db.programas.insertOne({
+    '_id':1000,
+    nombre:'Office Word',
+    version: '365',
+    arquitectura:'x64',
+    vulnerabilidades:[{cve:'CVE-2024-15546', parcheDisp:true},
+    {cve:'CVE-2024-84651', parcheDisp:false},
+    {cve:'CVE-2023-64521', parcheDisp:false}]
+})
+```
+
+## 1 a Muchos (Con referencias) <a name='sub.1aMreferencia'></a>
+ESte tipo de relaciones tienen el problema de que pueden generar consultas mas complejas
+Creamos una coleccion de desarrolladores que podra ir enlazada a muchos pogramas
+```
+db.desarrolladoras.insertMany([
+    {'_id':1, nombre:'Microsoft'},
+    {'_id':2,nombre:'Zoom'},
+    {'_id':3,nombre:'Zoho'}
+])
+```
+
+
+## Muchos a Muchos (Con ojetos incrustados) <a name='sub.MaMincrustado'></a>
+Vamos a incrustar un array en un documento con otros documentos
+Estas relaciones tienen el problema de que pueden generar objetos demasiado grandes que pueden incluso superar el limite del tamaño del objeto
+```
+db.programas.update({_id:1000},{$set:{
+    opiniones:[
+        {estrellas:4,comentario:'Excelente'},
+        {estrellas:1,comentario:'No me gusto'},
+    ]
+}})
+
+db.programas.update({_id:1001},{$set:{
+    opiniones:[
+        {estrellas:5,comentario:'Cubre todo'}
+    ]
+}})
+
+db.programas.find({},{_id:0,nombre:1,opiniones:1})
+```
+
+insertamos el id de la desarrolladora en la tabla de programas y consultamos todos los programas ligados a esa ID
+```
+db.programas.updateMany({},{$set:{idDesarrollador: 1}})
+var micId = db.desarrolladoras.findOne({nombre:'Microsoft'})
+db.programas.find({idDesarrollador:mic._id},{nombre:1})
+```
+
+## Muchos a Muchos (Con referencias) <a name='sub.MaMreferencia'></a>
+Este tipo de relaciones tienen el problema de que pueden generar consultas mas complejas
+aprovecharemos agrgaremos un campo soCompatibles que agregamos en el programa OfficeWord y agregaremos otro registro de Office Excel
+
+```
+
+db.programas.update({_id:1000},{$set:{soCompatibles: [1,2]}})
+db.programas.insertOne({
+    '_id':1001,
+    nombre:'Office Excel',
+    version: '365',
+    arquitectura:'x64',
+    soCompatibles: [1,2],
+    vulnerabilidades:[{cve:'CVE-2024-15546', parcheDisp:true},
+    {cve:'CVE-2024-84651', parcheDisp:false},
+    {cve:'CVE-2023-64521', parcheDisp:false}
+})
+
+db.soProgs.insertMany([
+    {'_id':1, nombre:'Windows', version:'11', programas:[1000, 1001]},
+    {'_id':2,nombre:'MacOS', version:'16.5', programas:[1000, 1001]},
+    {'_id':3,nombre:'RedHat', version:'9.0', programas:[]},
+    {'_id':4,nombre:'Ubuntu', version:'24.04', programas:[]},
+])
+
+db.programas.insertOne({
+    '_id':1000,
+    nombre:'Office Word',
+    version: '365',
+    arquitectura:'x64',
+    vulnerabilidades:[{cve:'CVE-2024-15546', parcheDisp:true},
+    {cve:'CVE-2024-84651', parcheDisp:false},
+    {cve:'CVE-2023-64521', parcheDisp:false}]
+})
+```
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls <a name='note.cls'></a>

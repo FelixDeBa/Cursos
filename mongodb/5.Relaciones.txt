@@ -1,0 +1,98 @@
+use nueva_db
+
+// en este caso contamos con una relacion de 1 a muchos sencilla al conectar las colecciones de teareas y usuarios
+// relacion de uno a uno incurstando tal cual un objeto dentro de otro
+
+db.usuarios.insertOne({
+    "nombre": 'Nombre del Usuario',
+    'email':'usuario@ejemplo.com',
+    'perfil':{
+        'nombre_perfil':'Administrador solo Lectura',
+        'permisos':'read_all',
+        'expiracion':'31-12-2024'
+    }
+})
+
+db.usuarios.find({"perfil.permisos":'read_all'})
+
+//relacion uno a uno con referencias entre objetos/colecciones
+//primero creamos una coleccion
+db.departamentos.insertMany([
+    {
+        _id:50,
+        nombre:'RH'
+    },
+    {
+        _id:51,
+        nombre:'TI'
+    }
+])
+
+//despues asignamos a los empleados un nuevo campo que haga referencia al ID de la coleccion a la que lo queremos enlazar
+//En este caso le asignamos el dpto de RH a todos los de edad mayor a 31 y TI a los de edad menor o igual a 31
+db.usuarios.updateMany({edad:{$gt:31}}, {$set:{id_dpto:50}})
+db.usuarios.updateMany({edad:{$lte:31}}, {$set:{id_dpto:51}})
+
+//despues podemos hacer una busqueda en dos documentos relacionados 
+const usuarioRH = db.empleados.findOne({'nombre':'Samuel'})
+const rh = db.departamentos.findOne({'_id': primerUsuarioTI.id_dpto})
+
+// Relacion 1 a muchos incrustado
+db.programas.insertOne({
+    '_id':1000,
+    nombre:'Office Word',
+    version: '365',
+    arquitectura:'x64',
+    vulnerabilidades:[{cve:'CVE-2024-15546', parcheDisp:true},
+    {cve:'CVE-2024-84651', parcheDisp:false},
+    {cve:'CVE-2023-64521', parcheDisp:false}]
+})
+
+// uno a muchos con referenciasdb.desarrolladoras.insertMany([
+    {'_id':1, nombre:'Microsoft'},
+    {'_id':2,nombre:'Zoom'},
+    {'_id':3,nombre:'Zoho'}
+])
+
+db.programas.updateMany({},{$set:{idDesarrollador: 1}})
+var micId = db.desarrolladoras.findOne({nombre:'Microsoft'})
+db.programas.find({idDesarrollador:mic._id},{nombre:1})
+
+//muchos a muchos objetos incrustados
+db.programas.update({_id:1000},{$set:{
+    opiniones:[
+        {estrellas:4,comentario:'Excelente'},
+        {estrellas:1,comentario:'No me gusto'},
+    ]
+}})
+
+db.programas.update({_id:1001},{$set:{
+    opiniones:[
+        {estrellas:5,comentario:'Cubre todo'}
+    ]
+}})
+
+db.programas.find({},{_id:0,nombre:1,opiniones:1})
+
+//relacion muchos a muchos con referencias:
+//Se agrega el campo para la relacion 1 a muchos
+db.programas.update({_id:1000},{$set:{soCompatibles: [1,2]}})
+db.programas.insertOne({
+    '_id':1001,
+    nombre:'Office Excel',
+    version: '365',
+    arquitectura:'x64',
+    soCompatibles: [1,2],
+    vulnerabilidades:[{cve:'CVE-2024-15546', parcheDisp:true},
+    {cve:'CVE-2024-84651', parcheDisp:false},
+    {cve:'CVE-2023-64521', parcheDisp:false}
+})
+
+db.soProgs.insertMany([
+    {'_id':1, nombre:'Windows', version:'11', programas:[1000, 1001]},
+    {'_id':2,nombre:'MacOS', version:'16.5', programas:[1000, 1001]},
+    {'_id':3,nombre:'RedHat', version:'9.0', programas:[]},
+    {'_id':4,nombre:'Ubuntu', version:'24.04', programas:[]},
+])
+
+//relacion 1 a muchos con referencia
