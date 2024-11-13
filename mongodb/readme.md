@@ -689,6 +689,7 @@ LogoApp = BinData(0,"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQ
 ```
 
 ## Ejemplo de Coleccion con esquema fijo (Fixed schema) <a name='sub.fixedSchemaExample'></a>
+```
 db.productos.drop()
 db.createCollection("productos",{
     validator:{
@@ -722,6 +723,7 @@ db.createCollection("productos",{
         }
     }
 })
+```
 
 # Tipos de Relaciones <a name='#titulo.intro-rels'></a>
 LAs relaciones pueden ser de una a una, una a muchas y muchas a una como cualquier otro motor de base de datos
