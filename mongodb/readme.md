@@ -58,7 +58,7 @@
 <details>
 <summary><b>II. Relaciones en MongoDB</b></summary>
 
-1. [Relaciones](#titulo.introRelaciones)
+1. [Relaciones](#titulo.introRels)
    - [1 a 1 con Objetos Incurstados](#sub.1a1incrustado)
    - [1 a 1 con Objetos Referencias](#sub.1a1referencia)
    - [1 a Muchos con Referencias](#sub.1aMincrustado)
@@ -723,7 +723,7 @@ db.createCollection("productos",{
     }
 })
 
-# Relaciones <a name="titulo.introRelaciones"></a>
+# Relaciones <a name='titulo.introRels'></a>
 LAs relaciones pueden ser de una a una, una a muchas y muchas a una como cualquier otro motor de base de datos
 
 ## 1 a 1 (Con ojetos incrustados) <a name='sub.1a1incrustado'></a>
