@@ -57,6 +57,7 @@
 
 <details>
 <summary><b>II. Relaciones en MongoDB</b></summary>
+
 1. [Introduccion](#titulo.introRelaciones)
 2. [Relaciones](#titulo.introRelaciones)
    - [1 a 1 con Objetos Incurstados](#sub.1a1incrustado)
@@ -65,7 +66,6 @@
    - [1 a Muchos con Referencias](#sub.1aMreferencia)
    - [Muchos a Muchos con Referencias](#sub.MaMincrustado)
    - [Muchos a Muchos con Referencias](#sub.MaMreferencia)
-    Pendiente, aqui me quede en el curso
 </details>
 
 # Para crear una base de datos <a name='titulo.create-bd'></a>
