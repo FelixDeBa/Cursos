@@ -1,0 +1,100 @@
+//Insertamos la tabla de productos
+db.productos.insertMany([
+    {nombre:"Laptop", precio: 12000, existencia: NumberInt(15), perecedero: false},
+    {nombre:"Telefono", precio: 4000, existencia: NumberInt(5), perecedero: false},
+    {nombre:"Tablet", precio: 6000, existencia: NumberInt(18), perecedero: false},
+    {nombre:"TV", precio: 16000, existencia: NumberInt(50), perecedero: false},
+    {nombre:"Impresora", precio: 2500, existencia: NumberInt(65), perecedero: false},
+])
+
+//Para aplicar operadores
+//eq
+db.productos.find({precio:{$eq:4000}})
+//gt
+db.productos.find({precio:{$gt:10000}})
+//lt
+db.productos.find({precio:{$lt:10000}})
+//gte
+db.productos.find({existencia:{$gte:50}})
+//lte
+db.productos.find({existencia:{$lte:15}})
+//ne
+db.productos.find({precio:{$ne:2500}})
+
+//Operadores logicos
+//and
+db.productos.find({$and:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:15}}
+]})
+
+//or
+db.productos.find({$or:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:15}}
+]})
+
+//not
+db.productos.find({$or:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:50}}
+]})
+
+//nor
+db.productos.find({$and:[
+    {precio:{$not:{$gt:10000}}},
+    {existencia:{$lte:50}}
+]})
+
+//Operadores de Elemento
+//exists
+db.productos.find({fechaCaducidad:{$exists:true}})
+
+//type
+db.productos.find({perecedero:{$type:"bool"}})
+
+//operadores de evaluacion
+//regex
+db.productos.insertMany([
+    {nombre:"TV Samsung", precio: 18000, existencia: NumberInt(12), perecedero: false},
+    {nombre:"TV LG", precio: 12000, existencia: NumberInt(5), perecedero: false},
+    {nombre:"Celular LG", precio: 6500, existencia: NumberInt(17), perecedero: false},
+    {nombre:"TV Roku", precio: 600, existencia: NumberInt(43), perecedero: false},
+])
+
+db.productos.find({nombre:{$regex:/^TV (Samsung|LG)$/}})
+
+//expr
+db.productos.find({
+    $expr: {
+        $and: [
+            {$gt: ["$existencia", 10]},
+            {$lt: ["$precio", 5000]}
+        ],
+    }
+})
+
+//sort
+db.productos.find({
+    $expr: {
+        $and: [
+            {$gt: ["$existencia", 10]},
+            {$lt: ["$precio", 5000]}
+        ],
+    }
+}).sort({existencia:-1})
+
+//matrices
+//size
+db.programas.find({opiniones:{$size:2}},{_id:0,nombre:1,opiniones:1})
+
+//all - La condicion es que trae los que cumplan con todo el arreglo de $all
+db.soProgs.insertOne({_id:5,nombre:"Arch", version:"4.0", programas:[1000]})
+db.soProgs.find({programas:{$all:[1000,1001]}})
+
+//elemMatch
+db.programas.find({vulnerabilidades:{$elemMatch:{parcheDisp:true, cve:"CVE-2024-15546"}}})
+db.programas.find({opiniones:{$elemMatch:{estrellas:5}}})
+
+//slice
+db.programas.find({}, {vulnerabilidades:{$slice:1}})

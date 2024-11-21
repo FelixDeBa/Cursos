@@ -11,7 +11,7 @@ db.stats()
 db.createCollection("mi coleccion")
 
 //Para listas las bases de datos existentes
-Las bases de datos nuevas no aparecen hasta que tengan una coleccion creada
+//Las bases de datos nuevas no aparecen hasta que tengan una coleccion creada
 show dbs
 
 //CRUD
@@ -489,13 +489,13 @@ db.createCollection("productos",{
     validator:{
         $jsonSchema: {
             bsonType: 'object',
-            required: ['nombre','cantidad','precio','perecedero'],
+            required: ['nombre','existencia','precio','perecedero'],
             properties:{
                 nombre:{
                     bsonType:'string',
                     description:'Es el nombre del producto'
                 },
-                cantidad:{
+                existencia:{
                     bsonType:'int',
                     minimum:0,
                     description: 'Debe ser un entero positivo'

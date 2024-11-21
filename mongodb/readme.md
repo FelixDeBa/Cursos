@@ -52,11 +52,7 @@
     - [Datos Binarios/BinData()](#sub.binaryData)
 17. [Ejemplo Coleccion con Esquema Fijo](#sub.fixedSchemaExample)
 
-- [Como limpiar terminal MongoDB](#note.cls)
-</details>
-
-<details>
-<summary><b>II. Relaciones en MongoDB</b></summary>
+II. Relaciones en MongoDB
 
 1. [Introduccion a las Relaciones en MongoDB](#titulo.intro-rels)
    - [1 a 1 con Objetos Incurstados](#sub.1a1incrustado)
@@ -65,6 +61,9 @@
    - [1 a Muchos con Referencias](#sub.1aMreferencia)
    - [Muchos a Muchos con Referencias](#sub.MaMincrustado)
    - [Muchos a Muchos con Referencias](#sub.MaMreferencia)
+
+III. Operadores
+
 </details>
 
 # Para crear una base de datos <a name='titulo.create-bd'></a>
@@ -695,13 +694,13 @@ db.createCollection("productos",{
     validator:{
         $jsonSchema: {
             bsonType: 'object',
-            required: ['nombre','cantidad','precio','perecedero'],
+            required: ['nombre','existencia','precio','perecedero'],
             properties:{
                 nombre:{
                     bsonType:'string',
                     description:'Es el nombre del producto'
                 },
-                cantidad:{
+                existencia:{
                     bsonType:'int',
                     minimum:0,
                     description: 'Debe ser un entero positivo'
@@ -861,6 +860,183 @@ db.programas.insertOne({
     {cve:'CVE-2024-84651', parcheDisp:false},
     {cve:'CVE-2023-64521', parcheDisp:false}]
 })
+```
+
+
+# Operadores
+Empiezan siempre con el simbolo de dolar o moneda $
+
+## Operadores de comparacion
+- $eq: igual que
+- $ne: no igual que
+- $gt: Mayor que
+- $lt: Menor que 
+- $gte: Mayor que o igual
+- $lte: Menor que o igual
+
+### Ejemplos
+Primero vamos a insertar a nuestra coleccion de productos una serie de elementos
+```
+db.productos.insertMany([
+    {nombre:"Laptop", precio: 12000, existencia: NumberInt(15), perecedero: false},
+    {nombre:"Telefono", precio: 4000, existencia: NumberInt(5), perecedero: false},
+    {nombre:"Tablet", precio: 6000, existencia: NumberInt(18), perecedero: false},
+    {nombre:"TV", precio: 16000, existencia: NumberInt(50), perecedero: false},
+    {nombre:"Impresora", precio: 2500, existencia: NumberInt(65), perecedero: false},
+])
+```
+
+Para aplicar operadores
+```
+//eq
+db.productos.find({precio:{$eq:4000}})
+//gt
+db.productos.find({precio:{$gt:10000}})
+//lt
+db.productos.find({precio:{$lt:10000}})
+//gte
+db.productos.find({existencia:{$gte:50}})
+//lte
+db.productos.find({existencia:{$lte:15}})
+//ne
+db.productos.find({precio:{$ne:2500}})
+```
+
+## Operadores Logicos
+- $and: Permite evaluar multiples experesiones y devolver un documento cuando todas cumplen
+- $or: Permite evaluar multiples experesiones y devolver un documento cuando al menos una cumple
+- $not: Invierte el valor booleano de una expresion
+- $nor: Permite evaluar multiples experesiones y devolver aquellos que no cumplan las excepciones, devuelve el contrario de or
+
+Ejemplo de AND
+```
+db.productos.find({$and:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:15}}
+]})
+```
+
+Ejemplo de OR
+```
+db.productos.find({$or:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:15}}
+]})
+```
+
+Ejemplo de NOT
+```
+db.productos.find({$or:[
+    {precio:{$gt:10000}},
+    {existencia:{$lte:50}}
+]})
+```
+Ejemplo de NOR
+```
+db.productos.find({$and:[
+    {precio:{$not:{$gt:10000}}},
+    {existencia:{$lte:50}}
+]})
+```
+
+## Operadores de elemento
+Son utiles debido al esquema flexible ya que nos permite confirmar la existencia y tipo de los elementos
+- $exists: Comprueba si un campo existe.
+- $type: Filtra por tipo de datos
+
+Primero insertamos algunos datos para trabajar con ellos
+```
+db.productos.insertMany([
+    {nombre:"Papa",existencia:NumberInt(40), precio:39.99 ,perecedero:true, fechaCaducidad:ISODate('2026-12-31T23:59:59Z')},
+    {nombre:"Leche Condensada",existencia:NumberInt(14), precio:24.5 ,perecedero:true, fechaCaducidad:ISODate('2028-12-31T23:59:59Z')},
+    {nombre:"Grenetina",existencia:NumberInt(29), precio:19.99 ,perecedero:true, fechaCaducidad:ISODate('2025-12-31T23:59:59Z')},
+])
+```
+
+Operador Exists nos permite revisar si el campo existe
+```
+db.productos.find({fechaCaducidad:{$exists:true}})
+```
+```
+db.productos.find({perecedero:{$type:"bool"}})
+```
+
+Operador $type
+
+## Operadores de evaluacion
+- $regex: Nos permite utilizar expresiones regulares para evaluar un campo
+- $expr: Realiza evaluaciones de expresiones
+- $jsonSchema: Valida socumentos segun un esquema en formato JSON, util para hacer que los esquemas sean fijos
+
+Primero insertamos algunos objetos
+```
+db.productos.insertMany([
+    {nombre:"TV Samsung", precio: 18000, existencia: NumberInt(12), perecedero: false},
+    {nombre:"TV LG", precio: 12000, existencia: NumberInt(5), perecedero: false},
+    {nombre:"Celular LG", precio: 6500, existencia: NumberInt(17), perecedero: false},
+    {nombre:"TV Roku", precio: 600, existencia: NumberInt(43), perecedero: false},
+])
+```
+
+Regex
+```
+db.productos.find({nombre:{$regex:/^TV (Samsung|LG)$/}})
+```
+
+expr Nos permite hacer consultas mas complejas
+```
+db.productos.find({
+    $expr: {
+        $and: [
+            {$gt: ["$existencia", 10]},
+            {$lt: ["$precio", 5000]}
+        ],
+    }
+})
+```
+
+## Operadores de arreglo o matriciales
+Sirven para afectar a multiples documentos anidados
+- $all: Devuelve un arreglo con todos los documentos especificados
+- $elemMatch: encuentra documentos donde al menos uno satisface una condicion
+- $size: Compara el tamaño de un arregla con un valor especifico
+- $slice: Permite hacer paginacion en el resultado dentro de la matriz
+
+### Size
+```
+db.programas.find({opiniones:{$size:2}},{_id:0,nombre:1,opiniones:1})
+```
+
+### all
+Deben cumplir con todo lo que hay en all para coincidir, como vemos este ejemplo no trae de resultado el registro recien agregado
+```
+db.soProgs.insertOne({_id:5,nombre:"Arch", version:"4.0", programas:[1000]})
+db.soProgs.find({programas:{$all:[1000,1001]}})
+```
+
+### ElemMatch
+Sirve para traer objetos que cumplan con una o mas condiciones dentro del objeto
+```
+db.programas.find({vulnerabilidades:{$elemMatch:{parcheDisp:true, cve:"CVE-2024-15546"}}})
+db.programas.find({opiniones:{$elemMatch:{estrellas:5}}})
+```
+
+### Slice
+```
+db.programas.find({},{vulnerabilidades:{$slice:1}})
+db.soProgs.find({},{programas:{$slice:1}})
+```
+
+# Sort
+```
+db.productos.find({
+    $expr: {
+        $and: [
+            {$gt: ["$existencia", 10]},
+            {$lt: ["$precio", 5000]}
+        ],
+    }
+}).sort({existencia:-1})
 ```
 
 > [!TIP]
