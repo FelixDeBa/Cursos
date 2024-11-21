@@ -16,7 +16,7 @@
    - [Update](#sub.update)
    - [Delete](#sub.delete)
 4. [Uniones (Joins)](#titulo.joins)
-   - [Conectar dos Colecciones/Tablas](#sub.connectJoin)
+   - [Conectar dos Colecciones o Tablas](#sub.connectJoin)
    - [Buscar en Colecciones Unidas (HARDCODED)](#sub.findJoin)
    - [Buscar en Colecciones Unidas (Mas dinamico)](#sub.findJoin2)
    - [Actualizar Colecciones Unidas](#sub.updateJoin)
