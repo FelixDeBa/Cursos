@@ -3,7 +3,7 @@
 
 # Tabla de Contenidos
 <details>
-<summary><b>I. Introduccion</b></summary>
+<summary><b>Mostrar Tabla de contenido</b></summary>
 
 1. [Crear Base de Datos](#titulo.create-bd)
    - [Listar Bases de Datos](#sub.list-bd)
@@ -1038,6 +1038,162 @@ db.productos.find({
     }
 }).sort({existencia:-1})
 ```
+
+# Framework de agregacion
+Nos permiten realizar operaciones mas avanzadas y suelen estar optimizados para grandes volumenes de datos
+
+Para propsitos de ejemplo vamos a crear una nueba base de Datos
+```
+use nuevadb2
+```
+Posteriormente le insertamos una coleccion y varios documentos a esta misma
+
+```
+db.productos.insertMany([
+    {nombre:"Papa",existencia:NumberInt(40), precio:39.99 ,perecedero:true, fechaCaducidad:ISODate('2026-12-31T23:59:59Z'), categoria:"Abarrotes"},
+    {nombre:"Leche Condensada",existencia:NumberInt(14), precio:24.5 ,perecedero:true, fechaCaducidad:ISODate('2028-12-31T23:59:59Z'), categoria:"Abarrotes"},
+    {nombre:"Grenetina",existencia:NumberInt(29), precio:19.99 ,perecedero:true, fechaCaducidad:ISODate('2025-12-31T23:59:59Z'), categoria:"Abarrotes"},
+    {nombre:"TV Samsung QLED 65\"",existencia:NumberInt(29), precio:19999 ,perecedero:false, categoria:"Electronicos"},
+    {nombre:"TV Samsung OLED 65\"",existencia:NumberInt(29), precio:17999 ,perecedero:false, categoria:"Electronicos"},
+    {nombre:"TV LG 65\"",existencia:NumberInt(29), precio:19999 ,perecedero:false, categoria:"Electronicos"},
+])
+```
+
+## $match
+Es como un find
+```
+db.productos.aggregate([
+    {
+        $match:{
+            categoria:"Electronicos"
+        }
+    }
+])
+
+
+db.productos.aggregate([
+    {
+        $match:{
+            fechaCaducidad:{
+                $lte:ISODate('2026-31-31T23:59:59Z')
+            }
+        }
+    }
+])
+
+db.productos.aggregate([
+    {
+        $match:{
+            $and:[
+                {fechaCaducidad:{$lte:ISODate('2026-31-31T23:59:59Z')}},
+                {existencia:{$lte: 30}}
+            ]
+        }
+    }
+])
+
+db.productos.aggregate([
+    {
+        $match:{
+            nombre:{$regex: /TV.*65/i }
+        }
+    }
+])
+```
+
+## $group
+Nos permite agrupar los registros segun condiciones especificas
+```
+db.productos.aggregate([
+    {
+        $group:{
+            _id:"$categoria",
+            existencias_totales: { $sum:"$existencia" }
+        }
+    }
+])
+
+db.productos.aggregate([
+    {
+        $group:{
+            _id:"$categoria",
+            precio_promedio: { $avg:"$precio" }
+        }
+    }
+])
+
+
+db.productos.aggregate([
+    {
+        $group:{
+            _id:{
+                $switch:{
+                    branches:[
+                        {case: {$lte:["$precio", 1000]}, then: "Barato"},
+                        {case: {$gte:["$precio", 10000]}, then: "Caro"}
+                    ],
+                    default: "Intermedio"
+                }
+            },
+            existencia: { $sum:1 }
+        }
+    }
+])
+```
+
+## $sort
+Nos ayuda a ordenar segun una columna o atributo
+```
+db.productos.aggregate([{
+    $sort:{
+        precio:1
+    }
+}])
+
+db.productos.aggregate([
+    {$sort:{fechaCaducidad:-1}},
+    {$limit:3}
+])
+
+db.productos.aggregate([
+    {$match:{nombre:{$regex: /TV.*65/i }}},
+    {$sort:{precio:1}}
+])
+```
+
+## $project
+Ayuda a consultar solo los campos que nos interesan
+```
+db.productos.aggregate([
+    {$project:{
+        _id:1,
+        nombre:1,
+        precio:1
+
+    }}
+])
+
+db.productos.aggregate([
+    {$project:{
+        _id:0,
+        nombre:1,
+        precio:1,
+        existencia:1,
+        precioTotalInv:{$multiply:["$existencia","$precio"]}
+    }}
+])
+
+db.productos.aggregate([
+    {$project:{
+        _id:0,
+        nombre:1,
+        precio:1,
+        fecha_de_Caducidad:{$dateToString:{ format:"%d-%m-%Y", date:"$fechaCaducidad"}}
+    }}
+])
+
+```
+
 
 > [!TIP]
 > Para limpiar la pantalla se usa cls <a name='note.cls'></a>
