@@ -825,7 +825,7 @@ db.programas.find({},{_id:0,nombre:1,opiniones:1})
 insertamos el id de la desarrolladora en la tabla de programas y consultamos todos los programas ligados a esa ID
 ```
 db.programas.updateMany({},{$set:{idDesarrollador: 1}})
-var micId = db.desarrolladoras.findOne({nombre:'Microsoft'})
+var mic = db.desarrolladoras.findOne({nombre:'Microsoft'})
 db.programas.find({idDesarrollador:mic._id},{nombre:1})
 ```
 
@@ -1202,23 +1202,22 @@ primero vamos a agregar unos registros a una nueva coleccion de libros
 ```
 use nuevadb2
 db.libros.insertMany([
-{ "titulo" : "El Llano en Llamas", "autor" : "Juan Rulfo" },
-{ "titulo" : "Persuacion", "autor" : "Jane Austen" },
-{ "titulo" : "Cronica de una muerta anunciada", "autor" : "Gabriel Garcia Marquez" },
-{ "titulo" : "El Cuervo", "autor" : "Edgar Allan Poe"},
-{ "titulo" : "Cien años de soledad", "autor" : "Gabriel Garcia Marquez" },
-{ "titulo" : "El Corazon Delator", "autor" : "Edgar Allan Poe"},
-{ "titulo" : "La abadia de Northanger", "autor" : "Jane Austen" },
-{ "titulo" : "Relato de un naufrago", "autor" : "Gabriel Garcia Marquez" },
-{ "titulo" : "El Amor en los tiempos del colera", "autor" : "Gabriel Garcia Marquez" },
-{ "titulo" : "Orgullo y prejuicio", "autor" : "Jane Austen" },
-{ "titulo" : "Pedro Paramo", "autor" : "Juan Rulfo" },
-{ "titulo" : "Una casa de Granadas", "autor" : "Oscar Wilde" },
-{ "titulo" : "Rayuela", "autor" : "Julio Cortazar" },
-{ "titulo" : "Cronica de una muerte anunciada", "autor" : "Gabriel Garcia Marquez" },
-{ "titulo" : "El retrato de Dorian Gray", "autor" : "Oscar Wilde" },
-{ "titulo" : "El escarabajo de oro", "autor" : "Edgar Allan Poe"},
-{ "titulo" : "La cusa de la casa Usher", "autor" : "Edgar Allan Poe"},
+    { "titulo" : "El Llano en Llamas", "autor" : "Juan Rulfo", fechaPublicacion: ISODate('1953-09-01') },
+    { "titulo" : "Persuacion", "autor" : "Jane Austen", fechaPublicacion: ISODate('1817-12-20') },
+    { "titulo" : "Cronica de una muerta anunciada", "autor" : "Gabriel Garcia Marquez", fechaPublicacion: ISODate('1981-01-01') },
+    { "titulo" : "El Cuervo", "autor" : "Edgar Allan Poe", fechaPublicacion: ISODate('1845-01-29')},
+    { "titulo" : "Cien años de soledad", "autor" : "Gabriel Garcia Marquez", fechaPublicacion: ISODate('1967-05-01') },
+    { "titulo" : "El Corazon Delator", "autor" : "Edgar Allan Poe", fechaPublicacion: ISODate('1843-01-01')},
+    { "titulo" : "La abadia de Northanger", "autor" : "Jane Austen", fechaPublicacion: ISODate('1817-12-20') },
+    { "titulo" : "Relato de un naufrago", "autor" : "Gabriel Garcia Marquez", fechaPublicacion: ISODate('1955-01-01') },
+    { "titulo" : "El Amor en los tiempos del colera", "autor" : "Gabriel Garcia Marquez", fechaPublicacion: ISODate('1985-01-01') },
+    { "titulo" : "Orgullo y prejuicio", "autor" : "Jane Austen", fechaPublicacion: ISODate('1813-01-28') },
+    { "titulo" : "Pedro Paramo", "autor" : "Juan Rulfo",fechaPublicacion: ISODate('1955-07-18') },
+    { "titulo" : "Una casa de Granadas", "autor" : "Oscar Wilde", fechaPublicacion: ISODate('1891-01-01') },
+    { "titulo" : "Rayuela", "autor" : "Julio Cortazar", fechaPublicacion: ISODate('1963-06-28') },
+    { "titulo" : "El retrato de Dorian Gray", "autor" : "Oscar Wilde", fechaPublicacion: ISODate('1890-01-01') },
+    { "titulo" : "El escarabajo de oro", "autor" : "Edgar Allan Poe", fechaPublicacion: ISODate('1843-06-21')},
+    { "titulo" : "La caida de la casa Usher", "autor" : "Edgar Allan Poe", fechaPublicacion: ISODate('1839-09-01')},
 ])
 
 
@@ -1473,4 +1472,152 @@ db.pedidos.aggregate([
         }
     }
 ])
+```
+
+# Indices Avanzados
+El uso de indices puede hacer mucho mas eficientes las busquedas cuando se trabajan con muchos datos, pero en el caso de una operacion de escritura lo puede hacer mas lenta.
+La estructura de un indice es la siguiente:
+
+db.coleccion.createIndex({ campo:1, campo2:-1})
+
+## Indices unicos 
+un solo documento esta relacionado al indice. Se utilizan para cuando tenemos campos unicos como los ID o correo electronico
+La estructura para crearlo es la siguiente:
+
+db.Coleccion.createIndex({ campoUnico:1 }, { unique:true })
+
+## Indices parciales
+Con este podemos aplicar el indice solo a algunos documentos, por ejemplo, en los productos que estan activos en una coleccion, esto para que el indice sea mas pequeño y sea mas eficiente
+
+db.Coleccion.createIndex({ campo:1 }, { partialFilterExpression: { estado: "activo" } })
+
+## Obtener estadisticas de eficiencia de indices
+En este ejemplo estamos buscando que el tiempo de  ejecucion que se encuentra dentro de executionStats. Ejemplo de resultado de ejecucion.
+
+"executionStats" : {
+		"executionSuccess" : true,
+		"nReturned" : 0,
+		"executionTimeMillis" : 0,
+		"totalKeysExamined" : 7,
+		"totalDocsExamined" : 0,
+        ...
+}
+
+el comando
+
+```
+db.libros.createIndex({ fechaPublicacion: 1, autor: 1})
+
+db.libros.find({
+    fechaPublicacion: { $gt: ISODate('1900-01-01') }
+}).explain("executionStats");
+```
+
+## Mantenimiento de indices
+### Ver la informacion de unos indices en una coleccion
+Dentro de la informacion de la coleccion se pueden ver los indices
+```
+db.libros.stats()
+```
+Casi al final de la informacion habra un parametro llamado "nindexes"
+
+
+### ver el uso de indices en una consulta especifica
+Se agrega ".explain()" al final de una consulta
+
+### Rehacer los indices
+```
+db.libros.reIndex()
+```
+
+### Eliminar los indices no utilizados
+Los indices que tienen  un _id no se pueden eliminar ya que son escenciales y propios de mongodb
+
+Ejemplo de codigo para un incide compuesto:
+db.coleccion.dropIndex({ campo1:1, campo2: -1})
+
+# Transacciones
+Las transacciones tienen:
+- Atomicidad: Se tienen que ejecutar todas las operaciones o ninguna, si una falla se revierte todo
+- Consistencia: Siempre tienen que estar consistentes los datos antes y despues de la transaccion
+- Aislamiento: Los cambios no son visibles para otras transacciones hasta que ya se termino de confirmar
+- Durabilidad: Una vez que se confirma la transaccion los cambios se quedan
+
+Ejemplo de como crearuna transaccion
+Es importante saber que en este punto la transaccion no va a funcionar porque no tenemos una sesion activa tal cual
+Pero esta es la sintaxis
+```
+use nuevadb2:
+
+session.startTransaction();
+
+try{
+    db.productos.updateOne({ nombre: "Papa"}, { $inc: { existencia: 10 } })
+    var papa = db.productos.findOne({nombre:"Papa"})
+
+    db.pedidos.insertOne({
+        pedidoId:3,
+        clienteId:5002,
+        producto: papa._id,
+        cantidad: 4,
+        total: 159.96
+        pagado: true,
+        credito:false
+    })
+    
+    session.commitTransaction();
+}catch (error){
+    session.abortTransaction();
+    print("Error en la transaccion" + error)
+}
+```
+
+## Transacciones distribuidas
+Estas involucran multiples nodos o servidores, son muy utiles para entornos escalables.
+
+La preocupacion de la lectura se tiene que especificar que se usa un snapsot para evitar que otras transacciones puedan afectar a la misma, ya que al tener un entorno distribuido, pueden ser mas de dos colecciones diferentes
+
+La preocupacion de la escritura se decide como majority, de modo que en un cluster la mayoria tiene que confirmar que las transacciones se confirmaron para confirmar la transaccion en todos lados, no es al primero
+
+
+```
+session.startTransaction({
+    readConcern: { level: "snapshot" },
+    writeConcern: { w: "majority" }
+});
+
+try{
+    //Modificamos el inventario en un nodo
+    db.inventarioCEDIS1({ producto: "prod1", cantidad: { $gte: 5 }},{ $inc: { cantidad: -5 }});
+    //Modificamos el inventario en otro nodo
+    db.inventarioCEDIS2({ producto: "prod1", cantidad: { $gte: 5 }},{ $inc: { cantidad: -5 }});
+
+    //Confirmamos la transaccion
+    session.commitTransaction();
+}catch (error){
+    session.abortTransaction();
+    print("Hubo un error con la transaccion "+ error)
+}
+```
+
+## uso de transacciones en operaciones complejas
+Este es un ejemplo tal cual javascript, es la logica lo importante del ejemplo, no es funcional con la base de datos que llevamos al momento
+
+```
+session.startTransaction();
+try{
+    const asientosDisponibles = db.eventos.findOne({_id: eventId}).asientosDisponibles
+    if (asientosDisponibles >= cantidadAsientos){
+        db.usuarios.updateOne({ _id:userId }, { $push: { reservas: { eventoId, cantidadAsientos } } } );
+        db.eventos.updateOne({ _id:eventoId, asientosDisponbiles: { $gte: cantidadAsientos } },
+            { $inc: { asientosDisponibles: -cantidadAsientos } });
+    }else{
+        print("No hay asientos disponibles")
+    }
+
+}catch (error){
+    session.abortTransaction();
+    print("Error en la transaccion" + error)
+}
+
 ```
