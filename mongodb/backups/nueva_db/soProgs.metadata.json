@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"b0a3d1bdbee244fba27d35ab334b2971","collectionName":"soProgs","type":"collection"}

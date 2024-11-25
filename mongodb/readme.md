@@ -1,6 +1,9 @@
 > [!CAUTION]
 > Se esta utilizando la version 4.4.0 ya que es la version que fue compatible con la raspberry
 
+> [!TIP]
+> Para limpiar la pantalla se usa cls
+
 # Tabla de Contenidos
 <details>
 <summary><b>Mostrar Tabla de contenido</b></summary>
@@ -15,9 +18,9 @@
       - [Filtros basicos](#third.filtros1)
    - [Update](#sub.update)
    - [Delete](#sub.delete)
-4. [Uniones (Joins)](#titulo.joins)
+4. [Uniones](#titulo.joins)
    - [Conectar dos Colecciones o Tablas](#sub.connectJoin)
-   - [Buscar en Colecciones Unidas (HARDCODED)](#sub.findJoin)
+   - [Buscar en Colecciones Unidas](#sub.findJoin)
    - [Buscar en Colecciones Unidas (Mas dinamico)](#sub.findJoin2)
    - [Actualizar Colecciones Unidas](#sub.updateJoin)
    - [Agregar registros en colecciones Unidas](#sub.createJoin)
@@ -1193,7 +1196,281 @@ db.productos.aggregate([
 ])
 
 ```
+# PipeLines
+
+primero vamos a agregar unos registros a una nueva coleccion de libros
+```
+use nuevadb2
+db.libros.insertMany([
+{ "titulo" : "El Llano en Llamas", "autor" : "Juan Rulfo" },
+{ "titulo" : "Persuacion", "autor" : "Jane Austen" },
+{ "titulo" : "Cronica de una muerta anunciada", "autor" : "Gabriel Garcia Marquez" },
+{ "titulo" : "El Cuervo", "autor" : "Edgar Allan Poe"},
+{ "titulo" : "Cien años de soledad", "autor" : "Gabriel Garcia Marquez" },
+{ "titulo" : "El Corazon Delator", "autor" : "Edgar Allan Poe"},
+{ "titulo" : "La abadia de Northanger", "autor" : "Jane Austen" },
+{ "titulo" : "Relato de un naufrago", "autor" : "Gabriel Garcia Marquez" },
+{ "titulo" : "El Amor en los tiempos del colera", "autor" : "Gabriel Garcia Marquez" },
+{ "titulo" : "Orgullo y prejuicio", "autor" : "Jane Austen" },
+{ "titulo" : "Pedro Paramo", "autor" : "Juan Rulfo" },
+{ "titulo" : "Una casa de Granadas", "autor" : "Oscar Wilde" },
+{ "titulo" : "Rayuela", "autor" : "Julio Cortazar" },
+{ "titulo" : "Cronica de una muerte anunciada", "autor" : "Gabriel Garcia Marquez" },
+{ "titulo" : "El retrato de Dorian Gray", "autor" : "Oscar Wilde" },
+{ "titulo" : "El escarabajo de oro", "autor" : "Edgar Allan Poe"},
+{ "titulo" : "La cusa de la casa Usher", "autor" : "Edgar Allan Poe"},
+])
 
 
-> [!TIP]
-> Para limpiar la pantalla se usa cls <a name='note.cls'></a>
+db.pedidos.insertMany([
+    { pedidoId: 1, clienteId:5001, producto:ObjectId("67410eb198014eb8f284650c"), cantidad:1, total:17999, pagado:false, deuda:15000, credito:true},
+    { pedidoId: 2, clienteId:5002, producto:ObjectId("67410eb198014eb8f284650a"), cantidad:2, total:39.98, pagado:true, credito:false},
+    { pedidoId: 2, clienteId:5002, producto:ObjectId("67410eb198014eb8f2846509"), cantidad:1, taotal:24.50, pagado:true, credito:false},
+])
+
+db.clientes.insertMany([
+    {_id:5001, nombre:"Pedro Ramirez"},
+    {_id:5002, nombre:"Juan Ortiz"},
+    {_id:5003, nombre:"Martin Lopez"},
+    {_id:5004, nombre:"Carlos Ruiz"},
+])
+
+db.empleados.insertMany([
+    {_id:1, nombre:"Pedro Ramirez", jefeId:2, dptoId:3},
+    {_id:2, nombre:"Juan Ortiz", jefeId:7, dptoId:2},
+    {_id:3, nombre:"Martin Lopez", jefeId:1, dptoId:4},
+    {_id:4, nombre:"Carlos Ruiz", jefeId:3, dptoId:1},
+    {_id:6, nombre:"Mauricio Hernandez", jefeId:7, dptoId:1},
+    {_id:7, nombre:"Josue Gomez", jefeId:2, dptoId:4},
+    {_id:8, nombre:"Eduardo Ortiz", jefeId:6, dptoId:2},
+])
+
+db.departamentos.insertMany([
+    {_id:1, nombre:"Ventas"},
+    {_id:2, nombre:"Tecnologias de Informacion"},
+    {_id:3, nombre:"Nominas"},
+    {_id:4, nombre:"Recursos Humanos"},
+])
+
+```
+
+
+## $facet
+
+```
+db.libros.aggregate([
+    {
+        $facet: {
+            "totalLibros":[
+                { $count: "total"}
+            ],
+            "autoresUnicos":[
+                { $group: {_id:"$autor", libros:{ $push: "$titulo" } } },
+                { $project: { autor: "$_id", libros:1, _id:0 } }
+            ]
+        }
+    }
+])
+```
+
+## $lookup
+```
+db.pedidos.aggregate([
+    {
+        $lookup:{
+            from: "clientes",
+            localField:"clienteId",
+            foreignField:"_id",
+            as:"infoCliente"
+        }
+    }
+])
+```
+
+## $graphLookup
+```
+db.empleados.aggregate([
+    {
+        $graphLookup: {
+            from: "empleados",
+            startWith: "$_id",
+            connectFromField: "_id",
+            connectToField: "jefeId",
+            as: "subordinados"
+        }
+    }
+])
+```
+
+## Ejemplos de operaciones en multiples colecciones
+
+```
+db.empleados.aggregate([
+    {
+        $lookup:{
+            from: "departamentos",
+            localField: "dptoId",
+            foreignField: "_id",
+            as: "infoDpto"
+        }
+    },
+    {
+        $unwind: "$infoDpto"
+    }
+])
+
+```
+En este caso el unwind nos sirve para que la info de departamenos nos llegue como un diccionario y no como una lista, ya que en este caso sabemos que nunca tiene que ser un array
+
+
+Ejemplo con 3 colecciones
+```
+db.pedidos.aggregate([
+    {
+        $lookup:{
+            from: "clientes",
+            localField: "clienteId",
+            foreignField: "_id",
+            as: "infoCliente"
+        }
+    },
+    {
+        $lookup:{
+            from: "productos",
+            localField: "producto",
+            foreignField: "_id",
+            as: "infoProducto"
+        }
+    },
+    {
+        $unwind:"$infoCliente"
+    }
+])
+```
+## Operadores de acumulacion avanzados
+```
+db.pedidos.aggregate([
+    {
+        $group:{
+            _id: "$clienteId",
+            totalProductos: { $sum: "$cantidad" },
+            promedioProductos: { $avg: "$cantidad" }
+        }
+    },
+    {
+        $lookup: {
+            from: "clientes",
+            localField: "_id",
+            foreignField: "_id",
+            as: "infoCliente"
+        }
+    },
+    {
+        $unwind: "$infoCliente"
+    },
+    {
+        $project: {
+            cliente: "$infoCliente.nombre",
+            totalProductos: 1,
+            promedioProductos: 1
+        }
+    }
+])
+```
+
+## Min y Max
+```
+db.pedidos.aggregate([
+    {
+        $group: {
+            _id: "$pedidoId",
+            cantidadProductos: { $sum: "$cantidad" }
+        }
+    },
+    {
+        $group:{
+            _id: null,
+            maxCantidad: { $max: "$cantidadProductos" },
+            minCantidad: { $min: "$cantidadProductos" }
+        }
+    },
+    {
+        $project: {
+            maxCantidad: 1,
+            minCantidad: 1
+        }
+    }
+])
+```
+
+### Indices
+Optimizamos la busqueda para que no procese tantos documentos y sea mas rapida
+```
+db.pedidos.createIndex({ clienteId:1 })
+
+db.pedidos.aggregate([
+    {
+        $match: {
+            clienteId: { $in: [5002] }
+        }
+    }
+])
+```
+
+### sample
+Optimizamos la cantidad de datos que consultamos
+```
+db.pedidos.aggregate([
+    {
+        $sample: { size: 1000 }
+    }
+])
+```
+
+### project
+Optimizamos los pedidis transferidos de etapa a etapa
+```
+db.pedidos.aggregate([
+    {
+        $project:{
+            clienteId:1,
+            productoId:1,
+            cantidad:1
+        }
+    }
+])
+```
+### sort
+Nos permite organizar los datos que vamos a tratar, es recomendable organizalros antes de agruparlos y utilizar indices para hacer mas eficiente la busqueda
+```
+db.pedidos.createIndex({ clienteId: 1, productoId: 1 });
+
+db.pedidos.aggregate([
+    {
+        $sort: { clienteId: 1, productoId: 1}
+    },
+    {
+        $group: {
+            _id: "$clienteId",
+            totalProductos: { $sum: "$cantidad" }
+        }
+    }
+])
+```
+
+otro ejemplo
+```
+db.pedidos.createIndex({ clienteId: 1 });
+
+db.pedidos.aggregate([
+    {
+        $sort: { clienteId: 1 }
+    },
+    {
+        $group: {
+            _id: "$clienteId",
+            totalProductos: { $sum: "$cantidad" }
+        }
+    }
+])
+```
