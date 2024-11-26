@@ -1521,6 +1521,10 @@ db.libros.stats()
 ```
 Casi al final de la informacion habra un parametro llamado "nindexes"
 
+### Listar de manera mas exacta los indices de una coleccion
+```
+db.libros.getIndexes()
+```
 
 ### ver el uso de indices en una consulta especifica
 Se agrega ".explain()" al final de una consulta
@@ -1621,3 +1625,155 @@ try{
 }
 
 ```
+
+# Estrategias para el modelado de Datos
+Identificar las consultas mas frecuentes que se van a realizar en la aplicacion y crear el esquema alrededor de esas consultas aun si hay que duplicar datos
+
+Considerar cuano es mas practico si vamos a utilizar referencias o documentos incrustados
+
+Normalizar solamente los datos que no sean beneficioso hacerlo, en general los que cambian con mucha frecuencia y no afecten negativamente el rendimiento
+
+El tamaño maximo de un documento es de 16MB, por lo que si estos van a crecer mas alla de este limite hay que utilizar referencias
+
+# Modelado de relaciones entre documentos
+Se usan relaciones con referencias cuando hay que datos que puedan cambiar con relativa facilidad.
+
+Cuando los datos no van a cambiar con frecuencia, como el autor de un libro, podemos usar relaciones con datos incrustadas sin problema
+
+# Modelado para optimizar consultas y agregaciones (Aggregate)
+Las consultas no necesitan mucho de la normalizacion de los datos, ya que las consultas se vuelven complejas y el mantenimiento complicado y tedioso, ademas de lento. Aun asi siempre dependera de los requerimientos de la base de datos
+
+Se utilizan indices en campos que se utilizan con mucha frecuencia en consultas y agregaciones.
+Crear indices aumenta el tamaño de la base de datos, pero mejoran mucho la velocidad de recuperacion de datos.
+
+# Indices geoespaciales
+MongoDB tiene soporte nativo para datos geoespaciales, es decir, de coordenadas en un mapa
+Existen principalmente dos tipos, indices de esfera y de plano.
+
+Los datos se deben insertar en formato [ longitud, latitud ], a diferencia de la mayoria de los mapas que te entregan latitud,longiud
+
+```
+use geoDatos;
+
+db.lugares.createIndex({ubicacion: "2dsphere" })
+
+db.lugares.insertOne({
+    nombre: "Macro Plaza",
+    ubicacion: { type:"Point", coordinates: [-100.3099, 25.66918]} 
+});
+
+db.lugares.insertOne({
+    nombre: "Lugar de enfrentamiento de Nacho Libre y el Esqueleto",
+    ubicacion: { type:"Point", coordinates: [-97.2934629, 17.3480916]} 
+});
+
+```
+
+## Consulta con un indice geoespacial
+```
+db.lugares.find({
+    ubicacion:{
+        $near:{
+            $geometry: { type: "Point", coordinates: [-97.2934625, 17.3480916]},
+            $maxDistance: 500
+        }
+    }
+})
+```
+
+## Consultas de ubicaciones geoespaciales
+Primero vamos a cargar datos
+```
+db.lugares.insertMany([
+    {
+    nombre: "Santuario las Peñitas (Iglesia Nacho Libre)",
+    ubicacion: { type:"Point", coordinates: [-97.2934629, 17.3480916]} 
+    },
+    {
+    nombre: "Faro de Chiltepec",
+    ubicacion: { type:"Point", coordinates: [-93.0919736, 18.4370539]} 
+    },
+    {
+    nombre: "Parque Central de Tapilula, Chiapas",
+    ubicacion: { type:"Point", coordinates: [-93.0165505, 17.2481129]} 
+    },
+    {
+    nombre: "Hacienda Real, Atenco, Edo. Mex",
+    ubicacion: { type:"Point", coordinates: [-99.5130767, 19.1847926]} 
+    },
+    {
+    nombre: "Puerto Lobos, Isla Carmen, BCS",
+    ubicacion: { type:"Point", coordinates: [-111.0519148, 26.0740119]} 
+    }
+])
+```
+
+Una vez agregados los datos podemos hacer una consulta para buscar un lugar segun sus coordenadas
+
+En este caso se hace una consulta con near, para poder especificar un rango de busqueda de modo que si no se encuentra un lugar registrado en la BD en ese rango, no devuelve nada
+```
+db.lugares.find({
+    ubicacion:{
+        $near:{
+            $geometry:{ type: "Point", coordinates:[-99.5109, 19.1850] },
+            $maxDistance: 1000
+        }
+    }
+})
+```
+
+Tipos de geometrias para insertar
+
+## Geometria tipo punto:
+Ubica un punto en el mapa
+{ type: "Point", coordinates:[ longitud, latitud ] }
+
+## Geometria tipo LineString
+Ubica una linea conectando los puntos agregados en las coordinaradas, como si fueran direcciones
+{ type: "LineString", coordinates:[ [ longitud1, latitud1 ],[ longitud2, latitud2 ], [ longitud3, latitud3 ] ] }
+
+## Geomtria tipo Polygon
+Ubica varios puntos y los conecta pero incluyendo la conexion del ultimo con el primero para generar un poligono, por ejemplo, si le pasamos 3 puntos genera un triangulo
+{ type: "Polygon", coordinates:[ [ longitud1, latitud1 ],[ longitud2, latitud2 ], [ longitud3, latitud3 ] ] }
+
+## Geomtria tipo MultiPoint
+Ubica varios puntos en el mapa pero no los conecta
+{ type: "MultiPoint", coordinates:[ [ longitud1, latitud1 ],[ longitud2, latitud2 ], [ longitud3, latitud3 ] ] }
+
+## Geometria tipo MultiLineString
+Ubica varias lineas, es un arregla de arreglos
+{ type: "MultiLineString", coordinates:[ [[ longitud1_1, latitud1_1 ],[ longitud1_2, latitud1_2 ]], [[ longitud2_1, latitud2_1 ],[ longitud2_2, latitud2_2 ]] ] }
+
+## Geometria tipo MultiPolygon
+Ubica varios poligonos en un arreglo de arreglos en el mapa, el siguiente ejemplo te agrega un triangulo y un cuadrado
+{ type: "MultiPolygon", coordinates:[ [[ lng1_1, lat1_1 ],[ lng1_2, lat1_2 ], [ lng1_3, lat1_3 ]], [[ lng2_1, lat2_1 ],[ lng2_2, lat2_2 ], [ lng2_3, lat2_3 ], [ lng2_4, lat2_4 ]], ] }
+
+
+Otro ejemplo de consultas
+## geoIntersect
+Podemos consultar si un punto intersecta en la geometria de algun punto, 
+Por ejemplo, esta consulta devolveria un valor si encuentra el punto dentro del perimetro un poligono o en alguna parte de una linea
+db.lugares.find({
+    ubicacion:{
+        $geoIntersect:{
+            $geometry: { type: "Point", coordinates: [ longitud, latitud ] }
+        }
+    }
+})
+
+## geoWithin
+Esta consulta nos devuelve los documentos con polygonos los cuales dentro de su area se encuentre el poligono especificado
+db.lugares.find({
+    ubicacion:{
+        $geoWithin:{
+            $geometry: {
+                tyoe: "Polygon",
+                coordinates: [
+                    [[1,1], [2,2], [3,3] ]
+                ]
+            }
+        }
+    }
+})
+
+# Seguridad y Alta Disponibilidad
