@@ -1777,3 +1777,35 @@ db.lugares.find({
 })
 
 # Seguridad y Alta Disponibilidad
+## Autenticacion por usuario local
+Es el metodo comun en el que creamos un usuario local para que tenga permisos de acceder a la base de datos
+
+## Autenticacion basada en roles
+Le podemos asignar roles con determinados perisos a los usuarios como rol de lectura, escritura, dbadmin
+
+## Autenticacion x.509
+Consta de una capa extra de seguridad en la que podemos utilizar certificados para validar las identidades
+
+## Crear un usuario local con un rol especifico
+```
+use admin 
+db.createUser({
+    user: "dbUser",
+    pwd: "contraseña",
+    roles:[
+        { role: "readWrite", db:"nuevadb2" },
+        { role: "clusterAdmin", db:"admin" },
+    ]
+})
+```
+
+### Habilitar autenticacion  x.509
+```
+security:
+    clusterAuthMode:x509
+    x509:
+        clientCertificateKeyFile:"ruta/archivo/calve.pem"
+        bindIp:"0.0.0.0"
+```
+
+## Roles y permisos personalizados
