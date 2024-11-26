@@ -1809,3 +1809,24 @@ security:
 ```
 
 ## Roles y permisos personalizados
+Para empezar tenemos roles predefinidos como read, readWirte,dbAdmin, etc.
+Podemos tambien crear un rol personalizado con el comando
+
+```
+use admin 
+
+db.createRole({
+    role: "rolP",
+    privileges: [
+        {resource: {db: "nuevadb2", collection:"" }, actions: ["find", "insert", "update"] },
+        {resource: {db: "nueva_db", collection:"empleados" }, actions: ["remove"] },
+    ],
+    roles:[]
+});
+
+```
+
+Dentro de los parametros especificacremos permisos como lectura, escritura,dbadmin, etc.
+Para asignar este nuevo rol a un usuario debemos se utiliza el siguiente comando
+
+db.grantRolesToUser()
