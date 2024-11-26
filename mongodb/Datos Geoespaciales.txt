@@ -1,0 +1,59 @@
+use geoDatos;
+
+db.lugares.createIndex({ubicacion: "2dsphere" })
+
+// Podemos agregar de forma nativa puntos como si de un mapa se tratara
+
+db.lugares.insertOne({
+    nombre: "Macro Plaza",
+    ubicacion: { type:"Point", coordinates: [-100.3099, 25.66918]} 
+});
+
+db.lugares.insertOne({
+    nombre: "Lugar de enfrentamiento de Nacho Libre y el Esqueleto",
+    ubicacion: { type:"Point", coordinates: [-97.2934629, 17.3480916]} 
+});
+
+// consultamos los geoDatos
+
+db.lugares.find({
+    ubicacion:{
+        $near:{
+            $geometry: { type: "Point", coordinates: [-97.2934625, 17.3480916]},
+            $maxDistance: 500
+        }
+    }
+})
+
+// El tipo de dato geografico mas comun es el punto y la consulta mas comun es $near
+
+db.lugares.insertMany([
+    {
+    nombre: "Santuario las Peñitas (Iglesia Nacho Libre)",
+    ubicacion: { type:"Point", coordinates: [-97.2934629, 17.3480916]} 
+    },
+    {
+    nombre: "Faro de Chiltepec",
+    ubicacion: { type:"Point", coordinates: [-93.0919736, 18.4370539]} 
+    },
+    {
+    nombre: "Parque Central de Tapilula, Chiapas",
+    ubicacion: { type:"Point", coordinates: [-93.0165505, 17.2481129]} 
+    },
+    {
+    nombre: "Hacienda Real, Atenco, Edo. Mex",
+    ubicacion: { type:"Point", coordinates: [-99.5130767, 19.1847926]} 
+    },
+    {
+    nombre: "Puerto Lobos, Isla Carmen, BCS",
+    ubicacion: { type:"Point", coordinates: [-111.0519148, 26.0740119]} 
+    }
+])
+db.lugares.find({
+    ubicacion:{
+        $near:{
+            $geometry:{ type: "Point", coordinates:[-99.5109, 19.1850] },
+            $maxDistance: 1000
+        }
+    }
+})

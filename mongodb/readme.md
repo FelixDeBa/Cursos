@@ -1646,7 +1646,7 @@ Las consultas no necesitan mucho de la normalizacion de los datos, ya que las co
 Se utilizan indices en campos que se utilizan con mucha frecuencia en consultas y agregaciones.
 Crear indices aumenta el tamaño de la base de datos, pero mejoran mucho la velocidad de recuperacion de datos.
 
-# Indices geoespaciales
+# Datos geoespaciales
 MongoDB tiene soporte nativo para datos geoespaciales, es decir, de coordenadas en un mapa
 Existen principalmente dos tipos, indices de esfera y de plano.
 
