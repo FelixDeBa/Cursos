@@ -1788,10 +1788,10 @@ Consta de una capa extra de seguridad en la que podemos utilizar certificados pa
 
 ## Crear un usuario local con un rol especifico
 ```
-use admin 
+use admin;
 db.createUser({
     user: "dbUser",
-    pwd: "contraseña",
+    pwd: "toor",
     roles:[
         { role: "readWrite", db:"nuevadb2" },
         { role: "clusterAdmin", db:"admin" },
@@ -1828,5 +1828,116 @@ db.createRole({
 
 Dentro de los parametros especificacremos permisos como lectura, escritura,dbadmin, etc.
 Para asignar este nuevo rol a un usuario debemos se utiliza el siguiente comando
+```
+use admin;
+db.grantRolesToUser("dbUser", ["rolP"])
+```
 
-db.grantRolesToUser()
+## Integracion con sistemas de Autenticacion Externos
+Para configurar tanto LDAP como kerberos se utilizan archivos yaml que contienen los parametros de configuracion
+
+### LDAP
+Tales como un directorio activo o openldap, etc.
+
+### Kerberos
+Autenticacion SSO como la usada en Microsoft
+
+
+# Replicas para alta Disponibilidad
+Generalmente se usan dos o ms nodos, en los cuales un nodo primario maneja las operaciones mientrs que los otros replican los datos solamente 
+
+Se puede agregar un nodo arbitro que ayuda en la toma de decisiones en caso de que el primario falle, generalmente no almacena datos, solo participa en la toma de decisiones
+
+
+Ejemplo de un archivo de configuracion con Replicas
+
+replSetName: "MiReplica"
+rs.add("nodoSec1:27017")
+rs.add("nodoSec2:27017")
+
+rs.addArb("nodoArb:27017"))
+
+## Monitore de Replicas
+Se pueden utilizar herramientas como MongoDB Management Service (MMS), MongoDB Atlas o cualquiera de software de tercero que nos permite visualizar el estado de las replicas en tiempo real
+
+### Compactacion de bases de datos
+Generalmente se hace un reindex() a las colecciones para compactar un poco los datos
+
+### Respaldos de bases de datos
+ustilizando mongodump y mongorestore se pueden mantener respaldos periodicos y restaurarlos si sucede un siniestro
+
+### Resincronizar
+En caso de que un servidor secudario falle podemos resincronizarlo utilizando el comando:
+rs.syncFrom("nodoPrimario:27017")
+
+### Elegir un nuevo nodo primario
+En caso de un fallo en el nodo primario se puede forzar la eleccion de uno nuevo que actue como prmiario utilizando el comando
+use admin
+rs.stepDown()
+
+
+# Optimizacion de consultas
+## explain
+Este comando nos da informacion  sobre como el gestor de la base de datos planea la consulta, lo que considera y como accede a los datos, asi como los tiempos de las operaciones
+
+Por ejemplo tomemos una consulta cualquiera
+```
+use nuevadb2
+db.libros.find({autor: "Edgar Allan Poe"}).explain("executionStats")
+```
+Si queremos traer toda la informacion de ejecucion
+```
+use nuevadb2
+db.libros.find({autor: "Edgar Allan Poe"}).explain("allPlansExecution")
+```
+
+## Perfil de consultas
+Este nos permite obtener informacion mas detallada del rendimiento de las consultas.
+
+Por ejemplo podemos especificar un perfil que registre las consultas que superen los 100 ms
+```
+use nuevadb2
+db.setProfilingLevel(2, { slowms: 100 });
+db.libros.find({autor: "Edgar Allan Poe"}).pretty();
+```
+
+Para volver al perfil por defect hay que usar:
+```
+db.setProfilingLevel(0);
+```
+
+## Indices y agregaciones
+como utilizar un indice en una consulta
+db.collection.find({campo:"valor"}).hint({campo:1})
+
+# Estrategias de respaldos
+## Respaldos completos
+Se respalda la base de datos en su totalidad con el comando
+mongodump --db nombre_db --out /ruta/archivo
+
+## Respaldos incrementales
+Solamente se respaldan los datos que han cambiado desde el ultimo respaldo incremental 
+mongodump --db nombre_db --out /ruta/archivo --oplog
+
+El oplog lo que hace es el registro de operaciones, por eso actualiza solamente las operaciones en el respaldo
+
+## Snapshots
+Tomar una instantanea del sistema de archivos en el que se encuentra mongoDB
+
+## Respaldos en Caliente
+Se utilizan herramientas de Terceros para ejecutar respaldos mientras la base de datos se estan ejecutando
+
+## Respaldar una coleccion en especifico
+Para respaldar solamente una coleccion se usa el comando
+mongodump --db nombre_db --collection coleccion --out /ruta/archivo
+
+### Restauracion de respaldos
+Para restaurar una base de datos completa
+mongorestore --db nombre_db /ruta/directorio/respaldo
+
+### Restaurar una coleccion en especifico de la base de datos
+Para restaurar solamente una coleccion
+mongorestore --db nombre_db --collection coleccion /ruta/directorio/respaldo
+
+### Programacion de Respaldos
+tal cual al ser comandos se pueden automatizar a traves de cron de linux, tareas programadas de windows, o naturalmente, utilizando los servicios en la nube de mongodb Atlas
