@@ -1941,3 +1941,14 @@ mongorestore --db nombre_db --collection coleccion /ruta/directorio/respaldo
 
 ### Programacion de Respaldos
 tal cual al ser comandos se pueden automatizar a traves de cron de linux, tareas programadas de windows, o naturalmente, utilizando los servicios en la nube de mongodb Atlas
+
+# Herramientas de administracion y monitoreo
+
+## MongoDB Compass
+Es la herramienta por defecto que podemos encontrar en el sitio web de MongoDB, nos permite realizar la gran mayoria si no es que todas las operaciones que hariamos desde una terminal de comandos desde una interfaz grafica sencilla
+
+## Robot 3T
+Es una opcion con version open source igualmente nos otorga una interfaz grafica, realmente utilizarla es mas por gustos o si estas muy interesado en las funciones de customizacion con las que cuenta puede ser tambien una buena opcion
+
+## MongoDB Atlas
+Es el servicio en la nube de MongoDB, es similar a mongoDB Compass solamente que al ser un servicio en linea, la consola se encuentra en el navegador y obbviamente tiene funciones diferentes, por ejemplo, no hay bases de datos locales, por lo que hay que pagar al levantar una BD ya que por defecto te permite montarlo en AWS, Google Clou o Azure.
