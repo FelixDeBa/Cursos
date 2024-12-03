@@ -1,6 +1,34 @@
 > [!CAUTION]
 > Se esta utilizando la version 4.4.0 ya que es la version que fue compatible con la raspberry
 
+
+<h2>Dentro de este archivo readme poddras encontrar la informacion de un curso de mongodb para principiantes<h2>
+<hr/>
+<h3>
+En la carpeta comandos se encontrara un respaldo de los comandos que se utilizaron a lo largo del curso dentro de la interfaz de linea de comandos de mongo.
+
+Es posible que no funcione en algunos casos el copiar y pegar todos los comandos debido a que la version en la que se probaron por primera vez es muy antigua
+<hr/>
+</h3>
+<h3>
+Dentro de la carpeta backups hay algunos respaldos de las bases de datos, sin embargo no estan en la ultima version que se utilizo en el curso, el objetivo de esa carpeta es poder practicar los comandos de mongodump y mongorestore
+</h3>
+<h3>
+<hr/>
+Dentro de la carpeta Integracion_Node se encuentra un ejemplo de una API sencilla utilizando NodeJS y Express.js que puede realizar operaicones CRUD basicas a una base de datos
+
+Para que funcione el codigo se debe tener la base de datos nuevadb2 y la coleccion empleados
+<hr/>
+</h3>
+<h3>
+Dentro de la carpeta mongoose_odm se puede encontrar un ejemlo sencillo de operaciones CRUD ejecutadas directamente con javascript, sin un framework de por medio como lo fue el caso de Express.js
+
+Para que funcione el codigo se debe tener la base de datos nuevadb2 y la coleccion empleados
+</h3>
+<hr/>
+
+<h4>Aun asi es recomendable guiarse por el readme sobre los comandos directamente ya que en estos hace falta explicacion y se omiten algunas funciones que fueron demostrativas durante el curso</h4>
+
 > [!TIP]
 > Para limpiar la pantalla se usa cls
 
