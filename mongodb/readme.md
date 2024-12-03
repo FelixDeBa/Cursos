@@ -1952,3 +1952,183 @@ Es una opcion con version open source igualmente nos otorga una interfaz grafica
 
 ## MongoDB Atlas
 Es el servicio en la nube de MongoDB, es similar a mongoDB Compass solamente que al ser un servicio en linea, la consola se encuentra en el navegador y obbviamente tiene funciones diferentes, por ejemplo, no hay bases de datos locales, por lo que hay que pagar al levantar una BD ya que por defecto te permite montarlo en AWS, Google Clou o Azure.
+
+
+# Integracion en frameworks Express.js | NODE.js
+Para efecto de este curso se creo una nueva carpeta donde se inicializo la API utilizando los siguientes comandos
+
+```
+mkdir Integracion_Node
+cd Integracion_Node
+npm init -y
+```
+
+Posteriormente se instalaron las librerias a utilizar:
+```
+npm i express mongoose
+```
+
+
+
+Se creo el archivo app.js con la el siguiente contenido:
+```
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost/nuevadb2', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const EmpleadoSchema = new mongoose.Schema({
+    _id:Number,
+    nombre:String,
+    jefeId: { type: Number, default: null },
+    dptoId: { type: Number, default: null }
+});
+
+const Empleado = mongoose.model('Empleado', EmpleadoSchema);
+
+app.get('/empleados', async (req, res) =>{
+    try {
+        const empleados = await Empleado.find({}, '_id nombre jefeId dptoId');
+        res.json(empleados);
+    }catch (error){
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/empleados', async(req, res) => {
+    try{
+        const { _id, nombre, jefeId, dptoId } = req.body;
+        
+        if(!nombre) {
+            return res.status(400).json({ error:'No se encontro un nombre de empleado' });
+        }
+
+        const nuevoEmpleado = new Empleado({
+            _id,
+            nombre,
+            jefeId: jefeId || null,
+            dptoId: dptoId || null
+        });
+
+        const resultado = await nuevoEmpleado.save();
+        res.json(resultado);
+    }catch (error){
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+const PORT = 3000
+app.listen(PORT, ()=>{
+    console.log('Servidor ejecutando en http://localhost:'+PORT)  
+});
+
+```
+
+
+Una vez guardado el archivo podremos ejecutarlo con node utilizando el siguiente comando:
+```
+node app.js
+```
+
+Una vez este ejecutando podemos acceder desde el navegador a la url
+http://localhost:3000/empleados
+
+Y si todo ha funcionado bien, debera mostrarnos un archivo json con la consulta que le hicimos a mongo indicando que devolviera todos los empleados
+
+Tambien podemos acceder a la respuesta "raw" utilizando el sig comando:
+```
+curl -H 'Content-Type: application/json' -X GET http://localhost:3000/empleados
+```
+
+Para hacer una operacion en la base de datos utilizaremos una peticion POST con el cliente que prefiramos, en este ejemplo se utilizo la erramienta de linea de comandos CURL
+```
+curl -H 'Content-Type: application/json' -d '{ "_id":300,"nombre":"Curl Test", "jefeId": 1, "dptoId":1}' -X POST  http://localhost:3000/empleados
+```
+Para comprobar si funciono bastara con recargar el sitio que se abrio anteriormente
+
+Podemos realizar otras operaciones un poco mas elaboradas dentro de la API agregando el siguiente codigo al archivo app.js
+```
+app.get('/empleados/:id', async(req, res)=>{
+    try{
+        const empleado = await Empleado.findById(req.params.id, '_id nombre jefeId, dptoId');
+        if(!empleado){
+            return res.status(400).json({ error: "El empleado no tiene nombre o no existe" })
+        }
+        res.json(empleado);
+    }catch(error){
+        res.status(500).json({ error: error.message })
+    }
+});
+
+app.put('/empleados/:id', async(req, res)=>{
+    try{
+        const { nombre, jefeId, dptoId } = req.body;
+
+        if(!nombre){
+            return res.status(400).json({ error: "El nombre no puede ser nulo" });
+        }
+
+        const empleadoAct = await Empleado.findByIdAndUpdate(
+            req.params.id,
+            { nombre, jefeId, dptoId },
+            { new: true } //para que regrese el documento actualizado
+        );
+
+        if(!empleadoAct){
+            return res.status(404).json({ error: "Empleado no encontrado" });
+        }
+
+        res.json(empleadoAct);
+    }catch(error) {
+        res.status(500).json({ error: error.message })
+    }
+});
+
+app.delete('/empleados/:id', async(req, res)=>{
+    try{
+        const empleadoBorrado = await Empleado.findByIdAndDelete(req.params.id);
+
+        if(!empleadoBorrado){
+            return res.status(404).json({ error:"No se encontro al empleado" });
+        }
+
+        res.json(empleadoBorrado);
+    }catch(error){
+        res.status(500).json({ error: error.message });
+    }
+});
+
+```
+
+Una vez guardado debemos parar la ejecucion anterior del servidor y volver a ejecutarlo para que reconozca los cambios
+
+Para mandar a llamar a las nuevas funciones creadas tenemos las siguientes peticiones ejecutadas en curl:
+
+### Consultar un registro.
+Nos devuelve en el primero comando el empleado que creamos en el ejercicio anterior y en el segundo un error 404
+```
+curl -H 'Content-Type: application/json' -X GET http://localhost:3000/empleados/300
+curl -H 'Content-Type: application/json' -X GET http://localhost:3000/empleados/31
+```
+
+### Borrar un registro
+En este caso para evitar que en un problema empecemos a borrar demasiados registros primero creamos un empleado y despues mandamos una peticion de tipo DELETE
+
+```
+curl -H 'Content-Type: application/json' -d '{ "_id":46,"nombre":"PruebaBorrado", "jefeId": 1, "dptoId":1}' -X POST  http://localhost:3000/empleados
+```
+```
+curl -H 'Content-Type: application/json' -X DELETE http://localhost:3000/empleados/46
+```
+
+### Actualizar un registro
+```
+curl -H 'Content-Type: application/json' -d '{ "nombre": "curl update", "jefeId":1, "dptoId":1 }' -X PUT http://localhost:3000/empleados/300
+```
+
+Una vez ejecutado el comando podemos volver a hacer una consulta a la id 300 para ver que efectivamente se actualizaron los datos
