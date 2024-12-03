@@ -2132,3 +2132,126 @@ curl -H 'Content-Type: application/json' -d '{ "nombre": "curl update", "jefeId"
 ```
 
 Una vez ejecutado el comando podemos volver a hacer una consulta a la id 300 para ver que efectivamente se actualizaron los datos
+
+
+## Utilizar Mongoose sin un framework de por medio
+Para esto se creo una carpeta llamada mongoose_odm y dentro un archivo llamado conexion.js con el siguiente codigo de javascript
+```
+const mongoose =  require('mongoose');
+
+mongoose.connect('mongodb://localhost/nuevadb2', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'Error de conexion con Mongo: '));
+db.once('open', () => {
+    console.log('Conexion exitosa');
+});
+
+module.exports = mongoose;
+```
+
+Igualmente para trabajar una coleccion necesitamos crear un archvo para esto, que en este caso sera un documento empleado.js con el siguiente codigo
+```
+const mongoose = require('./conexion.js');
+
+const empleadoSchema = new mongoose.Schema({
+    _id: { type: Number },
+    nombre: String,
+    jefeId: { type: Number, default: null },
+    dptoId: { type: Number, default: null }
+});
+
+const Empleado = mongoose.model('Empleado', empleadoSchema);
+
+module.exports = Empleado;
+
+```
+
+para hacer operaciones CRUD podemos crear los siguientes archivos con su respectivo codigo:
+
+lista_empleados.js
+```
+const mongoose = require('./conexion');
+const Empleado = require('./empleado');
+
+(async() => {
+    try{
+        const empleados = await Empleado.find({}, '_id nombre jefeId dptoId').exec();
+        console.log(empleados);
+    }catch(error){
+        console.error('Error al obtener los empleados', error.message);
+    }finally {
+        mongoose.connection.close();
+    }
+})();
+```
+antes de ejecutar el archivo es necsario instalar la libreria mongoose para despues ejecutar el archivo de javascript que hace operaciones
+
+```
+npm i mongoose
+
+node lista_empleados.js
+```
+
+eliminar_empleado.js
+En este caso vamos a eliminar al empleado con id 300 que agregamos en un ejercicio anterior
+```
+const mongoose = require('./conexion');
+const Empleado = require('./empleado');
+
+const idEmpleadoAEliminar = 300;
+
+Empleado.findByIdAndDelete(idEmpleadoAEliminar).then(empleadoEliminado => {
+    console.log('Empleado Eliminado', empleadoEliminado);
+}).catch( error => {
+    console.error('Error ', error.message);
+}).finally(() => {
+    mongoose.connection.close();
+})
+```
+
+crear_empleado.js
+Aqui creamos un nuevo empleado con la id 301
+```
+const mongoose = require('./conexion');
+const Empleado = require('./empleado');
+
+const nuevoEmpleado = new Empleado({
+    _id: 301,
+    nombre: "Prueba create",
+    jefeId: 2,
+    dptoId: 2
+});
+
+nuevoEmpleado.save().then(resultado => {
+    console.log('Empleado Guardado: ', resultado);
+}).catch(error => {
+    console.error('Error ', error.message);
+}).finally(() => {
+    mongoose.connection.close()
+})
+```
+
+update_empleado.js
+En este caso actualizaremos el empleado con ID 301 que acabamos de crear en el script anterior
+
+```
+const mongoose = require('./conexion');
+const Empleado = require('./empleado');
+
+
+const idEmpleadoAActualizar = 301;
+
+Empleado.findByIdAndUpdate(
+    idEmpleadoAActualizar,
+    { nombre: "Prueba Update", jefeId: 2, dptoId: 2 },
+    { new: true }
+).then(resultado => {
+    console.log('Empleado Actualizado: ', resultado);
+}).catch(error => {
+    console.error('Error ', error.message);
+}).finally(() => {
+    mongoose.connection.close()
+})
+```
