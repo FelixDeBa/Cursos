@@ -1,0 +1,15 @@
+use task_management;
+
+db.tasks.insertOne({ title:"Generar Reporte",});
+
+db.tasks.updateOne({ title: "Generar Reporte" }, { $set: { description: "Generar reporte de vulnerabilidades", due_date: ISODate("2024-12-06"), status: "pendiente", user: "vortiz" } });
+
+
+db.tasks.insertMany([{ title: "Nueva Tarea", description: "New Task test", due_date: ISODate("2024-11-27"), status: "Finalizada", user:"nchavez" }, { title: "Nueva Tarea 2", description: "New Task test", due_date: ISODate("2024-11-02"), status: "Finalizada", user:"vortiz" }]);
+
+db.tasks.find( { status: "Finalizada" }, {_id:0, title: 1, description: 1, status: 1 } );
+db.tasks.find( { user: "vortiz" }, {_id:0, title: 1,status: 1, due_date:1, user:1 } );
+
+//Borramos las tareas del mes pasado
+db.tasks.deleteMany({ due_date: { $lt: ISODate("2024-12-01") } });
+db.tasks.find({},{_id:0});
