@@ -1,0 +1,42 @@
+use geoespatial_app;
+
+db.createCollection('stores');
+
+
+function getRandomCoordinate(min, max){
+    return Math.random() * (max - min) + min;
+}
+
+for(let i = 1; i <= 30; i++) {
+    db.stores.insertOne({
+        name: `Tienda ${i}`,
+        type: i % 3 === 0 ? 'Verduras' : ( i % 3 === 1 ? 'Carnes' : 'Juguetes' ),
+        location: {
+            type: 'Point',
+            coordinates: [
+                getRandomCoordinate(-0.1, 0.1),
+                getRandomCoordinate(-0.1, 0.1)
+            ]
+        }
+    });
+}
+
+db.stores.find({ type: "Verduras" });
+
+db.stores.createIndex({ location: '2dsphere' });
+
+// Encontrar una carniceria cerca de la ubicacion de una fruteria Tienda21
+
+var tienda21 = db.stores.findOne({ name: "Tienda 21" });
+db.stores.find({ 
+    type: "Carnes", 
+    location: { 
+        $near: { 
+            $geometry: { 
+                type: 'Point', 
+                coordinates: tienda21.location.coordinates
+            },
+            $maxDistance: 5000
+        }
+    }
+});
