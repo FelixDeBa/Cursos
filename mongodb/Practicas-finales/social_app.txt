@@ -1,0 +1,55 @@
+use social_app;
+
+db.createCollection('users');
+db.createCollection('relationships');
+
+//Se agregan usuarios con datos dummy
+const usersData = [
+    { username: 'JPerez', name: "Jaime Perez Carrillo", email: 'JPerez@gmail.com' },
+    { username: 'MFernandez', name: "Mauricio Fernandez Ortiz", email: 'MFernandez@gmail.com' },
+    { username: 'JPerezS', name: "Jose Perez Santos", email: 'JPerezS@gmail.com' }
+];
+
+db.users.insertMany(usersData);
+
+//Se agregan relaciones con datos dummy
+const relationshipsData = [
+    { user_id: db.users.findOne({ username: "JPerez" })._id, friend_id: db.users.findOne({ username: "JPerezS" })._id, status:'amigo' },
+    { user_id: db.users.findOne({ username: "JPerezS" })._id, friend_id: db.users.findOne({ username: "MFernandez" })._id, status:'amigo' },
+    { user_id: db.users.findOne({ username: "JPerez" })._id, friend_id: db.users.findOne({ username: "MFernandez" })._id, status:'pendiente' }
+];
+
+db.relationships.insertMany(relationshipsData);
+
+
+// Se crea una funcion para ver la lista de amigos de cada usuario
+function getFriendsList(user){
+    const userId = db.users.findOne({ username: user })._id;
+
+    const friendList = db.relationships.find({ user_id: userId, status:'amigo'}, { friend_id:1, _id:0}).toArray();
+
+    if(friendList.length > 0){
+        const friendDetails = db.users.find(
+            { _id: { $in: friendList.map(doc => doc.friend_id ) } }, 
+            { _id:0, username:1, name:1, email:1 } ).toArray();
+
+        printjson(friendDetails);
+    }else{
+        print("El usuario " + user +" no ha agregado amigos");
+    }
+}
+
+//Se ve el amigo que tiene agregado el usuario jperez
+getFriendsList('JPerez')
+
+//Actualizamos el estatus de la solicitud de admistad pendiente de JPerez 
+const uId1 = db.users.findOne({ username: "JPerez" })._id;
+const uId2 = db.users.findOne({ username: "MFernandez" })._id;
+
+db.relationships.updateOne(
+    { user_id: uId1, friend_id: uId2 },
+    { $set: { status: 'amigo' } }
+);
+
+//Volvemos a llamar a la funcion y vemos que ahora nos da dos resultados
+getFriendsList('JPerez')

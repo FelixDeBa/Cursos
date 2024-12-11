@@ -1,6 +1,7 @@
 > [!CAUTION]
 > Se esta utilizando la version 4.4.0 ya que es la version que fue compatible con la raspberry
 
+MongoDB es una base de datos de tipo NoSQL con esquema dinamico, caracteristica que le ha ganado popularidad ultimamente, sus tamaños reducidos, flexibilidad, escalabilidad y versatilidad se ha hecho popular en distintas areas tales como aplicaciones moviles que requieren bases de datos con pocos livianas y dinamicas, o en sistemas complejos que requieren una escalabilidad superior a lo que otras opciones pueden brindar
 
 <h2>Dentro de este archivo readme poddras encontrar la informacion de un curso de mongodb para principiantes<h2>
 <hr/>
