@@ -6,7 +6,7 @@ import helmet from "helmet"
 import morgan from "morgan"
 
 /*route imports*/
-
+import dashboardRoutes from './routes/dashboardRoutes'
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -20,9 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(cors());
 
 /* RUTAS */
-app.get("/hello", (req, res) => {
-    res.send("hello world");
-})
+app.use("/dashboard", dashboardRoutes);
 
 /* SERVER */
 const port = process.env.PORT || 3001
