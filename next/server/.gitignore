@@ -1,3 +1,5 @@
 node_modules
 # Keep environment variables out of version control
-.env
+#.env
+
+#Se permite volver a subir archivos .env para evitar nuevos errores
