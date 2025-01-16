@@ -24,7 +24,7 @@ const CardExpenseSummary = () => {
   );
 
   const expenseCategories = Object.entries(expenseSums).map(
-    (name, value) => ({
+    ([name, value]) => ({
       name, value
     })
   )
